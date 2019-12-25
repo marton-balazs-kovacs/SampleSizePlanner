@@ -1,0 +1,19 @@
+Package: SampleSizePlanner
+Title: Application to Select the Fitting Sample Size Planning Method
+Version: 0.0.0.9000
+Authors@R: person('Marton', 'Kovacs', email = 'marton.balazs.kovacs@gmail.com', role = c('cre', 'aut'))
+Description: The package contains a Shiny application that through several questions step by step helps researchers to find the sample size planning method that best fits their needs. The application also helps to determine the parameters needed to run the given method. Finally, the application helps researchers to report the outcome of their sample size plan.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    shiny,
+    golem,
+    processx,
+    attempt,
+    DT,
+    glue,
+    htmltools
+RoxygenNote: 6.1.0
+Suggests: 
+    testthat

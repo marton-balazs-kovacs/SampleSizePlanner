@@ -1,0 +1,389 @@
+---
+title: "flowchart"
+output: html_document
+---
+
+```{r}
+# GraphViz version
+flowchart <- DiagrammeR::grViz("digraph flowchart {
+# node definitions with substituted label text
+                  node [fontname = Helvetica, shape = rectangle]        
+                  tab1 [label = '@@1']
+                  tab2 [label = '@@2', group=gr2]
+                  tab3 [label = '@@3', group=gr3]
+                  tab4 [label = '@@4', group=gr10]
+                  tab5 [label = '@@5', group=gr4]
+                  tab6 [label = '@@6', group=gr5]
+                  tab7 [label = '@@7', group=gr8]
+                  tab8 [label = '@@8', group=gr15]
+                  tab9 [label = '@@9', group=gr9]
+                  tab10 [label = '@@10', group=gr6]
+                  tab11 [label = '@@11', group=gr7]
+                  tab12 [label = '@@12', group=gr14]
+                  tab13 [label = '@@13', group=gr12]
+                  tab14 [label = '@@14', group=gr13]
+                  tab15 [label = '@@15', group=gr11]
+                  tab16 [label = '@@16']
+                  tab17 [label = '@@17']
+                  invis1 [style = invis, shape=point, width = 0]
+                  invis1a [style = invis, shape=point, width = 0, group=gr2]
+                  invis1b [style = invis, shape=point, width = 0, group=gr3]
+                  invis2 [style = invis, shape=point, width = 0, group=gr2]
+                  invis2a [style = invis, shape=point, width = 0, group=gr4]
+                  invis2b [style = invis, shape=point, width = 0, group=gr14]
+                  invis3 [style = invis, shape=point, width = 0, group=gr4]
+                  invis3a [style = invis, shape=point, width = 0, group=gr5]
+                  invis3b [style = invis, shape=point, width = 0, group=gr8]
+                  invis4 [style = invis, shape=point, width = 0, group=gr5]
+                  invis4a [style = invis, shape=point, width = 0, group=gr6]
+                  invis4b [style = invis, shape=point, width = 0, group=gr7]
+                  invis5 [style = invis, shape=point, width = 0, group=gr8]
+                  invis5a [style = invis, shape=point, width = 0, group=gr15]
+                  invis5b [style = invis, shape=point, width = 0, group=gr9]
+                  invis6 [style = invis, shape=point, width = 0, group=gr14]
+                  invis6a [style = invis, shape=point, width = 0, group=gr12]
+                  invis6b [style = invis, shape=point, width = 0, group=gr13]
+                  invis7 [style = invis, shape=point, width = 0, group=gr3]
+                  invis7a [style = invis, shape=point, width = 0, group=gr10]
+                  invis7b [style = invis, shape=point, width = 0, group=gr11]
+                  
+                  # edge definitions with the node IDs
+                  edge [arrowhead='none']
+                  tab1 -> invis1;
+                  invis1a -> invis1 -> invis1b; {rank=same invis1a invis1 invis1b}
+                  tab2 -> invis2;
+                  invis2a -> invis2 -> invis2b; {rank=same invis2a invis2 invis2b}
+                  tab5 -> invis3;
+                  invis3a -> invis3 -> invis3b; {rank=same invis3a invis3 invis3b}
+                  tab6 -> invis4;
+                  invis4a -> invis4 -> invis4b; {rank=same invis4a invis4 invis4b}
+                  tab7 -> invis5;
+                  invis5a -> invis5 -> invis5b; {rank=same invis5a invis5 invis5b}
+                  tab12 -> invis6;
+                  invis6a -> invis6 -> invis6b; {rank=same invis6a invis6 invis6b}
+                  tab3 -> invis7;
+                  invis7a -> invis7 -> invis7b; {rank=same invis7a invis7 invis7b}
+                  edge [arrowhead='normal']
+                  invis1a -> tab2 [label='testing'];
+                  invis1b -> tab3 [label='estimation']; {rank=same tab2 tab3}
+                  invis2b -> tab12 [label='=0']; {rank=same tab12 tab5}
+                  invis2a -> tab5 [label='>0'];
+                  invis7a -> tab4 [label='yes'];
+                  invis7b -> tab15 [label='no'];
+                  invis3a -> tab6 [label='frequentist'];
+                  invis3b -> tab7 [label='bayesian'];
+                  invis4a -> tab10 [label='single effect size'];
+                  invis4b -> tab11 [label='range of effect sizes'];
+                  invis5a -> tab8 [label='yes'];
+                  invis5b -> tab9 [label='no'];
+                  invis6a -> tab13 [label='frequentist'];
+                  invis6b -> tab14 [label='bayesian']; {rank=same tab13 tab14 tab9 tab8 tab15 tab4}
+                  tab16 -> tab1 [label='no'];
+                  tab16 -> tab17 [label='yes'];
+                  tab17 -> tab1 {rank=same tab1 tab17}
+                  }
+                  
+                  [1]: 'inferential goal'
+                  [2]: 'expected effect'
+                  [3]: 'population SD known?'
+                  [4]: 'AIPE'
+                  [5]: 'statistical framework'
+                  [6]: 'range of effects'
+                  [7]: 'sequential testing?'
+                  [8]: 'BFDA'
+                  [9]: 'decide BF threshold'
+                  [10]: 'traditional power'
+                  [11]: 'power curve'
+                  [12]: 'statistical framework'
+                  [13]: 'TOST'
+                  [14]: 'ROPE'
+                  [15]: 'APP'
+                  [16]: 'fixed resources'
+                  [17]: 'test what you can afford'
+                  ")
+```
+
+```{r}
+# Node and edge version
+create_graph() %>% 
+  add_global_graph_attrs(
+    attr = "overlap",
+    value = "false",
+    attr_type = "graph") %>% 
+  add_global_graph_attrs(
+    attr = "layout",
+    value = "neato",
+    attr_type = "graph") %>%
+  add_node( # id 1
+    label = "fixed resources",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -2,
+      y = 17)
+  ) %>% 
+  add_node( # id 2
+    label = "test what you can afford",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -4,
+      y = 16)
+  ) %>% 
+  add_edge(
+    from = 1,
+    to = 2,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Yes")
+  ) %>% 
+  add_node( # id 3
+    label = "inferential goal",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 0,
+      y = 16)
+  ) %>%
+  add_edge(
+    from = 1,
+    to = 3,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "No")
+  ) %>% 
+  add_edge(
+    from = 2,
+    to = 3,
+    edge_aes = edge_aes(
+      arrowhead = "normal")
+  ) %>% 
+  add_node( # id 4
+    label = "expected effect",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -3,
+      y = 15)
+  ) %>%
+  add_edge(
+    from = 3,
+    to = 4,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Testing")
+  ) %>%
+  add_node( # id 5
+    label = "population SD known?",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 3,
+      y = 15)
+  ) %>%
+  add_edge(
+    from = 3,
+    to = 5,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Estimation")
+  ) %>%
+  add_node( # id 6
+    label = "statistical framework",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -6,
+      y = 14)
+  ) %>%
+  add_edge(
+    from = 4,
+    to = 6,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "=0")
+  ) %>%
+  add_node( # id 7
+    label = "statistical framework",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 0,
+      y = 14)
+  ) %>%
+  add_edge(
+    from = 4,
+    to = 7,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = ">0")
+  ) %>%
+  add_node( # id 8
+    label = "TOST",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -7,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 6,
+    to = 8,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Frequentist")
+  ) %>%
+  add_node( # id 9
+    label = "ROPE",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -5,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 6,
+    to = 9,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Bayesian")
+  ) %>%
+  add_node( # id 10
+    label = "sequential testing?",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -2,
+      y = 13)
+  ) %>%
+  add_edge(
+    from = 7,
+    to = 10,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Bayesian")
+  ) %>%
+  add_node( # id 11
+    label = "range of effects",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 2,
+      y = 13)
+  ) %>%
+  add_edge(
+    from = 7,
+    to = 11,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Frequentist")
+  ) %>%
+  add_node( # id 12
+    label = "BFDA",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -3,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 10,
+    to = 12,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Yes")
+  ) %>%
+  add_node( # id 13
+    label = "decide BF threshold",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = -1,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 10,
+    to = 13,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "No")
+  ) %>%
+  add_node( # id 14
+    label = "traditional power",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 1,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 11,
+    to = 14,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Single effect size")
+  ) %>%
+  add_node( # id 15
+    label = "power curve",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 3,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 11,
+    to = 15,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Range of effect sizes")
+  ) %>%
+  add_node( # id 16
+    label = "AIPE",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 5,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 5,
+    to = 16,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "Yes")
+  ) %>%
+  add_node( # id 17
+    label = "APP",
+    node_aes = node_aes(
+      style = "filled",
+      shape = "rectangle",
+      fixedsize = FALSE,
+      x = 7,
+      y = 11)
+  ) %>%
+  add_edge(
+    from = 5,
+    to = 17,
+    edge_aes = edge_aes(
+      arrowhead = "normal",
+      label = "No")
+  ) %>%
+  save_graph("flowchart")
+```
