@@ -3,9 +3,12 @@ app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    # Using the package: shinyjs
+    shinyjs::useShinyjs(),
     # List the first level UI elements here 
     fluidPage(
       h1("SampleSizePlanner"),
+      mod_article_module_ui("article_module_ui_1"),
       mod_question_module_ui("question_module_ui_1")
     )
   )

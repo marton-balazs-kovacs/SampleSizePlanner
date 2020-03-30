@@ -37,7 +37,7 @@ usethis::use_git()
 ## 1.3 - Add a data-raw folder
 ## 
 ## If you have data in your package
-# usethis::use_data_raw( name = "flowchart_data", open = FALSE )
+usethis::use_data_raw( name = "question_data", open = FALSE )
 
 ## 1.4 - Init Tests
 ## 

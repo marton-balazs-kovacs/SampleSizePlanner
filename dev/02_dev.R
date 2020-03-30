@@ -6,14 +6,19 @@
 # 2. All along your project
 
 ## 2.1 Add modules
-## 
+
 golem::add_module( name = "question_module" )
+golem::add_module( name = "article_module" )
+golem::add_module( name = "flowchart_module" )
 
 ## 2.2 Add dependencies
 
 usethis::use_package( "waiter" )
 usethis::use_package( "DiagrammeR" )
 usethis::use_package( "shinyglide" )
+usethis::use_package( "tibble" )
+usethis::use_package( "shinyWidgets" )
+usethis::use_package( "shinyjs" )
 
 ## 2.3 Add tests
 
