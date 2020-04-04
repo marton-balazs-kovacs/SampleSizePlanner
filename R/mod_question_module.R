@@ -86,9 +86,9 @@ mod_question_module_server <- function(input, output, session){
     current()$question
   })
   
-  # add reactive ui print question
-  # add reactive ui print button with option left under the question (use actionBttn)
-  # add reactive ui print button with option right under the question (use actionBttn)
+  return(list(
+    question = reactive({current()$question})
+  ))
 
   }
     

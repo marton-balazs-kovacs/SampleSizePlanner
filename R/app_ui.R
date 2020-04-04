@@ -9,7 +9,9 @@ app_ui <- function() {
     fluidPage(
       h1("SampleSizePlanner"),
       mod_article_module_ui("article_module_ui_1"),
-      mod_question_module_ui("question_module_ui_1")
+      mod_menu_module_ui("menu_module_ui_1"),
+      mod_question_module_ui("question_module_ui_1"),
+      mod_tost_module_ui("tost_module_ui_1")
     )
   )
 }

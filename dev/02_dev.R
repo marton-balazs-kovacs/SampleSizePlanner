@@ -10,6 +10,9 @@
 golem::add_module( name = "question_module" )
 golem::add_module( name = "article_module" )
 golem::add_module( name = "flowchart_module" )
+golem::add_module( name = "intro_module" )
+golem::add_module( name = "tost_module" )
+golem::add_module( name = "menu_module" )
 
 ## 2.2 Add dependencies
 
