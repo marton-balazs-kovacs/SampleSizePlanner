@@ -28,6 +28,14 @@ mod_question_module_ui <- function(id){
     fixedPanel(
       uiOutput(ns("right_button")),
       bottom = "30%", right = "10%", width = "auto"
+    ),
+    fixedPanel(
+      shinyWidgets::actionBttn(
+        inputId = ns("over"),
+        label = "Start over",
+        style = "minimal",
+        color = "danger"),
+      top = "5%", right = "2%", width = "auto"
     )
   )
 }
@@ -43,6 +51,13 @@ mod_question_module_server <- function(input, output, session){
   ns <- session$ns
   
   current <- reactiveVal(value = dplyr::filter(question_data, id == 1))
+  
+  observeEvent(input$over, {
+    over <- 
+      dplyr::filter(question_data, id == 1)
+    
+    current(over)
+  })
   
   label_left <- reactive({current()$label_left})
   
@@ -61,7 +76,7 @@ mod_question_module_server <- function(input, output, session){
     
     current(left_option)
   })
-  
+
   output$left_button <- renderUI({
     if(!is.na(current()$id_left)) {
       shinyWidgets::actionBttn(
