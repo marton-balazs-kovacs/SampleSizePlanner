@@ -14,17 +14,16 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 mod_article_module_ui <- function(id){
-  ns <- NS(id)
   
   tagList(
-    uiOutput(ns("open_tab")),
+    uiOutput(NS(id, "open_tab")),
     fixedPanel(
       shinyWidgets::actionBttn(
-        inputId = ns("article"),
+        inputId = NS(id, "article"),
         label = "Open article", 
         style = "minimal",
         color = "danger"),
-      bottom = "5%", left = "2%", width = "auto"
+      bottom = "8%", right = "4%", width = "auto"
       )
   )
 }
@@ -35,13 +34,15 @@ mod_article_module_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_article_module_server <- function(input, output, session){
-  ns <- session$ns
+mod_article_module_server <- function(id){
+  
+  moduleServer(id, function(input, output, session) {
   
   output$open_tab <- renderUI({
     req(input$article > 0)
     
     tags$script(paste0("window.open('", "https://psyarxiv.com/", "', '_blank')"))
+  })
   })
 }
     
@@ -49,5 +50,5 @@ mod_article_module_server <- function(input, output, session){
 # mod_article_module_ui("article_module_ui_1")
     
 ## To be copied in the server
-# callModule(mod_article_module_server, "article_module_ui_1")
+# mod_article_module_server("article_module_ui_1")
  

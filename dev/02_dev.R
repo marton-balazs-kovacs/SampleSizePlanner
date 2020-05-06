@@ -6,13 +6,19 @@
 # 2. All along your project
 
 ## 2.1 Add modules
-
-golem::add_module( name = "question_module" )
-golem::add_module( name = "article_module" )
-golem::add_module( name = "flowchart_module" )
-golem::add_module( name = "intro_module" )
-golem::add_module( name = "tost_module" )
-golem::add_module( name = "menu_module" )
+### TODO: Change names everywhere
+golem::add_module( name = "question" )
+golem::add_module( name = "article" )
+golem::add_module( name = "flowchart" )
+golem::add_module( name = "about" )
+golem::add_module( name = "tost" )
+golem::add_module( name = "menu" )
+golem::add_module( name = "traditional_power" )
+golem::add_module( name = "power_curve" )
+golem::add_module( name = "apriori_precision" )
+golem::add_module( name = "rope" )
+golem::add_module( name = "interval_equiv_bf" )
+golem::add_module( name = "bf_threshold" )
 
 ## 2.2 Add dependencies
 
@@ -22,6 +28,8 @@ usethis::use_package( "shinyglide" )
 usethis::use_package( "tibble" )
 usethis::use_package( "shinyWidgets" )
 usethis::use_package( "shinyjs" )
+usethis::use_package( "shinyBS" )
+usethis::use_package( "BayesFactor" )
 
 ## 2.3 Add tests
 

@@ -7,7 +7,7 @@
 \usage{
 mod_question_module_ui(id)
 
-mod_question_module_server(input, output, session)
+mod_question_module_server(id)
 }
 \arguments{
 \item{id}{shiny id}

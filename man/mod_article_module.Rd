@@ -7,7 +7,7 @@
 \usage{
 mod_article_module_ui(id)
 
-mod_article_module_server(input, output, session)
+mod_article_module_server(id)
 }
 \arguments{
 \item{id}{shiny id}

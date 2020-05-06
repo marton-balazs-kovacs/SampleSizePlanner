@@ -14,13 +14,8 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 mod_tost_module_ui <- function(id){
-  
-  ns <- NS(id)
+
   tagList(
-    fixedPanel(
-      uiOutput(ns("open")),
-      bottom = "30%", right = "50%", width = "auto"
-    )
   )
 }
     
@@ -30,38 +25,41 @@ mod_tost_module_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_tost_module_server <- function(input, output, session, input_data, menu_call){
+mod_tost_module_server <- function(id, activate_menu, method_menu, activate_question, method_question){
   
+  moduleServer(id, function(input, output, session) {
   modal <- function() {
-    ns <- session$ns
     
     modalDialog(
-      easyClose = TRUE,
-      footer = modalButton("Close Modal"),
+      footer = actionButton(NS(id, "close_modal"), label = "Close modal"),
       h1("Let's have a TOAST!"),
-      sliderInput(ns("opt"), "Power", min = 0, max = 1, value = 0.8, step = 0.1),
-      sliderInput(ns("band"), "Band", min = 0, max = 1, value = 0.2, step = 0.1),
-      sliderInput(ns("delta"), "Delta", min = 0, max = 1, value = 0, step = 0.1),
-      actionButton(ns("calculate"), "Ready, set, go!"),
-      textOutput(ns("tost_output_n1")),
-      textOutput(ns("tost_output_npower")),
-      textOutput(ns("error"))
+      sliderInput(NS(id, "opt"), "Power", min = 0, max = 1, value = 0.8, step = 0.1),
+      sliderInput(NS(id, "band"), "Band", min = 0, max = 1, value = 0.2, step = 0.1),
+      sliderInput(NS(id, "delta"), "Delta", min = 0, max = 1, value = 0, step = 0.1),
+      actionButton(NS(id, "calculate"), "Ready, set, go!"),
+      textOutput(NS(id, "tost_output_n1")),
+      textOutput(NS(id, "tost_output_npower"))
     )
   }
   
-  observeEvent(input$open_modal, {
-    showModal(modal())},
-    ignoreInit = TRUE)
+  observeEvent(activate_menu(), {
+    
+    if(method_menu() == "TOST") {
+    showModal(modal())}
+    
+    })
   
+  observeEvent(activate_question(), {
+    
+    if(method_question() == "TOST") {
+      showModal(modal())}
+    
+  })
   
-  output$open <- renderUI({
-    if(input_data() == "TOST") {
-      shinyWidgets::actionBttn(
-        inputId = session$ns("open_modal"),
-        label = "Show me more!",
-        style = "minimal",
-        color = "danger")
-    }
+  observeEvent(input$close_modal, {
+
+    removeModal()
+
   })
   
   tost_result <- eventReactive(input$calculate, {
@@ -77,16 +75,12 @@ mod_tost_module_server <- function(input, output, session, input_data, menu_call
   output$tost_output_npower <- renderText({
     paste("The resulting power is:", tost_result()$npower)
   })
-  
-  output$error <- renderText({
-    menu_call()
   })
-  
 }
     
 ## To be copied in the UI
 # mod_tost_module_ui("tost_module_ui_1")
     
 ## To be copied in the server
-# callModule(mod_tost_module_server, "tost_module_ui_1")
+# mod_tost_module_server("tost_module_ui_1")
  

@@ -7,7 +7,7 @@
 \usage{
 mod_flowchart_module_ui(id)
 
-mod_flowchart_module_server(input, output, session)
+mod_flowchart_module_server(id)
 }
 \arguments{
 \item{id}{shiny id}

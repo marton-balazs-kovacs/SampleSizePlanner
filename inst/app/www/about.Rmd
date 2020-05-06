@@ -1,0 +1,18 @@
+---
+title: ""
+output: html_document
+---
+
+### About the project
+
+Important text here!
+
+### How to use the application?
+
+Important instructions here!
+
+### Contributors
+- Don van Ravenzwaaij
+- Rink Hoekstra
+- Marton Kovacs
+- Balazs Aczel

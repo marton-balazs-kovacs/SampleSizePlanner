@@ -14,28 +14,31 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 mod_question_module_ui <- function(id){
-  ns <- NS(id)
-  
+
   tagList(
     fixedPanel(
-      textOutput(ns("question")),
+      textOutput(NS(id, "question")),
       bottom = "50%", left = "40%", width = "auto"
     ),
     fixedPanel(
-      uiOutput(ns("left_button")),
+      uiOutput(NS(id, "left_button")),
       bottom = "30%", left = "10%", width = "auto"
     ),
     fixedPanel(
-      uiOutput(ns("right_button")),
+      uiOutput(NS(id, "right_button")),
       bottom = "30%", right = "10%", width = "auto"
     ),
     fixedPanel(
       shinyWidgets::actionBttn(
-        inputId = ns("over"),
+        inputId = NS(id, "over"),
         label = "Start over",
         style = "minimal",
         color = "danger"),
-      top = "5%", right = "2%", width = "auto"
+      top = "8%", right = "4%", width = "auto"
+    ),
+    fixedPanel(
+      uiOutput(NS(id, "open")),
+      bottom = "30%", right = "45%", left = "45%", width = "auto"
     )
   )
 }
@@ -46,9 +49,9 @@ mod_question_module_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_question_module_server <- function(input, output, session){
+mod_question_module_server <- function(id){
   
-  ns <- session$ns
+  moduleServer(id, function(input, output, session) {
   
   current <- reactiveVal(value = dplyr::filter(question_data, id == 1))
   
@@ -97,18 +100,29 @@ mod_question_module_server <- function(input, output, session){
     }
   })
   
+  output$open <- renderUI({
+    if(current()$is_method == 1L) {
+      shinyWidgets::actionBttn(
+        inputId = session$ns("open_modal"),
+        label = "Show me more!",
+        style = "minimal",
+        color = "danger")
+      }
+  })
+  
   output$question <- renderText({
     current()$question
   })
   
-  return(list(
-    question = reactive({current()$question})
-  ))
-
+  list(
+    method = reactive(current()$question),
+    activate = reactive(input$open_modal)
+    )
+  })
   }
     
 ## To be copied in the UI
 # mod_question_module_ui("question_module_ui_1")
     
 ## To be copied in the server
-# callModule(mod_question_module_server, "question_module_ui_1")
+# mod_question_module_server("question_module_ui_1")

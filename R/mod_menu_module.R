@@ -15,16 +15,14 @@
 #' @importFrom shiny NS tagList 
 mod_menu_module_ui <- function(id){
   
-  ns <- NS(id)
-  
   tagList(
     fixedPanel(
       shinyWidgets::actionBttn(
-        inputId = ns("open_menu"),
+        inputId = NS(id, "open_menu"),
         label = "Open menu", 
         style = "minimal",
         color = "danger"),
-      bottom = "5%", right = "2%", width = "auto"
+      bottom = "8%", left = "4%", width = "auto"
     )
   )
 }
@@ -35,22 +33,21 @@ mod_menu_module_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_menu_module_server <- function(input, output, session){
+mod_menu_module_server <- function(id){
   
-  method <- reactiveVal(value = NULL)
+  moduleServer(id, function(input, output, session) {
   
   modal <- function() {
-    ns <- session$ns
     
     modalDialog(
       easyClose = TRUE,
       footer = modalButton("Close Modal"),
       h1("Sample size estimation methods"),
-      selectInput(ns("method"), "Choose a method:",
-                  choices = list(`Testing` = list("TOST", "ROPE"),
-                                 `Estimation` = list()),
+      selectInput(NS(id, "method"), "Choose a method:",
+                  choices = list(`Testing` = list("TOST", "Traditional power", "Power curve", "ROPE", "Interval Equiv BF", "Bf treshold"),
+                                 `Estimation` = list("APP")),
                   selected = NULL),
-      actionButton(ns("go"), "Go!")
+      actionButton(NS(id, "go"), "Go!")
     )
   }
   
@@ -58,14 +55,11 @@ mod_menu_module_server <- function(input, output, session){
     showModal(modal())
   })
   
-  observeEvent(input$go, {
-    
-    method(input$method)
-    })
-  
-  return(list(
-    method = reactive({method()})
-  ))
+  list(
+    method = reactive(input$method),
+    activate = reactive(input$go)
+  )
+  })
 }
 
 
@@ -74,5 +68,5 @@ mod_menu_module_server <- function(input, output, session){
 # mod_menu_module_ui("menu_module_ui_1")
     
 ## To be copied in the server
-# callModule(mod_menu_module_server, "menu_module_ui_1")
+# mod_menu_module_server("menu_module_ui_1")
  

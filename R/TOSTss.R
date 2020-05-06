@@ -1,4 +1,4 @@
-TOSTss <- function (Opt, Band, delta, sigma = 1, nr = 1, alpha = .05){
+TOSTss <- function(Opt, Band, delta, sigma = 1, nr = 1, alpha = .05){
   
   n1 = 4
   sigsq = sigma^2
@@ -8,7 +8,7 @@ TOSTss <- function (Opt, Band, delta, sigma = 1, nr = 1, alpha = .05){
   coevecc = c(1, rep(c(4, 2), numint / 2 - 1), 4, 1)
   npower = 0
   
-  while (npower < Opt & n1 < 10001){
+  while(npower < Opt & n1 < 10001){
     n1 = n1 + 1
     n2 = nr * n1
     df = n1 + n2 - 2

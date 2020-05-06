@@ -100,6 +100,23 @@ question_data <-
                               NA_integer_,
                               17,
                               NA_integer_,
-                              NA_integer_))
+                              NA_integer_),
+                 is_method = c(0L,
+                               0L,
+                               0L,
+                               0L,
+                               0L,
+                               1L,
+                               1L,
+                               0L,
+                               0L,
+                               1L,
+                               1L,
+                               0L,
+                               1L,
+                               1L,
+                               0L,
+                               1L,
+                               1L))
 
 usethis::use_data(question_data, overwrite = TRUE)
