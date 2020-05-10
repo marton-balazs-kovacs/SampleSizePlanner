@@ -23,7 +23,7 @@ mod_tost_ui <- function(id){
       sliderInput(NS(id, "delta"), "Delta", min = 0, max = 1, value = 0, step = 0.1),
       actionButton(NS(id, "calculate"), "Calculate sample size!")),
     mainPanel(
-      uiOutput(NS(id, "tost_output")),
+      htmlOutput(NS(id, "tost_output")),
       downloadButton(NS(id, "report")))
   )
 }
@@ -37,7 +37,7 @@ mod_tost_ui <- function(id){
 mod_tost_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
-    
+
     # waitress <- waiter::Waitress$new("#tost_ui_1-tost_output", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
   tost_result <- eventReactive(input$calculate, {
@@ -47,34 +47,33 @@ mod_tost_server <- function(id){
     TOSTss(Opt = input$opt,
            Band = input$band,
            delta = input$delta)
-  }, ignoreNULL = FALSE, ignoreInit = FALSE)
-  
+  })
   
   output$tost_output <- renderUI({
+    
     report_path <- file.path("inst/app/www/", "tost_output.Rmd")
-    file.copy("tost_output.Rmd", report_path, overwrite = TRUE)
-    
-    file <- paste("tost_output", Sys.Date(), ".html", sep = "")
-    
+
+    file <- paste0("tost_preview", ".html")
+
     params <- list(n1 = tost_result()$n1,
                    n2 = tost_result()$n2,
                    output_power = tost_result()$npower,
                    input_power = input$opt,
                    band = input$band,
                    delta = input$delta)
+
     callr::r(
       render_report,
       list(input = report_path, output = file, params = params)
     )
+
+    tags$iframe(style="height:400px; width:100%", src = "www/tost_preview.html", seamless = "seamless")
     
-    path_output <- file.path("inst/app/www/", file)
-    
-    includeHTML(path_output)
   })
   
   output$report <- downloadHandler(
     filename = function() {
-      paste("tost_output", Sys.Date(), ".html", sep = "")
+      paste0("tost_output", Sys.Date(), ".html")
     },
     content = function(file) {
       report_path <- file.path("inst/app/www/", "tost_output.Rmd")
