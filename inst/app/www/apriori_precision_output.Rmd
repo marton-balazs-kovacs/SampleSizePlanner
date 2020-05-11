@@ -1,0 +1,19 @@
+---
+title: "tost output test"
+output:
+  html_document: default
+  word_document: default
+params:
+  n1: NA
+  n2: NA
+  output_power: NA
+  input_power: NA
+  band: NA
+  delta: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+this is a test. here is the delta `r params$delta` and here is the resulting n `r params$n1`

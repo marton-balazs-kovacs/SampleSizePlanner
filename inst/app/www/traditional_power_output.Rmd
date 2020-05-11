@@ -1,0 +1,19 @@
+---
+title: "traditional power output test"
+output:
+  html_document: default
+  word_document: default
+params:
+  n1: NA
+  output_power: NA
+  input_power: NA
+  delta: NA
+  n_min: NA
+  n_max: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+this is a test. here is the delta `r params$delta` and the n min `r params$n_min` and n max `r params$n_max`. the resulting n is `r params$n1`, the resulting power is `r params$output_power`.

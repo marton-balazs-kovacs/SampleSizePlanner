@@ -13,7 +13,8 @@ Imports:
     attempt,
     DT,
     glue,
-    htmltools
+    htmltools,
+    ggplot2
 RoxygenNote: 7.0.0
 Suggests: 
     testthat
