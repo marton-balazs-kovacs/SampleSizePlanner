@@ -5,6 +5,7 @@ output:
   word_document: default
 params:
   n1: NA
+  n2: NA
   output_power: NA
   input_power: NA
   band: NA
@@ -15,7 +16,9 @@ params:
 library(knitr)
 ```
 
-n1: `r params$n1`
+n1: `r params$n1` 
+
+n2: `r params$n1`
 input power: `r params$input_power`
 resulting power: `r params$output_power`
 band: `r params$band`

@@ -1,0 +1,20 @@
+---
+title: "&nbsp;"
+output:
+  html_document: default
+  word_document: default
+params:
+  n_min: NA
+  n_max: NA
+  output_n: NA
+  input_power: NA
+  output_confidence: NA
+  band: NA
+  delta: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+In order to calculate the sample size we choose the accuracy in parameter estimation (AIPE; REF) method. We choose the expected effect size to be `r expression (delta)` = `r params$delta`, because ... The desired power was `r params$input_power` as ... Because of limits in resources the minimum sample size of interest was `r params$n_min` and the maximum sample size of interest was `r params$n_max`. The resulting confidence of the sample size estimation method was `r params$output_confidence` with the estimated sample size of `r params$output_n`.

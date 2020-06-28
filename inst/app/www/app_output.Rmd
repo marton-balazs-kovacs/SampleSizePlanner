@@ -1,0 +1,18 @@
+---
+title: "&nbsp;"
+output:
+  html_document: default
+  word_document: default
+params:
+  n1: NA
+  closeness: NA
+  confidence: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+n1: `r params$n1`
+closeness: `r params$closeness`
+confidence: `r params$confidence`

@@ -1,0 +1,23 @@
+---
+title: "&nbsp;"
+output:
+  html_document: default
+  word_document: default
+params:
+  plot: NA
+  delta1: NA
+  delta2: NA
+  input_power: NA
+---
+
+```{r, include = FALSE}
+library(knitr)
+```
+
+```{r, echo = FALSE}
+params$plot
+```
+
+minimum delta: `r params$delta1`
+maximum delta: `r params$delta2`
+input power: `r params$input_power`

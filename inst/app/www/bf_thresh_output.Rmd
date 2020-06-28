@@ -9,6 +9,7 @@ params:
   input_power: NA
   band: NA
   delta: NA
+  thresh: NA
 ---
 
 ```{r, include = FALSE}
@@ -16,7 +17,8 @@ library(knitr)
 ```
 
 n1: `r params$n1`
+calculated power: `r params$output_power`
 input power: `r params$input_power`
-resulting power: `r params$output_power`
 band: `r params$band`
 delta: `r params$delta`
+threshold: `r params$thresh`

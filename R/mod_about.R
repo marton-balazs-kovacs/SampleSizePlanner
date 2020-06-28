@@ -16,13 +16,7 @@
 mod_about_ui <- function(id){
   
   tagList(
-    fixedPanel(
-      shinyWidgets::actionBttn(inputId = NS(id, "open_about"),
-                               label = "How to use",
-                               style = "minimal",
-                               color = "danger"),
-      top = "8%", left = "4%", width = "auto"
-    )
+    includeMarkdown("inst/app/www/about.Rmd")
   )
 }
     
@@ -35,17 +29,8 @@ mod_about_ui <- function(id){
 mod_about_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
-  modal <- function() {
+
     
-    modalDialog(
-      easyClose = TRUE,
-      footer = modalButton("Close Modal"),
-      includeMarkdown("inst/app/www/about.Rmd"))
-    }
-  
-  observeEvent(input$open_about, {
-    showModal(modal())})
-  
   })
   }
     

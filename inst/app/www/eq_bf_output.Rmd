@@ -5,10 +5,11 @@ output:
   word_document: default
 params:
   n1: NA
-  output_power: NA
   input_power: NA
+  output_power: NA
   band: NA
   delta: NA
+  thresh: NA
 ---
 
 ```{r, include = FALSE}
@@ -20,3 +21,4 @@ input power: `r params$input_power`
 resulting power: `r params$output_power`
 band: `r params$band`
 delta: `r params$delta`
+threshold: `r params$thresh`

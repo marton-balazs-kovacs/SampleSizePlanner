@@ -7,8 +7,9 @@ params:
   n1: NA
   output_power: NA
   input_power: NA
-  band: NA
   delta: NA
+  n_min: NA
+  n_max: NA
 ---
 
 ```{r, include = FALSE}
@@ -16,7 +17,8 @@ library(knitr)
 ```
 
 n1: `r params$n1`
-input power: `r params$input_power`
 resulting power: `r params$output_power`
-band: `r params$band`
+input power: `r params$input_power`
 delta: `r params$delta`
+minimum n: `r params$n_min`
+maximum n: `r params$n_max`
