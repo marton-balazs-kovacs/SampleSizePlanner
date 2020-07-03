@@ -22,8 +22,9 @@ mod_ssp_power_curve_ui <- function(id){
       sliderInput(NS(id, "delta"), "Delta", min = 0, max = 2, value = c(0.1, 0.9), step = 0.1),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
     mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
+      plotly:: plotlyOutput(NS(id, "preview")),
+      div(class = "download-btn",
+          downloadButton(NS(id, "report")))
     )
     )
   )
@@ -39,32 +40,41 @@ mod_ssp_power_curve_server <- function(id){
 
     moduleServer(id, function(input, output, session) {
       # Setup loadingbar
-      waitress <- waiter::Waitress$new("#curve-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
-
-      # Calculate results
-      curve_result <- eventReactive(input$calculate, {
-        waitress$start()
-        ssp_power_curve(delta1 = input$delta[1],
-                    delta2 = input$delta[2],
-                    opt = input$opt,
-                    animated = TRUE)
-        })
+      # waitress <- waiter::Waitress$new("#curve-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
       
-      # Send params to RMD
-      params <- eventReactive(input$calculate, {
-        list(
-          plot = curve_result(),
-          delta1 = input$delta[1],
-          delta2 = input$delta[2],
-          input_power = input$opt
-        )
+      # Add downloadbutton enable logic
+      observe({
+        if (input$calculate) {
+          shinyjs::enable("report")
+          shinyjs::runjs("$('.download-btn').removeAttr('title');")
+        } else{
+          shinyjs::disable("report")
+          shinyjs::runjs("$('.download-btn').attr('title', 'Please run the calculation first');")
+        }
       })
       
-      # Render preview
-      mod_preview_server("preview", activate = reactive(input$calculate), input_file = "curve_output.Rmd", params = params)
+      # Calculate results
+      curve_result <- eventReactive(input$calculate, {
+        # waitress$start()
+        ssp_power_curve(delta1 = input$delta[1], delta2 = input$delta[2], opt = input$opt, animated = FALSE)
+        })
+      
+      # Show preview
+      output$preview <- plotly::renderPlotly({
+        curve_result()  %>% 
+          plotly::ggplotly(tooltip = "text") %>%
+          plotly::config(displayModeBar = F)
+      })
       
       # Download the output
-      mod_download_server("download", activate = reactive(input$calculate), input_file = "curve_output.Rmd", params = params, format = "html_document")
+      output$report <- downloadHandler(
+        filename = function() {
+          paste0("power_curve", "_", Sys.Date(), ".png")
+        },
+        content = function(file) {
+          ggplot2::ggsave(file, plot = curve_result(), device = "png")
+        },
+        contentType = "image/png")
     
   })
 }

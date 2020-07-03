@@ -25,7 +25,7 @@ ssp_tost <- function(opt, band, delta, sigma = 1, nr = 1, alpha = .05, report_te
   }
   
   if (report_text) {
-    glue::glue("In order to calculate the sample size we choose the Two One-Sided Tests of Equivalence (TOST; REF) method. We choose the power to be {opt} because ... The expected delta was {delta} as ... Our bandwidht was {band} respectively. The estimated sample sizes were {purrr::pluck(result, \"n1\")} and {purrr::pluck(result, \"n2\")} with {purrr::pluck(result, \"npower\")} estimated power.")
+    glue::glue("In order to calculate the sample size we choose the Two One-Sided Tests of Equivalence (TOST; REF) method. We choose the power to be {opt} because ... The expected delta was {delta} as ... Our bandwidht was {band} respectively. The estimated sample sizes were {n1} and {n2} with {npower} estimated power.")
   } else {
     list(n1 = round(n1, 4),
          n2 = round(n2, 4),

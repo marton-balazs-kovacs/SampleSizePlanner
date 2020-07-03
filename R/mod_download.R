@@ -17,13 +17,8 @@ mod_download_ui <- function(id){
 #' download Server Function
 #'
 #' @noRd 
-mod_download_server <- function(id, activate, input_file, params, format = "word_document"){
+mod_download_server <- function(id, activate, output_text, method){
   moduleServer(id, function(input, output, session) {
-  # Create output file extension based on the format
-  ext <- switch(format,
-                word_document = ".doc",
-                html_document = ".html")
-  
   # Add downloadbutton enable logic
   observe({
     if (activate()) {
@@ -38,15 +33,10 @@ mod_download_server <- function(id, activate, input_file, params, format = "word
   # Download the output
   output$report <- downloadHandler(
     filename = function() {
-      paste0(tools::file_path_sans_ext(input_file), "_", Sys.Date(), ext)
+      paste0(method, "_", Sys.Date(), ".txt")
     },
     content = function(file) {
-      report_path <- file.path("inst/app/www/", input_file)
-      file.copy(input_file, report_path, overwrite = TRUE)
-      callr::r(
-        render_report,
-        list(input = report_path, output = file, format = format, params = params())
-      )
+      writeLines(output_text(), file)
     })
   })
 }

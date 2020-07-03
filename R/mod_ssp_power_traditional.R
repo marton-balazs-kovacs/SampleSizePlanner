@@ -37,37 +37,22 @@ mod_ssp_power_traditional_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_ssp_power_traditional_server <- function(id, activate_menu, method_menu, activate_question, method_question){
+mod_ssp_power_traditional_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
-    waitress <- waiter::Waitress$new("#traditional-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    # waitress <- waiter::Waitress$new("#traditional-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
     # Calculate results
     traditional_result <- eventReactive(input$calculate, {
-      waitress$start()
-      ssp_power_traditional(n_min = input$n_min,
-                        n_max = input$n_max,
-                        delta = input$delta,
-                        opt = input$opt)
-    })
-    
-    # Send params to RMD
-    params <- eventReactive(input$calculate, {
-      list(
-        n1 = traditional_result()$n1,
-        output_power = traditional_result()$npower,
-        input_power = input$opt,
-        delta = input$delta,
-        n_min = input$n_min,
-        n_max = input$n_max
-      )
+      # waitress$start()
+      ssp_power_traditional(n_min = input$n_min, n_max = input$n_max, delta = input$delta, opt = input$opt, report_text = TRUE)
     })
 
     # Render preview
-    mod_preview_server("preview", activate = reactive(input$calculate), input_file = "traditional_output.Rmd", params = params)
+    mod_preview_server("preview", activate = reactive(input$calculate), output_text = traditional_result, method = "traditional")
     
     # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), input_file = "traditional_output.Rmd", params = params)
+    mod_download_server("download", activate = reactive(input$calculate), output_text = traditional_result, method = "traditional")
   })
 }
     

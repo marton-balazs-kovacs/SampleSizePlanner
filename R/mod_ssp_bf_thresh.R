@@ -39,34 +39,19 @@ mod_ssp_bf_thresh_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
-    waitress <- waiter::Waitress$new("#bf_thresh-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    # waitress <- waiter::Waitress$new("#bf_thresh-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
     # Calculate results
     bf_thresh_result <- eventReactive(input$calculate, {
-      Waitress$start()
-      ssp_bf_thresh(opt = 0.8,
-                      band = 0.2,
-                      delta = input$delta,
-                      thresh = as.integer(input$thresh))
+      # Waitress$start()
+      ssp_bf_thresh(opt = 0.8, band = 0.2, delta = input$delta, thresh = as.integer(input$thresh), report_text = TRUE)
       })
     
-    # Send params to RMD
-    params <- eventReactive(input$calculate, {
-      list(
-        n1 = bf_thresh_result()$n1,
-        output_power = bf_thresh_result()$npower,
-        input_power = 0.8,
-        band = 0.2,
-        delta = input$delta,
-        thresh = input$thresh
-      )
-    })
-    
     # Render preview
-    mod_preview_server("preview", activate = reactive(input$calculate), input_file = "bf_thresh_output.Rmd", params = params)
+    mod_preview_server("preview", activate = reactive(input$calculate), output_text = bf_thresh_result, method = "bf_thresh")
     
     # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), input_file = "bf_thresh_output.Rmd", params = params)
+    mod_download_server("download", activate = reactive(input$calculate), output_text = bf_thresh_result, method = "bf_thresh")
   })
 }
     

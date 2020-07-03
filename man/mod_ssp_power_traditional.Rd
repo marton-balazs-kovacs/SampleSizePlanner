@@ -7,13 +7,7 @@
 \usage{
 mod_ssp_power_traditional_ui(id)
 
-mod_ssp_power_traditional_server(
-  id,
-  activate_menu,
-  method_menu,
-  activate_question,
-  method_question
-)
+mod_ssp_power_traditional_server(id)
 }
 \arguments{
 \item{id}{shiny id}

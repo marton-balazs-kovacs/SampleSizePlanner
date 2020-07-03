@@ -1,6 +1,6 @@
 #' @import shiny
 app_server <- function(input, output,session) {
-  
+
   # Create flowchart module
   mod_flowchart_server("flowchart_ui_1")
   

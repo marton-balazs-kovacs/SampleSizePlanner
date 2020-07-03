@@ -21,8 +21,7 @@ ssp_power_curve <- function(delta1, delta2, opt, animated = FALSE) {
     ggplot2::theme_classic()
   if (animated) {
     gg %>% 
-    plotly::ggplotly(tooltip = "text") %>%
-    plotly::config(displayModeBar = F)
+    plotly::ggplotly(tooltip = "text")
   } else {
     gg
   }

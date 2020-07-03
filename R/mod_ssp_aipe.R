@@ -44,34 +44,19 @@ mod_ssp_aipe_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
-    waitress <- waiter::Waitress$new("#aipe-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    # waitress <- waiter::Waitress$new("#aipe-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
 
     # Calculate results
     aipe_result <- eventReactive(input$calculate, {
-      waitress$start()
-      ssp_aipe(n_min = input$n_min,
-                 n_max = input$n_max,
-                 delta = input$delta,
-                 opt = input$opt)
-    })
-    
-    # Send params to RMD
-    params <- eventReactive(input$calculate, {
-      list(
-        n_min = input$n_min,
-        n_max = input$n_max,
-        output_n = aipe_result()$n1,
-        output_confidence = aipe_result()$npower,
-        input_power = input$opt,
-        delta = input$delta
-      )
+      # waitress$start()
+      ssp_aipe(n_min = input$n_min, n_max = input$n_max, delta = input$delta, opt = input$opt, report_text = TRUE)
     })
     
     # Render preview
-    mod_preview_server("preview", activate = reactive(input$calculate), input_file = "aipe_output.Rmd", params = params)
+    mod_preview_server("preview", activate = reactive(input$calculate), output_text = aipe_result, method = "aipe")
     
     # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), input_file = "aipe_output.Rmd", params = params)
+    mod_download_server("download", activate = reactive(input$calculate), output_text = aipe_result, method = "aipe")
   })
 }
     

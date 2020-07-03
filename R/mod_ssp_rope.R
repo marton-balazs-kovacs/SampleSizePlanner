@@ -40,30 +40,18 @@ mod_ssp_rope_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
-    waitress <- waiter::Waitress$new("#rope-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
-    
+    # waitress <- waiter::Waitress$new("#rope-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     # Calculate results
     rope_result <- eventReactive(input$calculate, {
-      waitress$start()
-      ssp_rope(opt = input$opt, band = input$band, delta = input$delta)
-    })
-    
-    # Send params to RMD
-    params <- eventReactive(input$calculate, {
-      list(
-        n1 = rope_result()$n1,
-        output_power = rope_result()$npower,
-        input_power = input$opt,
-        band = input$band,
-        delta = input$delta
-      )
-    })
+      # waitress$start()
+      ssp_rope(opt = input$opt, band = input$band, delta = input$delta, report_text = TRUE)
+      })
     
     # Render preview
-    mod_preview_server("preview", activate = reactive(input$calculate), input_file = "rope_output.Rmd", params = params)
+    mod_preview_server("preview", activate = reactive(input$calculate), output_text = rope_result, method = "rope")
     
     # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), input_file = "rope_output.Rmd", params = params)
+    mod_download_server("download", activate = reactive(input$calculate), output_text = rope_result, method = "rope")
 
   })
 }
