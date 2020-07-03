@@ -4,7 +4,6 @@ ssp_power_curve <- function(delta1, delta2, opt, animated = FALSE) {
   for (i in 1:length(delta)) {
     noptim[i] = power_optim(fun = traditional, range = c(5, 2000), delta[i], opt = opt)$n1
     }
-  noptim
   gg <- ggplot2::ggplot() +
     ggplot2::aes(x = delta,
                  y = noptim,
