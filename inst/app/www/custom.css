@@ -1,0 +1,29 @@
+/* navbar row background */
+.navbar-default {
+  background: none !important;
+  border: none !important;
+}
+
+/* title */
+.navbar-default .navbar-brand {
+  color: red !important;
+}
+
+/* tabs on hover */
+.navbar-nav li a:hover {
+  color: #fff !important;
+  background-color: #2b8cc4 !important;
+  background-image: none !important;
+}
+
+/* active tabs */
+.navbar-nav > .active > a {
+  color: red !important;
+  background-color: brown !important;
+  background-image: none !important;
+}
+
+/* sidebarpanels */
+.well {
+  
+}

@@ -1,18 +1,31 @@
 ---
-title: ""
+title: "&nbsp;"
 output: html_document
 ---
 
 ### About the project
 
-Important text here!
+The __SampleSizePlanner__ shiny application enables researchers to calculate the sample size with 8 different methods in app and provides code to use an additional method from R. The aim of the app is to make the various sample size calculating methods available for a wide range of researchers and propagate the transparent reporting of the choose method. Therefore, a formatted template text containing the used parameters and the output of the calculations is available for download. This text can be complemented with the reasoning behind each decision.
 
-### How to use the application?
-
-Important instructions here!
+### Available sample size planning methods
+- AIPE [REF](link)
+- APP [REF](link)
+- BF threshold [REF](link)
+- Power curve [REF](link)
+- Traditional power calculation [REF](link)
+- Interval equiv bf [REF](link)
+- Rope [REF](link)
+- TOST [REF](link)
+- BFDA [REF](link)
 
 ### Contributors
 - Don van Ravenzwaaij
 - Rink Hoekstra
 - Marton Kovacs
 - Balazs Aczel
+
+### Questions and comments
+
+If you have any questions or comments please write to Marton Kovacs to the following email address: marton.balazs.kovacs@gmail.com
+
+Or submit an issue on the apps Github page: [https://github.com/marton-balazs-kovacs/SampleSizePlanner](https://github.com/marton-balazs-kovacs/SampleSizePlanner)
