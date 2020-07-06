@@ -16,7 +16,7 @@
 mod_flowchart_ui <- function(id){
   
   tagList(
-      DiagrammeR::grVizOutput(NS(id, "dg"))
+    
     )
 }
     
@@ -30,11 +30,6 @@ mod_flowchart_server <- function(id){
   
   moduleServer(id, function(input, output, session) {
   
-  graph <- open_graph("inst/app/www/flowchart.dgr")
-  
-  output$dg <- renderGrViz({
-    render_graph(graph, layout = "neato")
-    })
   })
 }
     

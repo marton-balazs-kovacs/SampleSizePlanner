@@ -6,7 +6,7 @@ app_ui <- function() {
     navbarPage(
       title = "Sample Size Planner",
         tabPanel("Flowchart",
-                 mod_flowchart_ui("flowchart_ui_1")),
+                 tags$img(src = "www/flowchart.png", width = "80%", heigth = "80%", align = "left")),
         navbarMenu("Methods",
                    tabPanel("TOST",
                             mod_ssp_tost_ui("tost")),

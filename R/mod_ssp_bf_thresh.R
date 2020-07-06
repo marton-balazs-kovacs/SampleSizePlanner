@@ -21,10 +21,7 @@ mod_ssp_bf_thresh_ui <- function(id){
       sliderInput(NS(id, "delta"), "Delta", min = 0, max = 2, value = 0.5, step = 0.1),
       selectInput(NS(id, "thresh"), "Threshold", choices = c(10, 6, 3), selected = 10),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
-    mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
-      )
+    mod_preview_ui(NS(id, "preview"))
     )
   )
 }
@@ -49,9 +46,6 @@ mod_ssp_bf_thresh_server <- function(id){
     
     # Render preview
     mod_preview_server("preview", activate = reactive(input$calculate), output_text = bf_thresh_result, method = "bf_thresh")
-    
-    # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), output_text = bf_thresh_result, method = "bf_thresh")
   })
 }
     

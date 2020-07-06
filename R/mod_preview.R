@@ -9,7 +9,15 @@
 #' @importFrom shiny NS tagList 
 mod_preview_ui <- function(id){
   tagList(
-    textOutput(NS(id, "show_preview"))
+    mainPanel(
+      h3("Instructions"),
+      tags$ul(tags$li("Please set the parameters and run the sample size planning calculation with the \"Calculate sample size\" button."),
+              tags$li("After running the calculation you can download the results in a general template text in word format."),
+              tags$li("After download, please complement the text where it is need with your reasoning behind each decision and include the text in your manuscript."),
+              tags$li("Please wait for a calulation to finish before you attempt to download the output or open a new tab.")),
+    div(style = "height:120px;", textOutput(NS(id, "show_preview"))),
+    div(class = "download-btn",
+        downloadButton(NS(id, "report"))))
   )
 }
     
@@ -22,6 +30,26 @@ mod_preview_server <- function(id, activate, output_text, method){
   output$show_preview <- renderText({
     req(activate())
     output_text()
+    })
+  
+  # Add downloadbutton enable logic
+  observe({
+    if (activate()) {
+      shinyjs::enable("report")
+      shinyjs::runjs("$('.download-btn').removeAttr('title');")
+    } else{
+      shinyjs::disable("report")
+      shinyjs::runjs("$('.download-btn').attr('title', 'Please run the calculation first');")
+    }
+  })
+  
+  # Download the output
+  output$report <- downloadHandler(
+    filename = function() {
+      paste0(method, "_", Sys.Date(), ".txt")
+    },
+    content = function(file) {
+      writeLines(output_text(), file)
     })
   })
 }

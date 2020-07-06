@@ -3,7 +3,3 @@ title: "&nbsp;"
 output: html_document
 ---
 
-+ Please set the parameters and run the sample size planning calculation with the "Calculate sample size" button.
-+ After running the calculation you can download the results in a general template text in word format.
-+ After download, please complement the text where it is need with your reasoning behind each decision and include the text in your manuscript.
-+ Please wait for a calulation to finish before you attempt to download the output or open a new tab.
