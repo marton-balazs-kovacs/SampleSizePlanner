@@ -19,14 +19,11 @@ mod_ssp_power_traditional_ui <- function(id){
     sidebarPanel(
       h1("Traditional Power"),
       sliderInput(NS(id, "opt"), "Power", min = 0, max = 1, value = 0.8, step = 0.1),
-      sliderInput(NS(id, "delta"), "Delta", min = 0, max = 1, value = 0.5, step = 0.1),
+      sliderInput(NS(id, "delta"), "Delta", min = 0, max = 2, value = 0.5, step = 0.1),
       numericInput(NS(id, "n_min"), "Minimum sample size", 20),
       numericInput(NS(id, "n_max"), "Maximum sample size", 200),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
-    mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
-      )
+    mod_preview_ui(NS(id, "preview"))
     )
   )
   }
@@ -50,9 +47,6 @@ mod_ssp_power_traditional_server <- function(id){
 
     # Render preview
     mod_preview_server("preview", activate = reactive(input$calculate), output_text = traditional_result, method = "traditional")
-    
-    # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), output_text = traditional_result, method = "traditional")
   })
 }
     

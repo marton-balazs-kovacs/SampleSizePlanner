@@ -24,10 +24,7 @@ mod_ssp_eq_bf_ui <- function(id){
       selectInput(NS(id, "thresh"), "Threshold", choices = c(10, 6, 3),
                   selected = 10),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
-    mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
-    )
+    mod_preview_ui(NS(id, "preview"))
     )
   )
 }
@@ -52,10 +49,6 @@ mod_ssp_eq_bf_server <- function(id){
 
     # Render preview
     mod_preview_server("preview", activate = reactive(input$calculate), output_text = eq_bf_result, method = "eq_bf")
-    
-    # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), output_text = eq_bf_result, method = "eq_bf")
-    
   })
 }
     

@@ -19,7 +19,7 @@ super_bf <- function(n1, delta, thresh = 10, tol = 1e-4, granularity = 300) {
   npower
 }
 
-ssp_bf_thresh <- function(opt, band, delta, thresh, report_text = FALSE) {
+ssp_bf_thresh <- function(opt = 0.8, band, delta, thresh, report_text = FALSE) {
   est <- ssp_tost(opt = opt, band = band, delta = delta) %>% purrr::pluck(., "n1")
   result <- power_optim(fun = super_bf, range = c(50, est), delta = delta, opt = opt, thresh = thresh)
   

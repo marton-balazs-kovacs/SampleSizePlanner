@@ -22,10 +22,7 @@ mod_ssp_app_ui <- function(id){
       sliderInput(NS(id, "closeness"), "Closeness", min = 0, max = 1, value = 0.2, step = 0.1),
       sliderInput(NS(id, "confidence"), "Confidence", min = 0, max = 1, value = 0.95, step = 0.1),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
-    mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
-    )
+    mod_preview_ui(NS(id, "preview"))
     )
   )
 }
@@ -50,9 +47,6 @@ mod_ssp_app_server <- function(id){
   
     # Render preview
     mod_preview_server("preview", activate = reactive(input$calculate), output_text = app_result, method = "app")
-    
-    # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), output_text = app_result, method = "app")
   })
 }
     

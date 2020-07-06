@@ -22,10 +22,7 @@ mod_ssp_rope_ui <- function(id){
       sliderInput(NS(id, "band"), "Band", min = 0, max = 1, value = 0.2, step = 0.1),
       sliderInput(NS(id, "delta"), "Delta", min = 0, max = 2, value = 0, step = 0.1),
       actionButton(NS(id, "calculate"), "Calculate sample size")),
-    mainPanel(
-      mod_preview_ui(NS(id, "preview")),
-      mod_download_ui(NS(id, "download"))
-    )
+    mod_preview_ui(NS(id, "preview"))
     )
   )
 }
@@ -49,10 +46,6 @@ mod_ssp_rope_server <- function(id){
     
     # Render preview
     mod_preview_server("preview", activate = reactive(input$calculate), output_text = rope_result, method = "rope")
-    
-    # Download the output
-    mod_download_server("download", activate = reactive(input$calculate), output_text = rope_result, method = "rope")
-
   })
 }
     

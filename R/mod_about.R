@@ -16,7 +16,7 @@
 mod_about_ui <- function(id){
   
   tagList(
-    includeMarkdown("inst/app/www/about.Rmd")
+    includeMarkdown(app_sys("app/www/about.Rmd"))
   )
 }
     
