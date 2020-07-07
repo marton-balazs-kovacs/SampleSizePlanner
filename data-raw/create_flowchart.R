@@ -3,14 +3,15 @@ flowchart <- DiagrammeR::grViz("digraph flowchart {
       graph [layout = dot,
              rankdir = TB,
              nodesep = 1.4,
-             ranksep = 1.2]
+             ranksep = 1.2,
+             splines = ortho]
       # ranksep and nodesep
       
       # edge attributes
-      edge [color = gray]
+      edge [color = gray, fontsize = 16]
       
       # node definitions with substituted label text
-      node [fontname = Helvetica, shape = rectangle]        
+      node [fontname = Helvetica, fontsize = 20, shape = rectangle, margin = 0.2]        
       tab1 [label = '@@1']
       tab2 [label = '@@2']
       tab3 [label = '@@3']
