@@ -66,3 +66,6 @@ usethis::use_appveyor()
 # You're now set! 
 # go to dev/03_deploy.R
 rstudioapi::navigateToFile("dev/03_deploy.R")
+
+usethis::use_pipe()
+devtools::document()
