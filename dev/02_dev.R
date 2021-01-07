@@ -35,7 +35,7 @@ usethis::use_package("shinyWidgets")
 usethis::use_package("shinyjs")
 usethis::use_package("shinyBS")
 usethis::use_package("BayesFactor")
-usethis::use_package("klippy")
+usethis::use_package("assertthat")
 
 ## 2.3 Add tests
 

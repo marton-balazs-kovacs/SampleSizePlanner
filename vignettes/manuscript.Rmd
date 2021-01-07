@@ -1,0 +1,332 @@
+---
+title             : "A General Guideline for Sample Size Planning"
+shorttitle        : "A GENERAL GUIDELINE FOR SAMPLE SIZE PLANNING"
+
+author: 
+  - name          : "Marton Kovacs"
+    affiliation   : "1, 2"
+    corresponding : yes    
+    email         : "marton.balazs.kovacs@gmail.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Conceptualization
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+  - name          : "Don van Ravenzwaaij"
+    affiliation   : "3"
+    role:
+      - Writing - Review & Editing
+  - name          : "Rink Hoekstra"
+    affiliation   : "3"
+    role:
+      - Writing - Review & Editing
+  - name          : "Balazs Aczel"
+    affiliation   : "1"
+    role:
+      - Writing - Review & Editing
+
+affiliation:
+  - id            : "1"
+    institution   : "Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary"
+  - id            : "2"
+    institution   : "Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary"
+  - id            : "3"
+    institution   : "University of Groningen, Groningen, The Netherlands"
+
+authornote: |
+
+  Marton Kovacs and Don van Ravenzwaaij are joint first-authors.
+
+abstract: |
+  This is a really important paper. Please read it and study it. It will be good for you.
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "sample size planning"
+
+bibliography      : ["spp_bib.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+library("formatR")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction
+Social and behavioral sciences are known to be plagued by undersampling. A study design has low power if it is insensitive to detect an existing effect. Small samples are a main source of low power, especially when the studied effects are small. In the traditional statistical framework, even when the effect exists, undersampled studies yield either nonsignificant results or significant results due to overestimating the size of the effect. Because nonsignificant results are less likely to reach publications than significant ones, results of undersampled studies either remain unpublished or they impose a substantial bias on our empirical findings. To mitigate the issue, authors are increasingly expected to plan and justify the sample size of their study. The aim of this practice is to inform the reader about the reasons behind the author’s sampling decisions. However, these justifications are meaningful only if they provide sufficient information to the readers to judge their adequacy.
+
+In the statistical literature, quite a few methods have been proposed to determine and justify sample size. In practice, however, authors are short of practical guides on how to navigate among the different sample size methods. Similarly, journals and readers miss the frameworks that could help them evaluate the transparency and adequacy of the reported sample size justifications. Our aim is to open a discussion about the different approaches to sample size planning (SSP). Our tutorial points out the essential decision points for each method that a researcher has to face during this process. We also provide a collection of ready-to-use analysis codes and a ShinyApp that helps researchers to use and report the main sample size estimation techniques for the most common designs.
+
+# Procedure for Sample Size Determination
+## How to choose a method
+A lot of factors go into the decision of the optimal sample size for a study design. In this section, we will first provide a birds-eye view of the most important decisions. Next, we will go into more detail on the specific inference tool that results from the combination of the larger choices.
+
+The two most important steps social and behavioral scientists have to take at the outset are to decide: (1) whether they are interested in statistical testing or in parameter estimation; and (2) whether they want to conduct their statistical inference within the frequentist framework or within the Bayesian framework. Starting with the first decision, statistical testing is the primary framework when one is interested in establishing whether an underlying population effect is equal to, larger than, or smaller than a certain value. In essence, statistical testing lends itself to binary decision making. Typically, testing is concerned with a fixed point null hypothesis (e.g., is there an effect?), although using intervals for testing is also possible. Alternatively, one might be interested in parameter estimation that is less interested in establishing the existence of an effect and instead is concerned with establishing the magnitude of an effect.
+
+The second important decision concerns the statistical framework. Choosing to conduct statistical tests within a frequentist framework, one is usually interested in controlling a type I error rate. Setting a fixed type I error rate controls the proportion of times you incorrectly reject the null hypothesis. Practitioners choosing to conduct statistical tests within a Bayesian framework are typically interested in being able to quantify the relative probability of hypotheses or models being true given the data and in including prior information.
+
+Within the realm of statistical testing, there are some other factors that affect the preferred inference tool: Do you prefer to test for equivalence (effect size equals zero) or for superiority (effect size larger than zero), are you interested in calculating a required sample size for a specific hypothetical effect size or for a range of possible values, and do you wish to employ sequential testing (applicable to Bayesian testing)? For frequentist estimation, the preferred inference tool might differ depending on whether the population standard deviation is known. We will describe these specific factors when we go into detail about each of the preferred methods. A flow-chart representing all of these choices is given in Figure 1.
+
+In the next section, we will illustrate the specific inference tools and resulting sample size calculations in more detail using a ShinyApp and an R package we have developed. Throughout this section, we recurrently use two terms that have different meanings for different techniques. These are true positive rate (TPR), and interval. The TPR reflects the long-run probability of concluding there is an effect, given that it does exist. For traditional null hypothesis testing, this is typically referred to as power, but related concepts exist for different inference tools. Interval refers to an effect size region, typically around zero, that is deemed clinically insignificant or irrelevant. Different names are given to this interval depending on the technique that employs them, such as SESOI or ROPE. For both TPR and interval, we explain the specific meaning in context of the relevant inference tool below.
+
+Throughout, we will use the example story of Mary the educational psychologist. Mary has come up with a new set of games that challenge spatial insight. She believes that distributed and targeted engagement with these games for a period of six months for children in the age range of 8 to 12 will lead to lasting improvements on their IQ score as measured through Raven’s progressive matrices test (population mean 100, population sd 15). Mary collects data for a control sample that gets regular education and for an experimental sample and plans to compare those samples. For illustrative purposes, we will have Mary’s hypothetical study goal depend on the earlier presented decisions to illustrate different scenarios.
+
+## How to use this guide
+In the following sections we will provide a more detailed description of each of the sample size estimation methods, how to use them in the app and in the R package, and how to report the results of the calculations. For each method, only the main parameters can be adjusted with a certain range of values in the ShinyApp by using a slider. These parameters are presented in the text in bold. Other parameters are set to preset values in the application but can be adjusted in the accompanying R package to any sensible value. These parameters are highlighted with italic in the tutorial. Both the app and the package allow the users to save or copy a text template with the results of the sample size determination. Decision points that are needed to be justified upon reporting are marked in the text by three dots. The provided justification text could serve as a stub for the description of the chosen sample size in a paper, a preregistration or registered report, or a grant proposal.
+
+## 1. Testing
+### 1.1. ES = 0
+#### 1.1.1. TOST
+##### Example justification
+In this case, Mary wants to know which sample size she needs for a power of .80 to study whether the mean IQ score of her experimental group’s population is practically equivalent to the control group. She tests this assumption in a frequentist framework, and considers a population effect size between -0.2 and 0.2 to be 'practically equivalent' to no difference. This would correspond to raw effect sizes of -3 (0-15*.2) and +3 (0+15*.2). 
+
+##### Description
+TOST (Two One‐Sided Tests) is a frequentist equivalence testing approach that adopts two one-sided hypotheses to designate an interval hypothesis [@schuirmann_comparison_1987]. The lower and upper boundaries of the interval are determined by the smallest effect size of interest (SESOI) around the expected population effect size (e.g., 0). There are several methods that can be used to determine the SESOI (see @lakens_equivalence_2018 for a summary). In case of TOST the H0 states that the effect size is equal to the SESOI value, while Ha indicates that the effect size is smaller than the SESOI value. In case both one-sided tests reject the null-hypotheses at a given significance level, the effect sizes are considered to be practically equivalent. 
+
+##### Parameters
+  __Delta:__ The expected population effect size. In most cases, this value will be zero (but see @lakens_equivalence_2018 for another example).\
+  __TPR:__ The long run probability of obtaining a significant result with TOST assuming an effect size equal to the SESOI.\
+  __Interval:__ The width of the interval for practical equivalence, i.e. the SESOI.\
+  _Alpha:_ The level of significance. The alpha level in the application is preset to 0.05.\
+
+##### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_tost()
+```
+
+##### How to report your sample size estimation
+In order to calculate an appropriate sample size for testing whether the two groups are practically equivalent, we used the Two One-Sided Tests of Equivalence [TOST; @schuirmann_comparison_1987] method. We set the aimed power to be 0.8, because [1) common standard in the field; 2) journal publishing requirements; 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)]. We consider all effect sizes below 0.2 equivalent to zero, because [previous studies reported a similar SESOI]. Based on these parameters, a sample size of 429 was estimated in order to reach a power of 0.8 with our design.
+
+#### 1.1.2. Equivalence interval Bayes factor
+##### Example justification
+Mary wants to know which sample size she needs to have a long-term probability of .80 of obtaining a Bayes factor larger than 10, indicating the data is at least 10 times more likely under the hypothesis of equivalence between the experimental group’s population mean and the control group’s population mean than under the hypothesis of non-equivalence between both groups.
+Just like with the TOST case, Mary wants to conduct a statistical test to see whether the mean IQ score of the experimental group’s population is significantly different from the control group’s population. Mary hypothesizes that there is no difference (i.e., H0 is true). Mary tests this assumption in a Bayesian framework. Mary considers a population effect size between -0.2 and under 0.2 to be 'practically equivalent'. This would correspond to the raw effect sizes between 97 (100-15*.2) and 103 (100+15*.2).
+
+##### Description
+Equivalence interval Bayes factors contrast an equivalence hypothesis to a non-equivalence hypothesis and quantify the evidence with Bayes factors. Typically, H0 constitutes the equivalence interval (comparable to SESOI in the TOST framework), and Ha constitutes the complementary non-equivalence regions. Formally, the Bayes factor is calculated by dividing the fraction posterior area outside the interval/posterior area inside the interval by the fraction prior area outside the interval/prior area inside the interval, or posterior odds divided by prior odds. The resulting value quantifies how much more likely the data is to have occurred under a population effect size deemed ‘equivalent’ relative to the data having occurred under a population effect size deemed non-equivalent. The current implementation uses a default Cauchy prior on effect size with scale parameter 1/sqrt(2). For further reading, see @morey_bayes_2011 and van @van_ravenzwaaij_bayes_2019.
+
+##### Parameters
+  __Delta:__ The expected population effect size.\
+  __TPR:__ The long run probability of obtaining a Bayes factor at least as high as the critical threshold favoring equivalence, given that the true effect size is within the equivalence interval.\
+  __Interval:__ The width of the equivalence interval, comparable to SESOI in the TOST framework.\
+  _Threshold:_ Critical threshold for the Bayes factor. The threshold level in the application is preset to 10.\
+
+##### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_eq_bf()
+```
+
+##### How to report your sample size estimation
+In order to estimate the sample size, we used the interval equivalent Bayes factor [@morey_bayes_2011; @van_ravenzwaaij_bayes_2019] method. We set the aimed power to be 0.8, because [possible reasons include: 1) fieldwise standard; 2) journal publishing requirements; 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)]. We consider all effect sizes below 0.2 equivalent to zero, because [of the results of previous studies with similar designs]. The expected delta was 0 [as we expected no difference between the experimental group and the control group]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 144 was estimated in order to reach 0.80 power for our design.
+
+### 1.2. Effect size >0
+#### 1.2.1. Frequentist
+##### 1.2.1.1. Classical power analysis
+###### Example justification
+Mary wants to conduct a significance test to see if the population mean of her experimental group is larger than 100. She wants the power of her tests to be 0.8 for a hypothetical population effect size of 0.5. This would correspond to a raw effect size of 107.5 (100+15*.5).
+
+###### Description
+The classical power analysis approach allows to calculate the required sample size in order to detect an expected effect size in the long run with a given probability and alpha assuming a given population effect size. 
+
+###### Parameters
+  __Delta:__ The hypothesized population effect size.\
+  __TPR:__ The long term probability of obtaining a significant result with a one-sided t-test if the effect exists.\
+  _Alpha:_ The level of significance. Alpha is preset to 0.05 in the application.\
+  _Maximum N:_ The maximum number of participants in the two groups. This value is preset to 200 in the application.\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_power_traditional()
+```
+
+###### How to report your sample size estimation
+We used a power analysis (alpha = .05) to estimate the sample size. We set the aimed power at 0.8, because [1) common standard in the field; 2) journal publishing requirements; 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)]. The expected delta was 0.5 based on [possible reasons include: 1) previous results published in …; 2) our reasoning that ...]. Based on these parameters, a minimal sample size of 51.
+
+##### 1.2.1.2. Power curve
+###### Example justification
+Mary wants to see if the population mean of her experimental group is larger than 100, and she aims at a power of 0.8. However, she is reluctant to commit to a single hypothetical population effect size a-priori, preferring to calculate required sample size for a range of hypothetical deltas between 0.1 and  0.9.
+
+###### Description
+The power curve method is similar to a classical power analysis but instead of calculating the appropriate sample size for one hypothesized population effect size, we run the sample size determination for a range of plausible sample sizes.
+
+###### Parameters
+  __Delta:__ A range of hypothesized population effect sizes.\
+  __TPR:__ The long term probability of obtaining a significant result with a one-sided t-test if the effect exists.\
+  _Alpha:_ The level of significance. Alpha is preset to 0.05 in the application.\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_power_curve()
+```
+
+###### How to report your sample size estimation
+In order to estimate the range of sample sizes, we used the traditional power analysis (alpha = 0.05) method. We set the aimed power at 0.8, because [1) common standard in the field; 2) journal publishing requirements; 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)]. The range of the expected effect sizes was between 0.1 and 0.9 as based on [possible reasons include: 1) previous results published in …; 2) our reasoning that ...]. Based on these parameters the estimated sample sizes for our design with the corresponding statistical power can be seen in Figure X.
+
+#### 1.2.2. Bayesian
+##### 1.2.2.1. Predetermined sample size with Bayes factor
+###### Example justification
+Mary wants to test whether the mean IQ score is larger in the experimental group than in the control group. She has a restricted sample of maximum 120 participants in each group. She would like to know which sample size she needs to have a long-term probability of .80 of obtaining a Bayes factor larger than 10 if the expected population effect size is delta = 0.5.
+
+###### Description
+The present method calculates the corresponding Bayes factor for a t-test statistic with Cauchy prior distribution centered on zero with scale parameter 1/sqrt(2) for several sample sizes. The function returns the optimal sample size needed to reach the provided power at a given Bayes factor threshold to detect an expected population effect size. In case this is not possible with the available restricted sample size our calculations return an error. If a range of possible population effect sizes are plausible under the given hypothesis, the function can calculate the optimal sample sizes for the given range of effect sizes and present the result of the calculation on a figure.
+
+###### Parameters
+  __Delta:__ The expected population effect size or a range of expected effect sizes.\
+  __TPR:__ The long run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given a certain value for effect size.\
+  __N:__ The maximum number of available participants for one group. The sample size determination function assumes that the other group has a similar sample size.\
+  _Threshold:_ Critical threshold for the Bayes factor. The threshold level in the application is preset to 10.\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_bf_thresh()
+```
+
+##### 1.2.2.2. Bayes Factor Design Analysis (BFDA)
+###### Example justification
+Mary wants to know which sample size she needs to have a long-term probability for a power of .80 of obtaining a Bayes factor larger than 10, indicating the data is at least 10 times more likely under the alternative hypothesis (the experimental group has a higher population mean than the control group) than under the null hypothesis (there is no difference between the population means of the experimental group and the control group).
+Mary wants to conduct a statistical test to see whether the mean IQ score of the experimental group’s population is larger than the control group’s population.
+
+###### Description
+The BFDA method provides a means of calculating what sample size is required for obtaining a predetermined level of evidence with a certain probability for a default Bayesian t-test. The methodology assumes calculation of a Jeffrey-Zellner-Siow Bayes factor. Our application uses the field standard of a Cauchy prior distribution centered on zero with scale parameter 1/sqrt(2). For further reading, see @schonbrodt_bayes_2018 and @schonbrodt_sequential_2017.
+
+###### Parameters
+  __Delta:__ The expected population effect size.\
+  __TPR:__ The long run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given a certain value for effect size.\
+  _Threshold:_ Critical threshold for the Bayes factor. The threshold level in the application is preset to 10.\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_bfda()
+```
+
+###### How to report your sample size estimation
+In order to estimate the sample size, we used the BFDA method. We set the aimed power to be 0.8, because [possible reasons include: 1) fieldwise standard; 2) journal publishing requirements (REF); 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)]. The expected delta was 0.5 [possible reasons include: 1) previous results published in …; 2) our reasoning that ...]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 81 was estimated in order to reach 0.80 power for our design.
+
+## 2. Estimation
+### 2.1. Frequentist
+#### 2.1.1. Accuracy In Parameter Estimation (AIPE)
+##### Example justification
+Mary would like to know which sample size she needs to have an 80% long-term probability of finding an interval with a width.
+
+##### Description
+Accuracy in parameter estimation aims to determine the sufficient sample size to obtain a confidence interval with a desired width (precision) around the expected effect size [@kelley_sample_2006]. However, the width of the calculated confidence interval will depend on the sample variance, which can be larger than the width of the desired interval for a given sample. Thus, by adjusting the tolerance one can express the desired certainty (1 - tolerance) that the obtained confidence interval will not be wider than desired. However, a smaller tolerance will lead to increased planned sample sizes.
+
+#### Parameters
+  __Precision:__ The expected width of the confidence interval.\
+  __Tolerance:__ The probability of obtaining a wider confidence interval than the desired because of sampling variance.\
+  _Alpha:_ The level of significance. Alpha is preset to 0.05 in the application.\
+  _Maximum N:_ The maximum number of participants in the two groups. This value is preset to 200 in the application.\
+
+##### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_aipe()
+```
+
+##### How to report your sample size estimation
+In order to estimate the sample size, we used the accuracy in parameter estimation (AIPE; Kelley and Rausch, 2006) method. Based on these parameters we can be 80% certain that with an estimated sample size of 51 the calculated confidence interval will be [ , ] with alpha = 0.05.
+
+#### 2.1.2. A Priori Precision (APP)
+###### Example justification
+Mary would like to know the sample size for which she will have a 95% long-term probability that the sample means in both the experimental and the control group lie within 0.2 standard deviations (3 IQ points) of the true population mean.
+
+###### Description
+APP aims to determine the sample needed to have a certain long-term probability of being within a certain range, expressed in terms of standard deviations, of the parameter [@trafimow_performing_2017]. As a result, APP is not reliant on the expected effect size.
+
+##### Parameters
+  __Closeness:__ The closeness of the sample mean to the population mean defined in standard deviation\
+  __Confidence:__ The probability of obtaining the sample mean with the desired closeness to the population mean\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_app()
+```
+
+###### How to report your sample size estimation
+In order to estimate the sample size, we used the a-priori precision [APP; @trafimow_performing_2017] method. A-priori to data collection, we wanted to be 95% confident that both sample means lie within 0.2 SD of the true population means. Based on these parameters, the resulting minimum sample size was 126 for our design.
+
+### 2.2. Bayesian
+#### 2.2.1. Region of Practical Equivalence (ROPE)
+###### Example justification
+Mary wants to conduct parameter estimation to see whether the mean IQ score of her experimental group’s population is practically equivalent to 100. Mary conducts this parameter estimation in a Bayesian framework. Mary considers a population effect size between -0.2 and under 0.2 to be 'practically equivalent'. This would correspond to the raw effect sizes between 97 (100-15*.2) and 103 (100+15*.2).
+
+###### Description
+The highest density interval region of practical equivalence technique (HDI-ROPE, often just referred to as ROPE) shares some features with the equivalence interval Bayes factor procedure. Both define an equivalence interval, construct a prior for the population effect size, and update to a posterior after the data comes in. The equivalence interval Bayes factor procedure then focuses on the posterior and prior odds under complementary hypotheses. The ROPE procedure, on the other hand, identifies the 95% highest density interval (HDI; other percentages are permissible as well) and determines whether or not the HDI is fully contained within the equivalence interval. For further reading, see @kruschke_rejecting_2018 and @kruschke_bayesian_2011.
+
+###### Parameters
+  __Delta:__ The expected population effect size.\
+  __TPR:__ The long run probability of having the HDI fully contained within the ROPE interval, given that the true effect size is within the ROPE interval.\
+  __Interval:__ The ROPE interval, comparable to SESOI in the TOST framework.\
+
+###### How to use the package
+
+```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
+SampleSizePlanner::ssp_rope()
+```
+
+###### How to report your sample size estimation
+In order to estimate the sample size, we used the Region of Practical Equivalence [@kruschke_bayesian_2018] method. We set the aimed power to be 0.80 because [possible reasons include: 1) gold standard in the field; 2) journal publishing requirements; 3) substantive reasons (i.e., happy with type II error twice as large as type I error, because of utility reasons)] The expected delta was 0 [as we expected no difference between the experimental group and the control group]. We consider all effect sizes below 0.2 equivalent to zero, because [of the results of previous studies with similar designs]. Based on these parameters, a minimal sample size of 517 was estimated in order to reach 0.80 power for our design.
+
+# Limited resources
+In an ideal world, the choice for the number of participants would be solely determined by scientific considerations, and depending on the chosen technique the collection of data would continue until either the desired sample size or a desired outcome has been reached. This assumes researchers are not limited by time (collecting data is quite demanding), money (participants or people collecting the data may be paid, and the same may hold for renting space or equipment), or availability of participants (the population may be relatively small, and/or the participation rate quite low).
+
+Science is a process in which human or practical limitations play an important part, and many of the proposed methods for sample size determination seem to ignore this. In fact, we believe that the lack of attention for sample size determination in method sections might be partly explained by the mismatch between ideal-based methods and the practical restrictions individual researchers are bounded by: if the ideal seems unfeasible anyway, using these methods might only expose the gap between what is desirable and what is achievable. In a similar vein, @cohen_earth_1994 hypothesized that confidence intervals are often not reported in published papers because they are so “embarrassingly wide”. 
+
+We expect, however, that although practical limitations may be restrictive to a certain extent, scientific considerations are still important as well. Few would try to publish a study with for example a very low power for a very large effect size: If that is all someone can afford, probably either abandoning the project or trying to team up with other researchers to increase the impact of the study would be advisable. So apart from being transparent about limitations, it seems important to also be open about scientific considerations. In some cases, sample size determination methods can account for limitations: for a classical power calculation, for example, one could adjust the level of desired power or increase the assumed effect size. This might not be ideal, but by owning the limitations of our study, we improve future readers’ understanding of the process leading up to the eventual paper, and we also answer in advance to those who think the chosen sample size was insufficient.
+
+# Notes
+## Glossary
+  _Accuracy in Parameter Estimation (AIPE)._ A sample size estimation method used for parameter estimation. The approach aims to narrow down the width of the confidence interval in order to increase the accuracy of the estimated parameter.\
+  _A Priori Procedure (APP)._ The approach aims to plan a sample size based on how close the researcher wishes the sample parameter to be to the population parameter, and how confident the researcher wants to be in this.\
+  _Bayesian inference._ The general approach indicates how one should update their prior beliefs in the light of new data. The aim is to show how much evidence the data provide for a hypothesis relative to another hypothesis.\
+  _Bayes Factor Design Analysis (BFDA)._ This technique estimates the long-term rates of misleading evidence that one can expect for a specific research design if using preset Bayes Factor thresholds.\
+  _Testing vs. Estimation._ It is a choice between statistical methods based on whether one is interested in a binary question or wishes to estimate the extent of an effect.\
+  _Equivalence bounds._ These define the region of sample sizes beyond which we find the effect interesting.\
+  _Frequentist inference._ This general approach indicates the long-term error rate of rejecting the null hypothesis for the observed or more extreme parameters in a given design when the model assumptions (e.g., independence of observations) are true.\
+  _Conventional statistical power._ It is the long-term frequency of finding a significant effect assuming a certain population effect size.\
+  _True positive rate._ The long-term probability of finding a Bayes factor equal or higher than our preset cutoff value or equal or smaller assuming a certain distribution of effect size.\
+  _Power analysis._ This method is used to estimate the minimum sample size that a design needs to reach a statistical power if the desired significance level and effect size are known.\
+  _Power-curve._ This curve shows how changes in effect size or sample size modify the statistical power of a test.
+  _Region Of Practical Equivalence (ROPE)._ It is a region of sample sizes that a Bayesian analyst can regard of negligible magnitude for practical purposes.\
+  _Smallest Effect Size Of Interest (SESOI)._ Researchers can set their SESOI, by which they designate a sample size beyond which they find an effect interesting.\
+  _Sequential testing._ In this method, decisions are made about further data collections based on the results at stopping points.\
+  _Two One‐Sided Tests (TOST)_. It is an equivalence testing approach for two one-sided t-tests.\
+
+\newpage
+
+# References
+```{r create_r-references}
+r_refs(file = "ssp_bib.bib")
+```
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
