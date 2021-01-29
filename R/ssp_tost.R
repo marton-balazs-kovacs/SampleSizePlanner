@@ -1,4 +1,4 @@
-ssp_tost <- function(opt, band, delta, sigma = 1, nr = 1, alpha = .05, report_text = FALSE) {
+ssp_tost <- function(opt, band, delta, sigma = 1, nr = 1, alpha = .05) {
   # Validation of function arguments
   assertthat::assert_that(is_positive_number(opt))
   assertthat::assert_that(is_positive_number(band))
@@ -29,11 +29,7 @@ ssp_tost <- function(opt, band, delta, sigma = 1, nr = 1, alpha = .05, report_te
     npower = sum(wcpdf * (pnorm((band - delta) / std - st) - pnorm((-band - delta) / std + st)))
   }
   
-  if (report_text) {
-    glue::glue("In order to calculate the sample size we choose the Two One-Sided Tests of Equivalence (TOST; REF) method. We choose the power to be {opt} because ... The expected delta was {delta} as ... Our bandwidht was {band} respectively. The estimated sample sizes were {n1} and {n2} with {npower} estimated power.")
-  } else {
     list(n1 = round(n1, 4),
          n2 = round(n2, 4),
          npower = round(npower, 4))
-  }
 }

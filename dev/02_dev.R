@@ -69,3 +69,4 @@ rstudioapi::navigateToFile("dev/03_deploy.R")
 
 usethis::use_pipe()
 devtools::document()
+devtools::load_all()
