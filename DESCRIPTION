@@ -22,7 +22,10 @@ Imports:
     waiter,
     assertive,
     assertthat,
-    magrittr
+    magrittr,
+    MBESS,
+    pkgload,
+    rclipboard
 RoxygenNote: 7.1.1
 Suggests: 
     testthat

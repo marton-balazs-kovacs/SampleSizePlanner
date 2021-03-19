@@ -1,0 +1,12 @@
+name: test
+title:
+username:
+account: martonbalazskovacs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3715592
+bundleId: 4318231
+url: https://martonbalazskovacs.shinyapps.io/test/
+when: 1615241158.70561
+asMultiple: FALSE
+asStatic: FALSE

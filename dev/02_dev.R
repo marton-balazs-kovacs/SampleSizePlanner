@@ -9,7 +9,6 @@
 
 golem::add_module(name = "question")
 golem::add_module(name = "article")
-golem::add_module(name = "flowchart")
 golem::add_module(name = "about")
 golem::add_module(name = "tost")
 golem::add_module(name = "menu")
@@ -22,7 +21,8 @@ golem::add_module(name = "bf_threshold")
 golem::add_module(name = "AIPE")
 golem::add_module(name = "BFDA")
 golem::add_module(name = "download")
-golem::add_module(name = "preview")
+golem::add_module(name = "justification")
+golem::add_module(name = "code")
 
 ## 2.2 Add dependencies
 
@@ -36,6 +36,8 @@ usethis::use_package("shinyjs")
 usethis::use_package("shinyBS")
 usethis::use_package("BayesFactor")
 usethis::use_package("assertthat")
+usethis::use_package("MBESS")
+usethis::use_package("rclipboard")
 
 ## 2.3 Add tests
 

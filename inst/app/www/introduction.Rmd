@@ -1,0 +1,18 @@
+---
+title: ''
+output: html_document
+---
+<center>
+### How to use the app
+
+This application provides 9 different methods to determine the sample size for a two group design. Moreover, the app provides help to create an accompanying report text for your sample size determination.
+
+The figure below shows the 9 sample size estimation methods in the app and their relations. If you would like to know more about each method you can read our [tutorials manuscript](http://corndog.io/).
+
+To get started with the sample size estimation choose a method under the __Methods__ tab.
+
+<img src="www/flowchart.jpg" width="80%"/>
+
+Please visit the [About](http://corndog.io/) tab if you would like to know more about the project or if you have any suggestions or issues with the app.
+
+</center>

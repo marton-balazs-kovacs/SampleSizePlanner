@@ -1,6 +1,6 @@
 # Module UI
   
-#' @title   mod_ssp_rope_ui and mod_ssp_rope_server
+#' @title   mod_ssp_bf_thresh_ui and mod_ssp_bf_thresh_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -8,15 +8,15 @@
 #' @param output internal
 #' @param session internal
 #'
-#' @rdname mod_ssp_rope
+#' @rdname mod_ssp_bf_thresh
 #'
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
-mod_ssp_rope_ui <- function(id){
+mod_ssp_bf_predetermined_ui <- function(id) {
   tagList(
     # Method
-    h1("ROPE (Region of Practical Equivalence)"),
+    h1("Decide Bayes factor threshold", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
@@ -24,34 +24,37 @@ mod_ssp_rope_ui <- function(id){
         # Method description
         p("valami"),
         # Calculation settings
-        ## TPR input
-        sliderInput(
-          NS(id, "tpr"),
-          "TPR",
-          min = 0.5,
-          max = 0.95,
-          value = 0.8,
-          step = 0.01),
-        sliderInput(
-          NS(id, "eq_band"),
-          "EqBand",
-          min = 0.1,
-          max = 0.5,
-          value = 0.2,
-          step = 0.01),
+        ## Delta input
         sliderInput(
           NS(id, "delta"),
           "Delta",
           min = 0,
-          max = 0.5,
-          value = 0,
-          step = 0.05),
-        # Run calculation
-        actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
-        # Show the results of the calculation
-        wellPanel(
-          class = "panel-calculate",
-          htmlOutput(NS(id, "calculate_output")))),
+          max = 2,
+          value = 0.5,
+          step = 0.1),
+        ## TPR input
+        sliderInput(
+          NS(id, "tpr"),
+          "TPR",
+          min = 0,
+          max = 1,
+          value = 0.8,
+          step = 0.1),
+        ## Maximum N input
+        numericInput(
+          NS(id, "max_n"),
+          "Maximum N",
+          min = 10,
+          max = 20000,
+          value = 5000,
+          step = 1),
+      selectInput(NS(id, "thresh"), "Threshold", choices = c(10, 6, 3), selected = 10),
+      # Run calculation
+      actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
+      # Show the results of the calculation
+      wellPanel(
+        class = "panel-calculate",
+        htmlOutput(NS(id, "calculate_output")))),
       # Output
       mainPanel(
         wellPanel(
@@ -72,62 +75,44 @@ mod_ssp_rope_ui <- function(id){
                 multiple = FALSE,
                 options = list(create = TRUE)),
               selectizeInput(
-                NS(id, "eq_band_justification"),
-                label = "Justify width",
-                choices = c(
-                  "previous studies reported a similar region of practical equivalence",
-                  "it reflects our interest",
-                  "other..."),
-                multiple = FALSE,
-                options = list(create = TRUE)),
-              selectizeInput(
                 NS(id, "delta_justification"),
                 label = "Justify Delta",
                 choices = c(
-                  "we expected no difference between the two groups",
                   "previous results published in ...",
                   "our reasoning that ...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
-            # Create justification text
-            actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
-            # Show justification text
-            mod_preview_ui(NS(id, "preview"))
-          ),
-          tabPanel(
-            "Code",
-            # Panel title
-            h3("Function call to use in R"),
-            mod_code_ui(NS(id, "code"))
+              # Create justification text
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              # Show justification text
+              mod_preview_ui(NS(id, "preview"))),
+            tabPanel(
+              "Code",
+              # Panel title
+              h3("Function call to use in R"),
+              mod_code_ui(NS(id, "code")))
+            )
           )
         )
       )
     )
-  )
-  )
 }
-
+    
 # Module Server
     
-#' @rdname mod_ssp_rope
+#' @rdname mod_ssp_bf_thresh
 #' @export
 #' @keywords internal
-mod_ssp_rope_server <- function(id){
+mod_ssp_bf_predetermined_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
-    # waitress <- waiter::Waitress$new("#rope-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    # waitress <- waiter::Waitress$new("#bf_thresh-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    
     # Calculate results
-    rope_result <- eventReactive(input$calculate, {
-      # waitress$start()
-      rope_precalculation_results %>% 
-        dplyr::filter(
-          dplyr::near(tpr, input$tpr),
-          dplyr::near(delta, input$delta),
-          dplyr::near(eq_band, input$eq_band)
-        ) %>% 
-        dplyr::select(n1, npower, error_message) %>% 
-        as.list()
+    bf_predetermined_result <- eventReactive(input$calculate, {
+      # Waitress$start()
+      ssp_bf_predetermined(tpr = input$tpr, delta = input$delta, thresh = as.integer(input$thresh), max_n = input$max_n)
       })
     
     # Show calculated results
@@ -135,8 +120,8 @@ mod_ssp_rope_server <- function(id){
       HTML(
         glue::glue(
           "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
-          n1 = rope_result()$n1,
-          npower = rope_result()$npower
+          n1 = bf_predetermined_result()$n1,
+          npower = bf_predetermined_result()$npower
         )
       )
     })
@@ -149,19 +134,17 @@ mod_ssp_rope_server <- function(id){
         shinyjs::disable("justification")
       }
     })
-    
+
     # Set output parameters
     output_parameters <- reactive({
       list(
         tpr = input$tpr,
-        eq_band = input$eq_band,
+        tpr_justification = input$tpr_justification,
         delta = input$delta,
         delta_justification = input$delta_justification,
-        eq_band_justification = input$eq_band_justification,
-        tpr_justification = input$tpr_justification,
-        n1 = rope_result()$n1,
-        npower = rope_result()$npower,
-        error_message = rope_result()$error_message
+        n1 = bf_predetermined_result()$n1,
+        npower = bf_predetermined_result()$npower,
+        thresh = as.integer(input$thresh)
       )
     })
     
@@ -170,14 +153,15 @@ mod_ssp_rope_server <- function(id){
       "preview",
       activate = reactive(input$justification),
       output_parameters = output_parameters,
-      method = "rope")
+      method = "bf_predetermined")
     
     # Set code parameters
     code_parameters <- reactive({
       list(
         tpr = input$tpr,
-        eq_band = input$eq_band,
-        delta = input$delta
+        thresh = input$thresh,
+        delta = input$delta,
+        max_n = input$max_n
       )
     })
     
@@ -185,13 +169,13 @@ mod_ssp_rope_server <- function(id){
     mod_code_server(
       "code",
       code_parameters = code_parameters,
-      method = "rope")
+      method = "bf_predetermined")
   })
 }
     
 ## To be copied in the UI
-# mod_ssp_rope_ui("rope")
+# mod_ssp_bf_predetermined_ui("bf_predetermined")
     
 ## To be copied in the server
-# mod_ssp_rope_server("rope")
+# mod_ssp_bf_predetermined_server("bf_predetermined")
  

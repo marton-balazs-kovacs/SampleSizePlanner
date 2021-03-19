@@ -4,7 +4,7 @@
 \alias{ssp_rope}
 \title{SSP ROPE}
 \usage{
-ssp_rope(opt, band, delta, report_text = FALSE)
+ssp_rope(tpr, eq_band, delta, alpha = 0.05, tol = 1e-04, granularity = 300)
 }
 \description{
 SSP ROPE

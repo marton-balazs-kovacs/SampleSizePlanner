@@ -1,29 +1,194 @@
 /* navbar row background */
 .navbar-default {
   background: none !important;
-  border: none !important;
+ /* border: none !important; */
+  border-bottom: 1px solid #9da5ff;
 }
 
 /* title */
 .navbar-default .navbar-brand {
-  color: red !important;
+  color: #6251de !important;
+}
+
+.navbar-nav {
+  float: right;
 }
 
 /* tabs on hover */
 .navbar-nav li a:hover {
-  color: #fff !important;
-  background-color: #2b8cc4 !important;
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
   background-image: none !important;
+  border-bottom: 3px solid #6251DE;
+  margin-bottom: -2px;
 }
 
 /* active tabs */
 .navbar-nav > .active > a {
-  color: red !important;
-  background-color: brown !important;
-  background-image: none !important;
+  color: #000000 !important;
+  background-color: #F4F4F4 !important;
+  background-image: none;
+  border-bottom: 3px solid #6251DE;
+  margin-bottom: -2px;
 }
 
 /* sidebarpanels */
 .well {
-  
+  background: #FFFFFF;
+  border: 1px solid #9DA5FF;
+  border-radius: 12px;
+}
+
+/* calculate output panel */
+.panel-calculate {
+  background: #6251DE;
+  border: 1px solid #6251DE;
+  color: #FFFFFF;
+  /*white-space: pre;*/
+}
+
+/* parameter info icon */
+.fa-info {
+  color: #9da5ff !important;
+  font-size: 0.8em;
+}
+
+/* sliderInput */
+.irs-line-left, .irs-line-mid, .irs-line-right {
+  background: #9da5ff !important;
+}
+
+.irs-bar {
+    border-top: 1px solid #6251DE;
+    border-bottom: 1px solid #6251DE;
+    background:#6251DE;
+}
+
+.irs-bar-edge {
+    border: 1px solid #6251DE;
+    background: #6251DE;
+}
+
+.irs-from, .irs-to, .irs-single {
+    color: #6251DE;
+    font-size: 11px;
+    line-height: 1.333;
+    text-shadow: none;
+    padding: 1px 3px;
+    background: none !important;
+    border-radius: 3px;
+    border: 1px solid #6251DE;
+}
+
+.irs-slider {
+    top: 17px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: #6251DE;
+    border-radius: 27px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 30%);
+    cursor: pointer;
+}
+
+.irs-slider:hover, .iris-slider:active {
+    border: none;
+    background: #6251DE;
+    box-shadow: 0 0 10px #6251DE;
+}
+
+.irs-max {
+  display: none;
+}
+
+.irs-min {
+  display: none;
+}
+
+.content, .container-fluid {
+  background-color: #F4F4F4;
+}
+
+body {
+  background: #F4F4F4;
+}
+
+/* action button */
+.btn-default {
+    color: 	#FFFFFF;
+    background-color: #6251DE;
+    border: none;
+}
+
+.calculate-btn {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* select input */
+.selectize-input.focus {
+  border-color: #6251DE !important;
+  box-shadow: 0 0 10px #6251DE !important;
+}
+
+/* selected menu tab */
+.dropdown-menu > .active > a {
+  background-color: #FFFFFF !important;
+  color: black !important;
+  border-bottom: 3px solid #6251DE;
+}
+
+/* title of each method panel */
+.method-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+/* subtitle */
+.subtitle {
+  margin-top: 0;
+}
+
+/* tabsetpanel tabpanel menu */
+.nav-tabs > li.active > a {
+  font-weight: bold;
+  color: black;
+  border: 0;
+  border-bottom: 3px solid #6251DE;
+}
+
+.nav-tabs > li.active > a:hover {
+  font-weight: bold;
+  color: black;
+  border: 0;
+  border-bottom: 3px solid #6251DE;
+}
+
+.nav-tabs > li.active > a:active {
+  font-weight: bold;
+  color: black;
+  border: 0;
+  border-bottom: 3px solid #6251DE;
+}
+
+.nav-tabs > li.active > a:focus {
+  font-weight: bold;
+  color: black;
+  border: 0;
+  border-bottom: 3px solid #6251DE;
+}
+
+.nav > li > a:hover {
+  background-color: white;
+  color: #6251DE;
+  font-weight: bold;
+  border: none;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #9da5ff;
+}
+
+a {
+  color: #9da5ff;
 }

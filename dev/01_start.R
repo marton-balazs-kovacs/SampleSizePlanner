@@ -38,7 +38,8 @@ usethis::use_git()
 ## 
 ## If you have data in your package
 # usethis::use_data_raw( name = "question_data", open = FALSE )
-usethis::use_data_raw(name = "rope_data", open = FALSE)
+usethis::use_data_raw(name = "rope_precalculation_results", open = FALSE)
+usethis::use_data_raw(name = "bfda_precalculation_results", open = FALSE)
 
 ## 1.4 - Init Tests
 ## 

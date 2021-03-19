@@ -5,8 +5,8 @@ app_ui <- function() {
     golem_add_external_resources(),
     navbarPage(
       title = "Sample Size Planner",
-        tabPanel("Flowchart",
-                 tags$img(src = "www/flowchart.png", width = "80%", heigth = "80%", align = "left")),
+        tabPanel("Home",
+                 includeMarkdown(app_sys("app/www/introduction.Rmd"))),
         navbarMenu("Methods",
                    tabPanel("TOST",
                             mod_ssp_tost_ui("tost")),
@@ -16,8 +16,8 @@ app_ui <- function() {
                             mod_ssp_power_curve_ui("curve")),
                    tabPanel("ROPE",
                             mod_ssp_rope_ui("rope")),
-                   tabPanel("BF threshold",
-                            mod_ssp_bf_thresh_ui("bf_thresh")),
+                   tabPanel("Predetermined sample size\nwith Bayes factor",
+                            mod_ssp_bf_predetermined_ui("bf_predetermined")),
                    tabPanel("APP",
                             mod_ssp_app_ui("app")),
                    tabPanel("Interval Equiv BF",
@@ -34,7 +34,7 @@ app_ui <- function() {
         ),
 
     # Enabling waiter JS functions
-    waiter::use_waiter(include_js = FALSE),
+    waiter::use_waiter(),
     waiter::use_waitress()
   )
 }
@@ -51,8 +51,8 @@ golem_add_external_resources <- function(){
     rclipboard::rclipboardSetup(),
     # golem::favicon(),
     shinyjs::useShinyjs(),
-    tags$script(src = "www/disable_btn.js")
+    tags$script(src = "www/disable_btn.js"),
     # Add custom css stylesheet
-    # tags$link(rel = "stylesheet", type = "text/css", href = "www/custom.css")
+    tags$link(rel = "stylesheet", type = "text/css", href = "www/custom.css")
   )
 }
