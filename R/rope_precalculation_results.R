@@ -1,0 +1,21 @@
+#' Region of Practical Equivalence method Precalculation Results
+#' 
+#' Dataset that contains precalculated sample sizes with the
+#' ROPE method. The dataset contains the input and output values of these calculations.
+#' 
+#' @section Remark:
+#'   If none of the precalculated values suit your sample size
+#'   determination plan, than feel free the calculations with the R package
+#'   by using the \code{\link{ssp_rope}} function.
+#' 
+#' @format A dataframe with 77278 rows and 7 variables:
+#' \describe{
+#'   \item{iterate}{numeric, unique id of iteration}
+#'   \item{n1}{numeric, The determined sample size per group.}
+#'   \item{npower}{numeric, The TPR associated with the resulting sample sizes.}
+#'   \item{tpr}{numeric, The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.}
+#'   \item{delta}{numeric, The expected population effect size.}
+#'   \item{eq_band}{numeric, The chosen ROPE interval.}
+#'   \item{error_message}{character, The error message in case of an error.}
+#'}
+"rope_precalculation_results"

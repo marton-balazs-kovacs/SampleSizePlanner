@@ -14,7 +14,7 @@
 #' @examples
 #' \dontrun{
 #' SampleSizePlanner::ssp_app(closeness = 0.2, confidence = 0.95)
-#' @export
+#' }
 ssp_app <- function(confidence, closeness) {
   n1 <- ceiling((qnorm((sqrt(confidence) + 1) / 2) / closeness)^2)
   list(n1 = n1)

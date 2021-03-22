@@ -1,19 +1,31 @@
-#' Calculating a power curve
+#' Determine sample size for the power curve method
 #' 
-#' lorem ipsum
+#' The power curve shows how changes in effect size modify
+#' the statistical power of a test. It is is similar to a
+#' classical power analysis but instead of calculating the
+#' appropriate sample size for one hypothesized population effect
+#' size, the method calculates the required sample size for a range
+#' of plausible population effect sizes.
 #' 
-#' @param delta Numeric. the range of hypothetical population effect sizes
-#' @param tpr Numeric. the desired long run probability of obtaining a significant result with TOST, given Delta
-#' @param animated Logical. if TRUE the output plot is animated
+#' @param delta Numeric. A range of hypothetical population effect sizes.
+#' @param tpr Numeric. The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta.
+#' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
+#' @param alpha Numeric. The level of significance. 
 #' 
-#' @return The function returns a ggplot2 object.
+#' @return The function returns a list of three named numeric vectors.
+#' The first `delta` is the range of deltas provided for the function.
+#' The second `n1` the determined sample size per group.
+#' The third `npower` is the TPR corresponding to the determined sample sizes
+#' with the given delta.
 #' @export
-ssp_power_curve <- function(delta, tpr, max_n = 5000) {
+#' \dontrun{
+#' SampleSizePlanner::ssp_power_curve(tpr = 0.8, delta = seq(0.1, 0.9, 0.01), max_n = 5000)
+#' }
+ssp_power_curve <- function(delta, tpr, max_n = 5000, alpha = 0.05) {
   n1 <- NULL
   npower <- NULL
-  # delta <- seq(delta1, delta2, 0.01)
   for (i in 1:length(delta)) {
-    res = power_optim(fun = traditional, range = c(5, max_n), delta[i], tpr = tpr)
+    res = power_optim(fun = traditional, range = c(5, max_n), delta[i], tpr = tpr, alpha = alpha)
     n1[i] = res$n1
     npower[i] = res$npower
   }

@@ -12,7 +12,7 @@
 #' @param nr Numeric. TODO
 #' @param alpha Numeric. The level of significance.
 #' 
-#' @return The function returns a list of three numeric elements. The
+#' @return The function returns a list of three named numeric vectors. The
 #'   sample size for group 1 `n1`, the sample size for group 2 `n2` and
 #'   the associated power `npower`.
 #' @export

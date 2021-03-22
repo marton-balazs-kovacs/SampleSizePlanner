@@ -15,10 +15,11 @@
 #' 
 #' @return The function returns a list of one named element. The determined
 #' sample size for group one and two called `n1`.
+#' @export
 #' @examples 
 #' \dontrun{
 #' SampleSizePlanner::ssp_aipe(delta = 0.5, width = 0.2, confidence_level = 0.8)
-#' @export
+#' }
 ssp_aipe <- function(delta, confidence_level, width, which_width = "Full", certainty = NULL, ...) {
   n1 <- MBESS::ss.aipe.smd(delta = delta, conf.level = confidence_level, width = width, which.width = which_width, certainty = certainty, ...)
   list(n1 = n1)

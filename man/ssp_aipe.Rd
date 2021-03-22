@@ -18,11 +18,13 @@ ssp_aipe(
 
 \item{width}{Numeric. The desired width of the confidence interval, given Delta.}
 
-\item{which_width}{Character. The desired width of interest. Either `Full`, `Lower` or `Upper`}
+\item{which_width}{Character. The desired width of interest. Either `Full`, `Lower` or `Upper`.}
+
+\item{...}{Other arguments to be passed to the \code{\link[MBESS]{ss.aipe.smd}} function.}
 
 \item{confidence_levell}{Numeric. The desired level of confidence.}
 
-\item{certainity}{Numeric. The desired certainty of the confidence interval width}
+\item{certainity}{Numeric. The desired certainty of the confidence interval width.}
 }
 \value{
 The function returns a list of one named element. The determined
