@@ -4,15 +4,15 @@
 \alias{ssp_bfda}
 \title{Determine sample size with Bayes Factor Design Analysis (BFDA)}
 \usage{
-ssp_bfda(delta, thresh = 10, tpr = 0.8, n_rep = 1000)
+ssp_bfda(tpr = 0.8, delta, thresh = 10, n_rep = 1000)
 }
 \arguments{
+\item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
+as high as the critical threshold favoring superiority, given Delta.}
+
 \item{delta}{Numeric. The expected population effect size.}
 
 \item{thresh}{Integer. The Bayes factor threshold for inference.}
-
-\item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
-as high as the critical threshold favoring superiority, given Delta.}
 
 \item{n_rep}{Integer. the number of simulations.}
 }

@@ -24,16 +24,6 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         # Method description
         p("The present method calculates the corresponding default Bayes factor for a t-test statistic with Cauchy prior distribution centered on zero with scale parameter 1/sqrt(2) for several sample sizes."),
         # Calculation settings
-        ## Delta input
-        sliderInput(
-          NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
-          min = 0,
-          max = 2,
-          value = 0.5,
-          step = 0.1),
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
@@ -43,6 +33,16 @@ mod_ssp_bf_predetermined_ui <- function(id) {
           min = 0,
           max = 1,
           value = 0.8,
+          step = 0.1),
+        ## Delta input
+        sliderInput(
+          NS(id, "delta"),
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          min = 0,
+          max = 2,
+          value = 0.5,
           step = 0.1),
         ## Maximum N input
         numericInput(

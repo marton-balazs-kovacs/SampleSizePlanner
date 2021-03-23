@@ -22,7 +22,7 @@ mod_ssp_eq_bf_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("A Bayesian statistical testing approach aimed at establishing equivalence between two groups."),
         # Calculation settings
         ## TPR input
         sliderInput(
@@ -140,7 +140,7 @@ mod_ssp_eq_bf_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>npower:</b> {round(npower, 1)}",
           n1 = eq_bf_result()$n1,
           npower = eq_bf_result()$npower
         )

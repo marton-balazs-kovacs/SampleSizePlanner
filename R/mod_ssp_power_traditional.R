@@ -118,7 +118,7 @@ mod_ssp_power_traditional_server <- function(id) {
     # Calculate results
     traditional_result <- eventReactive(input$calculate, {
       # waitress$start()
-      ssp_power_traditional(max_n = input$max_n, delta = input$delta, tpr = input$tpr)
+      ssp_power_traditional(tpr = input$tpr, delta = input$delta, max_n = input$max_n)
     })
     
     # Show calculated results

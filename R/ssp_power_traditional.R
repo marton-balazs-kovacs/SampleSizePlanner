@@ -18,8 +18,7 @@
 #' SampleSizePlanner::ssp_power_traditional(tpr = 0.8, delta = 0.5, max_n = 5000, alpha = 0.05)
 #' }
 ssp_power_traditional <- function(tpr, delta, max_n, alpha = 0.05) {
-  n1 <- power_optim(fun = traditional, range = c(4, max_n), delta = delta, tpr = tpr, alpha = alpha)
-  list(n1 = n1)
+  power_optim(fun = traditional, range = c(4, max_n), delta = delta, tpr = tpr, alpha = alpha)
 }
 
 traditional <- function(n1, delta, alpha = .05) {

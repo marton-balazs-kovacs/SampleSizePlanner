@@ -21,7 +21,7 @@
 #' \dontrun{
 #' SampleSizePlanner::ssp_bfda(tpr = 0.8, delta = 0.5, thresh = 10, n_rep = 1000)
 #' }
-ssp_bfda <- function(delta, thresh = 10, tpr = 0.8, n_rep = 1000) {
+ssp_bfda <- function(tpr = 0.8, delta, thresh = 10, n_rep = 1000) {
   Ns = NULL
   BFs = NULL
   for (i in 1:n_rep) {

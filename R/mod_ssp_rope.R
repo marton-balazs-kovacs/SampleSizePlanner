@@ -29,7 +29,7 @@ mod_ssp_rope_ui <- function(id){
           NS(id, "tpr"),
           list(
             "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title=""></i>')),
+            HTML('<i class="fas fa-info"; title="The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta."></i>')),
           min = 0.5,
           max = 0.95,
           value = 0.8,
@@ -38,7 +38,7 @@ mod_ssp_rope_ui <- function(id){
           NS(id, "eq_band"),
           list(
             "Equivalence Band (EqBand)",
-            HTML('<i class="fas fa-info"; title=""></i>')),
+            HTML('<i class="fas fa-info"; title="The chosen ROPE interval."></i>')),
           min = 0.1,
           max = 0.5,
           value = 0.2,
@@ -47,7 +47,7 @@ mod_ssp_rope_ui <- function(id){
           NS(id, "delta"),
           list(
             "Delta",
-            HTML('<i class="fas fa-info"; title=""></i>')),
+            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
           min = 0,
           max = 0.5,
           value = 0,

@@ -90,9 +90,11 @@ mod_ssp_power_curve_ui <- function(id) {
               actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview")),
-              plotly:: plotlyOutput(NS(id, "figure_preview")),
-              div(class = "download-btn",
-                  downloadButton(NS(id, "figure_download"), label = "Download figure"))),
+              wellPanel(
+                style = "margin-top: 15px;",
+                plotly:: plotlyOutput(NS(id, "figure_preview")),
+                div(class = "download-btn",
+                    downloadButton(NS(id, "figure_download"), label = "Download figure")))),
             tabPanel(
               "Code",
               # Panel title
@@ -140,7 +142,7 @@ mod_ssp_power_curve_server <- function(id) {
       output$calculate_output <- renderUI({
         HTML(
           glue::glue(
-            "<b>n1:</b> {n1}<br/><b>delta:</b> {delta}",
+            "<b>n1:</b> {n1} <b>delta:</b> {delta}<br/>",
             n1 = curve_result()$n1,
             delta = curve_result()$delta
           )
@@ -167,7 +169,7 @@ mod_ssp_power_curve_server <- function(id) {
       
       # Figure
       ## Create figure
-      figure <- reactive({
+      figure <- eventReactive(input$justification, {
         plot_power_curve(
           delta = curve_result()$delta,
           n1 = curve_result()$n1,
@@ -179,6 +181,15 @@ mod_ssp_power_curve_server <- function(id) {
         figure() %>% 
           plotly::ggplotly(tooltip = "text") %>% 
           plotly::config(displayModeBar = F)
+      })
+      
+      # Add downloadbutton enable logic
+      observe({
+        if (input$justification) {
+          shinyjs::enable("figure_download")
+        } else{
+          shinyjs::disable("figure_download")
+        }
       })
       
       ## Download the figure
@@ -195,7 +206,8 @@ mod_ssp_power_curve_server <- function(id) {
       code_parameters <- reactive({
         list(
           tpr = input$tpr,
-          delta = curve_result()$delta,
+          delta_min = input$delta[1],
+          delta_max = input$delta[2],
           max_n = input$max_n
         )
       })

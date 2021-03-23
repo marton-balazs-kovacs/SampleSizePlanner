@@ -16,12 +16,14 @@ show_code <- function(method, code_parameters) {
         width = code_parameters$width,
         delta = code_parameters$delta,
         confidence_level = code_parameters$confidence_level)
+    
   } else if (method == "app") {
     function_call <-
       glue::glue(
         "ssp_app(confidence = {confidence}, closeness = {closeness})",
         confidence = code_parameters$confidence,
         closeness = code_parameters$closeness)
+    
   } else if (method == "tost") {
     function_call <-
       glue::glue(
@@ -29,6 +31,7 @@ show_code <- function(method, code_parameters) {
         eq_band = code_parameters$eq_band,
         delta = code_parameters$delta,
         tpr = code_parameters$tpr)
+    
   } else if (method == "eq_bf") {
     function_call <-
       glue::glue("ssp_eq_bf(trp = {tpr}, eq_band = {eq_band}, delta = {delta}, thresh = {thresh})",
@@ -36,6 +39,7 @@ show_code <- function(method, code_parameters) {
                  thresh = code_parameters$thresh, 
                  delta = code_parameters$delta,
                  tpr = code_parameters$tpr)
+    
   } else if (method == "traditional") {
     function_call <-
       glue::glue(
@@ -43,31 +47,43 @@ show_code <- function(method, code_parameters) {
         delta = code_parameters$delta,
         tpr = code_parameters$tpr,
         max_n = code_parameters$max_n)
+    
   } else if (method == "bf_predetermined") {
     function_call <-
       glue::glue(
-        "ssp_bf_predetermined(trp = {tpr}, eq_band = {eq_band}, delta = {delta}, thresh = {thresh}, max_n = {max_n})",
-        eq_band = code_parameters$eq_band,
+        "ssp_bf_predetermined(trp = {tpr}, delta = {delta}, thresh = {thresh}, max_n = {max_n})",
         thresh = code_parameters$thresh, 
         delta = code_parameters$delta,
         tpr = code_parameters$tpr,
         max_n = code_parameters$max_n)
+    
   } else if (method == "rope") {
     function_call <-
       glue::glue(
         "ssp_rope(trp = {tpr}, eq_band = {eq_band}, delta = {delta}, alpha = .05, tol = 1e-4, granularity = 300)",
         eq_band = code_parameters$eq_band,
         delta = code_parameters$delta,
-        tpr = code_parameters$tpr
-      )
+        tpr = code_parameters$tpr)
+    
   } else if (method == "power_curve") {
     function_call <-
       glue::glue(
-        "ssp_power_curve()",
-        delta = code_parameters$delta,
+        "# Determine the sample sizes for each delta //
+        curve_data <- ssp_power_curve(tpr = {tpr}, delta = seq({delta_min}, {delta_max}, 0.01), max_n = {max_n}) //
+        # Plot the power curve //
+        SampleSizePlanner::plot_power_curve(delta = curve_data$delta, n1 = curve_data$n1, animated = FALSE)",
+        delta_min = code_parameters$delta_min,
+        delta_max = code_parameters$delta_max,
         tpr = code_parameters$tpr,
-        max_n = code_parameters$max_n
-      )
+        max_n = code_parameters$max_n)
+    
+  } else if (method == "bfda") {
+    function_call <-
+      glue::glue(
+        "SampleSizePlanner::ssp_bfda(tpr = {tpr}, delta = {delta}, thresh = {thresh}, n_rep = 10000)",
+        thresh = code_parameters$thresh, 
+        delta = code_parameters$delta,
+        tpr = code_parameters$tpr)
   }
   
   # Return output
