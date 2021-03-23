@@ -9,7 +9,23 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of SampleSizePlanner is to …
+The goal of SampleSizePlanner is to help researchers determine the
+sample size for two group designs. The present application and R package
+offers 9 different sample size planning methods. In addition, the web
+application allows users to create a justification report for their
+sample size plan.
+
+## Available sample size planning methods
+
+  - Accuracy In Parameter Estimation (AIPE)
+  - A-priori precision (APP)
+  - Predetermined sample size with Bayes factor
+  - Power curve
+  - Classical power calculation
+  - Interval Equivalence Bayes factor
+  - Region of Practical Equivalence (ROPE)
+  - Two One‐Sided Tests (TOST)
+  - Bayes Factor Design Analysis (BFDA)
 
 ## Usage
 
@@ -39,17 +55,22 @@ SampleSizePlanner::run_app()
 
 ### Using the package
 
-You can use the package after installation from R. The package can be
-used to determine the sample sizes with the nine different methods
-presented in the paper. Using the package allows users bigger freedom as
-more parameters could be set as in the app. However, the justification
-reports cannot be created with the package. Please refer to the paper if
-you would like to see example justifications for each method.
+You can use the R package to determine the sample size with any of the 9
+methods that present in the web app. However, it is not possible
+currently to generate a justification report from the R package. Please
+see the tutorial paper for example sample size justifications for each
+method.
 
-## Contribution
+## Note
+
+The tutorial paper that presents the web application and R package is
+not reviewed yet.
+
+## Code of Conduct
 
 We are open to new ideas and feature requests.
 
-Please note that the ‘SampleSizePlanner’ project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
-this project, you agree to abide by its terms.
+Please note that the SampleSizePlanner project is released with a
+[Contributor Code of
+Conduct](https://marton-balazs-kovacs.github.io/SampleSizePlanner/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

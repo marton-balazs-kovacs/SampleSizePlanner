@@ -19,37 +19,53 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of SampleSizePlanner is to ...
+The goal of SampleSizePlanner is to help researchers determine the sample size for two group designs. The present application and R package offers 9 different sample size planning methods. In addition, the web application allows users to create a justification report for their sample size plan.
 
-## Installation
+## Available sample size planning methods
+* Accuracy In Parameter Estimation (AIPE)
+* A-priori precision (APP)
+* Predetermined sample size with Bayes factor
+* Power curve
+* Classical power calculation
+* Interval Equivalence Bayes factor
+* Region of Practical Equivalence (ROPE)
+* Two One‐Sided Tests (TOST)
+* Bayes Factor Design Analysis (BFDA)
 
-You can install the released version of SampleSizePlanner from [CRAN](https://CRAN.R-project.org) with:
+## Usage
+
+SampleSizePlanner can be used either via the web app or via R.
+
+### Using the web app
+
+You can use the app at [https://martonbalazskovacs.shinyapps.io/SampleSizePlanner/](https://martonbalazskovacs.shinyapps.io/SampleSizePlanner/).
+
+You can alternatively run the app locally on your own computer by following these instructions:
+
+Install the development version (SampleSizePlanner is not available from CRAN) from [GitHub](https://github.com/) with:
 
 ``` r
-install.packages("SampleSizePlanner")
+# install.packages("devtools")
+devtools::install_github("marton-balazs-kovacs/SampleSizePlanner")
 ```
 
-## Example
+Running the app.
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(SampleSizePlanner)
-## basic example code
+``` r
+SampleSizePlanner::run_app()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+### Using the package
 
-```{r cars}
-summary(cars)
-```
+You can use the R package to determine the sample size with any of the 9 methods that present in the web app. However, it is not possible currently to generate a justification report from the R package. Please see the tutorial paper for example sample size justifications for each method.
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+## Note
 
-You can also embed plots, for example:
+The tutorial paper that presents the web application and R package is not reviewed yet.
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
+## Code of Conduct
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+We are open to new ideas and feature requests.
+
+Please note that the SampleSizePlanner project is released with a [Contributor Code of Conduct](https://marton-balazs-kovacs.github.io/SampleSizePlanner/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+

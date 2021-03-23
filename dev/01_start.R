@@ -28,7 +28,7 @@ golem::set_golem_options()
 
 usethis::use_mit_license( name = "Marton Kovacs" )  # You can set another licence here
 usethis::use_readme_rmd( open = FALSE )
-# usethis::use_code_of_conduct()
+usethis::use_code_of_conduct()
 usethis::use_lifecycle_badge( "Experimental" )
 
 usethis::use_news_md( open = FALSE )
