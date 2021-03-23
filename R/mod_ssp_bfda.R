@@ -154,7 +154,8 @@ mod_ssp_bfda_server <- function(id) {
         delta_justification = input$delta_justification,
         tpr_justification = input$tpr_justification,
         n1 = bfda_result()$n1,
-        error_message = bfda_result()$error_message
+        error_message = bfda_result()$error_message,
+        thresh = input$thresh
       )
     })
     

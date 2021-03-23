@@ -6,7 +6,6 @@ bfda_options <-
   expand.grid(
     tpr = seq(0.5, 0.95, by = 0.05),
     delta = seq(0, 2, by = 0.05),
-    eq_band = seq(0.1, 0.5, by = 0.05),
     thresh = c(3, 6, 10)
   )
 
