@@ -16,7 +16,7 @@
 mod_ssp_eq_bf_ui <- function(id) {
   tagList(
     # Method
-    h1("Interval Equiv BF"),
+    h1("Interval equivalence Bayes factor", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
@@ -27,28 +27,36 @@ mod_ssp_eq_bf_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title="The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta."></i>')),
           min = 0,
           max = 1,
           value = 0.8,
           step = 0.1),
         sliderInput(
           NS(id, "eq_band"),
-          "EqBand",
+          list(
+            "Equivalence Band (EqBand)",
+            HTML('<i class="fas fa-info"; title="The chosen width of the equivalence region."></i>')),
           min = 0,
           max = 1,
           value = 0.2,
           step = 0.1),
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
           min = 0,
           max = 2,
           value = 0,
           step = 0.1),
         selectInput(
           NS(id, "thresh"),
-          "Threshold",
+          list(
+            "Threshold",
+            HTML('<i class="fas fa-info"; title="Critical threshold for the Bayes factor."></i>')),
           choices = c(10, 6, 3),
           selected = 10),
         # Run calculation
@@ -69,7 +77,7 @@ mod_ssp_eq_bf_ui <- function(id) {
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "Justify TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
@@ -78,20 +86,18 @@ mod_ssp_eq_bf_ui <- function(id) {
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "eq_band_justification"),
-                label = "Justify EqBand",
+                label = "Equivalence Band (EqBand)",
                 choices = c(
                   "previous studies reported a similar equivalence region",
-                  "it reflects our interest",
+                  " of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "delta_justification"),
-                label = "Justify Delta",
+                label = "Delta",
                 choices = c(
-                  "we expected no difference between the two groups",
-                  "previous results published in ...",
-                  "our reasoning that ...",
+                  "we expected no difference between the groups",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),

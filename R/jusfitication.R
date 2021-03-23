@@ -6,7 +6,7 @@ justification <- function(method, output_parameters) {
       "In order to estimate the sample size, we used the accuracy in parameter estimation \\
       (AIPE; Kelley and Rausch, 2006) method. We aimed for a {confidence_level}% confidence level, \\
       because {confidence_level_justification}. The desired width was {width} because \\
-      {width_justification}. We expected an underlying population effect size of {delta}, {delta_justification}.
+      {width_justification}. We expected an underlying population effect size of {delta}, because {delta_justification}.
       Based on these parameters, a minimal sample size of {n1} per group was estimated for our design.",
       width = output_parameters$width,
       delta = output_parameters$delta,
@@ -83,8 +83,8 @@ justification <- function(method, output_parameters) {
     text <- 
       glue::glue(
         "We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We set the aimed \\
-        TPR at {tpr}, because {tpr_justification}. The expected delta was {delta} {delta_justification}. Our \\
-        evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} was estimated \\
+        TPR at {tpr}, because {tpr_justification}. The expected delta was {delta} because {delta_justification}. Our \\
+        evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} per group was estimated \\
         in order to reach a {round(npower, 1)} TPR for our design.",
         n1 = output_parameters$n1,
         npower = output_parameters$npower,
@@ -101,7 +101,7 @@ justification <- function(method, output_parameters) {
           "In order to estimate the sample size, we used the Region of Practical Equivalence (Kruschke and Liddell, 2018) \\
         method. We set the aimed TPR at {tpr}, because {tpr_justification}. We consider all effect sizes below \\
         {eq_band} equivalent to zero, because {eq_band_justification}. The expected delta was {delta} because {delta_justification}. \\
-        Based on these parameters, a minimal sample size of {n1} was estimated in order to reach a {round(npower,1)} TPR for our design.",
+        Based on these parameters, a minimal sample size of {n1} per group was estimated in order to reach a {round(npower,1)} TPR for our design.",
           n1 = output_parameters$n1,
           npower = output_parameters$npower,
           tpr = output_parameters$tpr,
@@ -119,13 +119,33 @@ justification <- function(method, output_parameters) {
     text <- 
       glue::glue(
         "We used a power analysis to estimate the sample size. We set the aimed TPR at {tpr},
-        because {tpr_justification}. Because we have no clear expectation of the magnitude of delta,
+        because {tpr_justification}. Because we {delta_justification},
         we include power calculations for delta ranging from {min(delta)} to {max(delta)}. Based on these parameters,
         minimal sample sizes for different hypothetical effect sizes to reach {tpr} TPR can be found in Figure X.",
         tpr = output_parameters$tpr,
         tpr_justification = output_parameters$tpr_justification,
-        delta = output_parameters$delta
+        delta = output_parameters$delta,
+        delta_justification = output_parameters$delta_justification
       )
+  } else if (method == "bfda") {
+    if (!is.na(output_parameters$n1)) {
+      text <- 
+        glue::glue(
+          "We used the BFDA method to estimate the sample size. We set the aimed TPR at {tpr},
+          because {tpr_justification}. The expected delta was {delta} because {delta_justification}.
+          Our evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1}
+          per group was estimated in order to reach a {tpr} TPR for our design.",
+          tpr = output_parameters$tpr,
+          tpr_justification = output_parameters$tpr_justification,
+          delta = output_parameters$delta,
+          delta_justification = output_parameters$delta_justification,
+          thresh = output_parameters$thresh,
+          n1 = output_parameters$n1,
+          )
+    } else {
+      text <- glue::glue("Error: {error_message}",
+                         error_message = output_parameters$error_message)
+    }
   }
   text
 }

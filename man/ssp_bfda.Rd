@@ -7,18 +7,30 @@
 ssp_bfda(delta, thresh = 10, tpr = 0.8, n_rep = 1000)
 }
 \arguments{
-\item{delta}{Numeric. the expected population effect size}
+\item{delta}{Numeric. The expected population effect size.}
 
-\item{thresh}{Integer. the Bayes factor threshold for inference}
+\item{thresh}{Integer. The Bayes factor threshold for inference.}
 
-\item{tpr}{Numeric. the long-run probability of obtaining a Bayes factor at least
-as high as the critical threshold favoring superiority, given Delta}
+\item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
+as high as the critical threshold favoring superiority, given Delta.}
 
-\item{n_rep}{Integer. the number of simulations}
+\item{n_rep}{Integer. the number of simulations.}
 }
 \value{
-A list of two numeric values.
+The function returns a list of four named numeric vectors.
+The first `tpr` is the range of TPRs that were provided as a parameter.
+The second `n1` is the range of determined sample sizes for the given design.
+The third `h0` is the frequency of Bayes factor providing evidence with the
+given threshold for the null hypothesis.
+The fourth `ha` is the same as `h0` but for the alternative hypothesis.
 }
 \description{
-lorem ipsum
+The present method estimates the long-run rates of misleading
+evidence that one can expect for a specific research design if
+using preset Bayes Factor thresholds and allowing for sequential testing.
+}
+\examples{
+\dontrun{
+SampleSizePlanner::ssp_bfda(tpr = 0.8, delta = 0.5, thresh = 10, n_rep = 1000)
+}
 }

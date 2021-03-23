@@ -22,12 +22,14 @@ mod_ssp_power_traditional_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("This method is used to estimate the minimum sample size that a design needs to reach a statistical power, given a  desired significance level and expected effect size."),
         # Calculation settings
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title="The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta."></i>')),
           min = 0,
           max = 1,
           value = 0.8,
@@ -35,7 +37,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Delta
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
           min = 0,
           max = 2,
           value = 0.5,
@@ -43,7 +47,13 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Maximum n
         numericInput(
           NS(id, "max_n"),
-          "Maximum N", min = 10, max = 20000, value = 5000, step = 1),
+          list(
+            "Maximum N",
+            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
+          min = 10,
+          max = 20000,
+          value = 5000,
+          step = 1),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -62,7 +72,7 @@ mod_ssp_power_traditional_ui <- function(id) {
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "Justify TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
@@ -71,7 +81,7 @@ mod_ssp_power_traditional_ui <- function(id) {
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "delta_justification"),
-                label = "Justify Delta",
+                label = "Delta",
                 choices = c(
                   "previous results published in ...",
                   "our reasoning that ...",

@@ -18,6 +18,7 @@
 #' The third `npower` is the TPR corresponding to the determined sample sizes
 #' with the given delta.
 #' @export
+#' @examples 
 #' \dontrun{
 #' SampleSizePlanner::ssp_power_curve(tpr = 0.8, delta = seq(0.1, 0.9, 0.01), max_n = 5000)
 #' }

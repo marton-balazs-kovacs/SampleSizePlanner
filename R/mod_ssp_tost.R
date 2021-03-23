@@ -28,7 +28,7 @@ mod_ssp_tost_ui <- function(id) {
         sliderInput(
           NS(id, "tpr"),
           list(
-            "TPR",
+            "True Positive Rate (TPR)",
             HTML('<i class="fas fa-info"; title="The desired long run probability of obtaining a significant result with TOST, given Delta."></i>')),
           min = 0,
           max = 1,
@@ -38,7 +38,7 @@ mod_ssp_tost_ui <- function(id) {
         sliderInput(
           NS(id, "eq_band"),
           list(
-            "EqBand",
+            "Equivalence Band (EqBand)",
             HTML('<i class="fas fa-info"; title="The chosen width of the region for practical equivalence, i.e. the SESOI."></i>')),
           min = 0,
           max = 1,
@@ -72,7 +72,7 @@ mod_ssp_tost_ui <- function(id) {
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
@@ -82,7 +82,7 @@ mod_ssp_tost_ui <- function(id) {
               # Justification for EqBand
               selectizeInput(
                 NS(id, "eq_band_justification"),
-                label = "EqBand",
+                label = "Equivalence Band (EqBand)",
                 choices = c(
                   "previous studies reported a similar SESOI ...",
                   "of the following substantive reasons: ...",

@@ -16,18 +16,20 @@
 mod_ssp_app_ui <- function(id) {
   tagList(
     # Method
-    h1("APP (a-priori precision)"),
+    h1("A-priori precision (APP)", class = "subtitle"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("The approach aims to plan a sample size based on how close the researcher wishes both sample means to be to their respective population parameter, and how confident the researcher wants to be in this."),
         # Calculation settings
         ## Closeness input
         sliderInput(
           NS(id, "closeness"),
-          "Closeness",
+          list(
+            "Closeness",
+            HTML('<i class="fas fa-info"; title="The desired closeness of the sample mean to the population mean defined in standard deviation."></i>')),
           min = 0,
           max = 1,
           value = 0.2,
@@ -35,7 +37,9 @@ mod_ssp_app_ui <- function(id) {
         ## Confidence input
         sliderInput(
           NS(id, "confidence"),
-          "Confidence",
+          list(
+            "Confidence",
+            HTML('<i class="fas fa-info"; title="The desired probability of obtaining the sample mean with the desired closeness to the population mean."></i>')),
           min = 0, 
           max = 1,
           value = 0.95, 

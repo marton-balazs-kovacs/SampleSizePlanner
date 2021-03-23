@@ -22,26 +22,32 @@ mod_ssp_power_curve_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("The power curve shows how changes in effect size modify the statistical power of a test. It is is similar to a classical power analysis but instead of calculating the appropriate sample size for one hypothesized population effect size, the method calculates the required sample size for a range of plausible population effect sizes."),
         # Calculation settings
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title="The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta."></i>')),
           min = 0,
           max = 1,
           value = 0.8,
           step = 0.1),
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title="A range of hypothetical population effect sizes."></i>')),
           min = 0,
           max = 2,
           value = c(0.1, 0.9),
           step = 0.1),
         numericInput(
           NS(id, "max_n"),
-          "Maximum N",
+          list(
+            "Maximum N",
+            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
           min = 10,
           max = 20000,
           value = 5000,
@@ -64,10 +70,19 @@ mod_ssp_power_curve_ui <- function(id) {
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "Justify TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
+                  "other..."),
+                multiple = FALSE,
+                options = list(create = TRUE)),
+              selectizeInput(
+                NS(id, "delta_justification"),
+                label = "Delta",
+                choices = c(
+                  "we have no clear expectation of the magnitude of delta",
+                  "we expected the delta to be around...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
@@ -137,6 +152,7 @@ mod_ssp_power_curve_server <- function(id) {
       output_parameters <- reactive({
         list(
           delta = input$delta,
+          delta_justification = input$delta_justification,
           tpr_justification = input$tpr_justification,
           n1 = curve_result()$n1
         )

@@ -2,10 +2,37 @@
 % Please edit documentation in R/ssp_rope.R
 \name{ssp_rope}
 \alias{ssp_rope}
-\title{SSP ROPE}
+\title{Determine sample size with Region of Practical Equivalence (ROPE) method}
 \usage{
 ssp_rope(tpr, eq_band, delta, alpha = 0.05, tol = 1e-04, granularity = 300)
 }
+\arguments{
+\item{tpr}{Numeric. The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta.}
+
+\item{eq_band}{Numeric. The chosen ROPE interval.}
+
+\item{delta}{Numeric. The expected population effect size.}
+
+\item{alpha}{Numeric. The level of significance.}
+
+\item{tol}{Numeric. TODO}
+
+\item{granularity}{Numeric. TODO}
+}
+\value{
+The function returns a list of three named numeric vectors.
+The first `delta` is the range of deltas provided for the function.
+The second `n1` the determined sample size per group.
+The third `npower` is the TPR corresponding to the determined sample sizes
+with the given delta.
+}
 \description{
-SSP ROPE
+The ROPE procedure identifies the 95% highest density interval
+(HDI; other percentages are permissible as well) and determines
+whether or not the HDI is fully contained within the equivalence interval.
+}
+\examples{
+\dontrun{
+SampleSizePlanner::ssp_bf_predetermined(tpr = 0.8, delta = 0.5, thresh = 10, max_n = 5000)
+}
 }

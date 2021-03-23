@@ -37,3 +37,8 @@ the confidence interval has a certain expected width. The
 function is a simple wrapper function around the \code{\link[MBESS]{ss.aipe.smd}}
 function.
 }
+\examples{
+\dontrun{
+SampleSizePlanner::ssp_aipe(delta = 0.5, width = 0.2, confidence_level = 0.8)
+}
+}

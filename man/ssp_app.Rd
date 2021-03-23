@@ -21,3 +21,8 @@ the researcher wishes both sample means to be to their
 respective population parameter, and how confident the researcher
 wants to be in this.
 }
+\examples{
+\dontrun{
+SampleSizePlanner::ssp_app(closeness = 0.2, confidence = 0.95)
+}
+}

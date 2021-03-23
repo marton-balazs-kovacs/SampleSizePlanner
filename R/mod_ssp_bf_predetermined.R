@@ -16,18 +16,20 @@
 mod_ssp_bf_predetermined_ui <- function(id) {
   tagList(
     # Method
-    h1("Decide Bayes factor threshold", class = "method-title"),
+    h1("Predetermined sample size with Bayes factor", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("The present method calculates the corresponding default Bayes factor for a t-test statistic with Cauchy prior distribution centered on zero with scale parameter 1/sqrt(2) for several sample sizes."),
         # Calculation settings
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
           min = 0,
           max = 2,
           value = 0.5,
@@ -35,7 +37,9 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta."></i>')),
           min = 0,
           max = 1,
           value = 0.8,
@@ -43,12 +47,20 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## Maximum N input
         numericInput(
           NS(id, "max_n"),
-          "Maximum N",
+          list(
+            "Maximum N",
+            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
           min = 10,
           max = 20000,
           value = 5000,
           step = 1),
-      selectInput(NS(id, "thresh"), "Threshold", choices = c(10, 6, 3), selected = 10),
+      selectInput(
+        NS(id, "thresh"),
+        list(
+          "Threshold",
+          HTML('<i class="fas fa-info"; title="Critical threshold for the Bayes factor."></i>')),
+        choices = c(10, 6, 3),
+        selected = 10),
       # Run calculation
       actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
       # Show the results of the calculation
@@ -67,7 +79,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "Justify TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
@@ -76,10 +88,10 @@ mod_ssp_bf_predetermined_ui <- function(id) {
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "delta_justification"),
-                label = "Justify Delta",
+                label = "Delta",
                 choices = c(
                   "previous results published in ...",
-                  "our reasoning that ...",
+                  "of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),

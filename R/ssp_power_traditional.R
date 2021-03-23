@@ -13,6 +13,7 @@
 #' The vector called `n1` contains the determined sample size per group
 #' for the given design.
 #' @export
+#' @examples 
 #' \dontrun{
 #' SampleSizePlanner::ssp_power_traditional(tpr = 0.8, delta = 0.5, max_n = 5000, alpha = 0.05)
 #' }

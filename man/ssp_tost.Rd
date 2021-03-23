@@ -20,7 +20,7 @@ ssp_tost(tpr, eq_band, delta, sigma = 1, nr = 1, alpha = 0.05)
 \item{alpha}{Numeric. The level of significance.}
 }
 \value{
-The function returns a list of three numeric elements. The
+The function returns a list of three named numeric vectors. The
   sample size for group 1 `n1`, the sample size for group 2 `n2` and
   the associated power `npower`.
 }

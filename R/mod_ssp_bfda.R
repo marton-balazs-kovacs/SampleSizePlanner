@@ -16,32 +16,38 @@
 mod_ssp_bfda_ui <- function(id) {
   tagList(
     # Method
-    h1("BFDA (Bayes Factor Design Analysis)"),
+    h1("Bayes Factor Design Analysis (BFDA)", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("The present method estimates the long-run rates of misleading evidence that one can expect for a specific research design if using preset Bayes Factor thresholds and allowing for sequential testing."),
         # Calculation settings
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           min = 0, 
           max = 2, 
           value = 0,
           step = 0.1),
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           min = 0,
           max = 1, 
           value = 0.8, 
           step = 0.1),
         selectInput(
           NS(id, "thresh"), 
-          "Threshold", 
+          list(
+            "Threshold",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           choices = 3,
           selected = 3),
         # Run calculation
@@ -61,7 +67,7 @@ mod_ssp_bfda_ui <- function(id) {
               h3("Justify your sample size"),
               # Justification for TPR
               selectizeInput(NS(id, "tpr_justification"),
-                             label = "TPR",
+                             label = "True Positive Rate (TPR)",
                              choices = c(
                                "it is the common standard in the field",
                                "it is the journal publishing requirement",
@@ -72,9 +78,8 @@ mod_ssp_bfda_ui <- function(id) {
               selectizeInput(NS(id, "delta_justification"),
                              label = "Delta",
                              choices = c(
-                               "we expected no difference between the two groups",
                                "previous results published in ...",
-                               "our reasoning that ...",
+                               "of the following substantive reasons: ...",
                                "other..."),
                              multiple = FALSE,
                              options = list(create = TRUE)),
@@ -123,7 +128,7 @@ mod_ssp_bfda_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>tpr_out:</b> {tpr_out}<br/><b>ha:</b> {ha}<br/><b>h0:</b> {h0}",
+          "<b>n1:</b> {n1}<br/><b>tpr:</b> {tpr}<br/><b>ha:</b> {ha}<br/><b>h0:</b> {h0}",
           n1 = bfda_result()$n1,
           tpr_out = bfda_result()$tpr_out,
           ha = bfda_result()$ha,

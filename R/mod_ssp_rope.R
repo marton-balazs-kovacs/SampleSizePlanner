@@ -16,32 +16,38 @@
 mod_ssp_rope_ui <- function(id){
   tagList(
     # Method
-    h1("ROPE (Region of Practical Equivalence)"),
+    h1("Region of Practical Equivalence (ROPE)", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("valami"),
+        p("The ROPE procedure identifies the 95% highest density interval (HDI; other percentages are permissible as well) and determines whether or not the HDI is fully contained within the equivalence interval."),
         # Calculation settings
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          "TPR",
+          list(
+            "True Positive Rate (TPR)",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           min = 0.5,
           max = 0.95,
           value = 0.8,
           step = 0.01),
         sliderInput(
           NS(id, "eq_band"),
-          "EqBand",
+          list(
+            "Equivalence Band (EqBand)",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           min = 0.1,
           max = 0.5,
           value = 0.2,
           step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          "Delta",
+          list(
+            "Delta",
+            HTML('<i class="fas fa-info"; title=""></i>')),
           min = 0,
           max = 0.5,
           value = 0,
@@ -64,7 +70,7 @@ mod_ssp_rope_ui <- function(id){
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
-                label = "Justify TPR",
+                label = "True Positive Rate (TPR)",
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
@@ -73,20 +79,18 @@ mod_ssp_rope_ui <- function(id){
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "eq_band_justification"),
-                label = "Justify width",
+                label = "Equivalence Band (EqBand)",
                 choices = c(
                   "previous studies reported a similar region of practical equivalence",
-                  "it reflects our interest",
+                  "of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
               selectizeInput(
                 NS(id, "delta_justification"),
-                label = "Justify Delta",
+                label = "Delta",
                 choices = c(
-                  "we expected no difference between the two groups",
-                  "previous results published in ...",
-                  "our reasoning that ...",
+                  "we expected no difference between the groups",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
