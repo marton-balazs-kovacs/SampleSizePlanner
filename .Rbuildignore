@@ -9,3 +9,4 @@ $run_dev.*
 ^app\.R$
 ^rsconnect$
 ^CODE_OF_CONDUCT\.md$
+^\.github$
