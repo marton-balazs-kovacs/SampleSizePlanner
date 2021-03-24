@@ -192,3 +192,9 @@ body {
 a {
   color: #9da5ff;
 }
+
+.form-control:focus {
+  border-color: #6251DE;
+  outline: 0;
+  box-shadow: 0 0 10px #6251DE !important;
+}
