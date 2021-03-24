@@ -10,8 +10,13 @@
   color: #6251de !important;
 }
 
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+  margin-left: 30px;
+}
+
 .navbar-nav {
   float: right;
+  margin-right: 30px;
 }
 
 /* tabs on hover */
@@ -197,4 +202,11 @@ a {
   border-color: #6251DE;
   outline: 0;
   box-shadow: 0 0 10px #6251DE !important;
+}
+
+#home-page {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 70%;
 }

@@ -3,8 +3,6 @@
 export("%>%")
 export(mod_about_server)
 export(mod_about_ui)
-export(mod_article_server)
-export(mod_article_ui)
 export(mod_ssp_aipe_server)
 export(mod_ssp_aipe_ui)
 export(mod_ssp_app_server)

@@ -11,7 +11,4 @@ app_server <- function(input, output,session) {
   mod_ssp_eq_bf_server("eq_bf")
   mod_ssp_aipe_server("aipe")
   mod_ssp_bfda_server("bfda")
-  
-  # Show the paper module
-  mod_article_server("article")
 }

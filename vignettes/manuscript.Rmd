@@ -61,7 +61,7 @@ output            : papaja::apa6_pdf
 ```{r setup, include = FALSE}
 library("papaja")
 library("formatR")
-r_refs("r-references.bib")
+#devtools::install_github("marton-balazs-kovacs/SampleSizePlanner")
 ```
 
 ```{r analysis-preferences}
@@ -110,7 +110,7 @@ TOST (Two One‐Sided Tests) is a frequentist equivalence testing approach that 
 ##### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_tost()
+#SampleSizePlanner::ssp_tost(tpr = 0.8, eq_band = 0.2, delta = 0)
 ```
 
 ##### How to report your sample size estimation
@@ -133,7 +133,7 @@ Equivalence interval Bayes factors contrast an equivalence hypothesis to a non-e
 ##### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_eq_bf()
+#SampleSizePlanner::ssp_eq_bf(tpr = 0.8, delta = 0, eq_band = 0.2, thresh = 10)
 ```
 
 ##### How to report your sample size estimation
@@ -157,7 +157,7 @@ The classical power analysis approach allows to calculate the required sample si
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_power_traditional()
+#SampleSizePlanner::ssp_power_traditional(tpr = 0.8, delta = 0.5, max_n = 5000, alpha = 0.05)
 ```
 
 ###### How to report your sample size estimation
@@ -178,7 +178,11 @@ The power curve method is similar to a classical power analysis but instead of c
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_power_curve()
+# Determine the sample sizes for each delta
+curve_data <- SampleSizePlanner::ssp_power_curve(tpr = 0.8, delta = seq(0.1, 0.9, 0.01), max_n = 5000)
+
+# Plot the power curve
+SampleSizePlanner::plot_power_curve(delta = curve_data$delta, n1 = curve_data$n1, animated = FALSE)
 ```
 
 ###### How to report your sample size estimation
@@ -201,7 +205,7 @@ The present method calculates the corresponding Bayes factor for a t-test statis
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_bf_thresh()
+#SampleSizePlanner::ssp_bf_predetermined(tpr = 0.8, delta = 0.5, thresh = 10, max_n = 5000)
 ```
 
 ##### 1.2.2.2. Bayes Factor Design Analysis (BFDA)
@@ -220,7 +224,7 @@ The BFDA method provides a means of calculating what sample size is required for
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_bfda()
+#SampleSizePlanner::ssp_bfda(tpr = 0.8, delta = 0.5, thresh = 10, n_rep = 1000)
 ```
 
 ###### How to report your sample size estimation
@@ -244,7 +248,7 @@ Accuracy in parameter estimation aims to determine the sufficient sample size to
 ##### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_aipe()
+#SampleSizePlanner::ssp_aipe(delta = 0.5, width = 0.2, confidence_level = 0.8)
 ```
 
 ##### How to report your sample size estimation
@@ -264,7 +268,7 @@ APP aims to determine the sample needed to have a certain long-term probability 
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_app()
+#SampleSizePlanner::ssp_app(closeness = 0.2, confidence = 0.95)
 ```
 
 ###### How to report your sample size estimation
@@ -286,7 +290,7 @@ The highest density interval region of practical equivalence technique (HDI-ROPE
 ###### How to use the package
 
 ```{r, eval=FALSE, tidy = TRUE, echo = TRUE}
-SampleSizePlanner::ssp_rope()
+#SampleSizePlanner::ssp_bf_predetermined(tpr = 0.8, delta = 0.5, thresh = 10, max_n = 5000)
 ```
 
 ###### How to report your sample size estimation

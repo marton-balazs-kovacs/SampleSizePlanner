@@ -6,7 +6,7 @@ app_ui <- function() {
     navbarPage(
       title = "Sample Size Planner",
         tabPanel("Home",
-                 includeMarkdown(app_sys("app/www/introduction.Rmd"))),
+                 mod_home_ui("home")),
         navbarMenu("Methods",
                    tabPanel("TOST",
                             mod_ssp_tost_ui("tost")),
@@ -27,8 +27,6 @@ app_ui <- function() {
                    tabPanel("BFDA",
                             mod_ssp_bfda_ui("bfda"))
         ),
-        tabPanel("Tutorial",
-                 mod_article_ui("article")),
         tabPanel("About",
                  mod_about_ui("about_ui_1"))
         ),

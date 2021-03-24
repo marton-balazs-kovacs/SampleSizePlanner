@@ -7,11 +7,9 @@
 
 ## 2.1 Add modules
 
-golem::add_module(name = "question")
-golem::add_module(name = "article")
 golem::add_module(name = "about")
+golem::add_module(name = "home")
 golem::add_module(name = "tost")
-golem::add_module(name = "menu")
 golem::add_module(name = "traditional_power")
 golem::add_module(name = "power_curve")
 golem::add_module(name = "apriori_precision")
@@ -38,6 +36,8 @@ usethis::use_package("BayesFactor")
 usethis::use_package("assertthat")
 usethis::use_package("MBESS")
 usethis::use_package("rclipboard")
+usethis::use_package("papaja")
+usethis::use_package("formatR")
 
 ## 2.3 Add tests
 
