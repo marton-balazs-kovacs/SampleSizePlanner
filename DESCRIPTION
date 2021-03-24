@@ -25,9 +25,7 @@ Imports:
     magrittr,
     MBESS,
     pkgload,
-    rclipboard,
-    papaja,
-    formatR
+    rclipboard
 RoxygenNote: 7.1.1
 Suggests: 
     testthat
