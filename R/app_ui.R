@@ -12,7 +12,7 @@ app_ui <- function() {
                           mod_ssp_tost_ui("tost")),
                  tabPanel("Interval Equivalence BF",
                           mod_ssp_eq_bf_ui("eq_bf")),
-                 tabPanel("Traditional power",
+                 tabPanel("Classical power",
                           mod_ssp_power_traditional_ui("traditional")),
                  tabPanel("Power curve",
                           mod_ssp_power_curve_ui("curve")),

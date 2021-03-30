@@ -20,7 +20,7 @@ mod_home_ui <- function(id){
       estimation methods in the app and their relationships. To get started with the sample size estimation
       choose a method under the <b>Methods tab</b>. Please visit the <b>About tab</b> if you would like to know more
       about the project or if you have any suggestions or issues with the app.</p>"),
-      img(src = "www/flowchart.jpg"
+      img(src = "www/flowchart_web.jpg"
           , width = "100%", style = "margin-bottom: 20px; margin-top: 20px;"
           ),
       p("*This version of the application is presented in a tutorial paper that is not reviewed.</br>
