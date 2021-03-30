@@ -22,33 +22,39 @@ mod_ssp_bfda_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("The present method estimates the long-run rates of misleading evidence that one can expect for a specific research design if using preset Bayes Factor thresholds and allowing for sequential testing."),
+        p("The present method provides an expected sample size such that compelling evidence in the form of a Bayes factor can be collected for a given effect size with a certain long-run probability when allowing for sequential testing."),
         # Calculation settings
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta."></i>')),
+          HTML(
+            '<div title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1, 
           value = 0.8, 
-          step = 0.1),
+          step = 0.05),
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          HTML(
+            '<div title="The expected population effect size.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0, 
           max = 2, 
           value = 0,
           step = 0.1),
         selectInput(
           NS(id, "thresh"), 
-          list(
-            "Threshold",
-            HTML('<i class="fas fa-info"; title="The Bayes factor threshold for inference"></i>')),
-          choices = 3,
+          HTML(
+            '<div title="The Bayes factor threshold for inference">',
+            'Threshold',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
+          choices = c(3, 6, 10),
           selected = 3),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
@@ -128,7 +134,7 @@ mod_ssp_bfda_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>tpr:</b> {tpr_out}<br/><b>ha:</b> {ha}<br/><b>h0:</b> {h0}",
+          "<b>n1:</b> {n1}<br/><b>TPR:</b> {tpr_out}<br/><b>Ha:</b> {ha}<br/><b>H0:</b> {h0}",
           n1 = bfda_result()$n1,
           tpr_out = bfda_result()$tpr_out,
           ha = bfda_result()$ha,

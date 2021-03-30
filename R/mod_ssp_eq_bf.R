@@ -27,36 +27,44 @@ mod_ssp_eq_bf_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta."></i>')),
+          HTML(
+            '<div title="The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.8,
-          step = 0.1),
+          step = 0.01),
         sliderInput(
           NS(id, "eq_band"),
-          list(
-            "Equivalence Band (EqBand)",
-            HTML('<i class="fas fa-info"; title="The chosen width of the equivalence region."></i>')),
+          HTML(
+            '<div title="The chosen width of the equivalence region.">',
+            'Equivalence Band (EqBand)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.2,
           step = 0.1),
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          HTML(
+            '<div title="The expected population effect size.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 2,
           value = 0,
           step = 0.1),
         selectInput(
           NS(id, "thresh"),
-          list(
-            "Threshold",
-            HTML('<i class="fas fa-info"; title="Critical threshold for the Bayes factor."></i>')),
+          HTML(
+            '<div title="Critical threshold for the Bayes factor.">',
+            'Threshold',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           choices = c(10, 6, 3),
           selected = 10),
         # Run calculation
@@ -140,9 +148,9 @@ mod_ssp_eq_bf_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {round(npower, 1)}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {round(npower, 1)}",
           n1 = eq_bf_result()$n1,
-          npower = eq_bf_result()$npower
+          npower = round(eq_bf_result()$npower, 2)
         )
       )
     })

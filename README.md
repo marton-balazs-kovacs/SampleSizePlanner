@@ -17,15 +17,15 @@ sample size plan.
 
 ## Available sample size planning methods
 
-  - Accuracy In Parameter Estimation (AIPE)
-  - A-priori precision (APP)
-  - Predetermined sample size with Bayes factor
-  - Power curve
-  - Classical power calculation
-  - Interval Equivalence Bayes factor
-  - Region of Practical Equivalence (ROPE)
-  - Two One‐Sided Tests (TOST)
-  - Bayes Factor Design Analysis (BFDA)
+-   Two One‐Sided Tests (TOST)
+-   Interval Equivalence Bayes factor
+-   Classical power analysis
+-   Power curve
+-   Bayes Factor Design Analysis (BFDA)
+-   Predetermined sample size with Bayes factor
+-   Accuracy In Parameter Estimation (AIPE)
+-   A-priori precision (APP)
+-   Region of Practical Equivalence (ROPE)
 
 ## Usage
 
@@ -58,13 +58,14 @@ SampleSizePlanner::run_app()
 You can use the R package to determine the sample size with any of the 9
 methods that present in the web app. However, it is not possible
 currently to generate a justification report from the R package. Please
-see the tutorial paper for example sample size justifications for each
-method.
+see the tutorial paper or the web app for example sample size
+justifications for each method.
 
 ## Note
 
 The tutorial paper that presents the web application and R package is
-not reviewed yet.
+not reviewed yet. More details are available in Kovacs, van Ravenzwaaij,
+Hoekstra & Aczel (2021).
 
 ## Code of Conduct
 

@@ -27,19 +27,23 @@ mod_ssp_tost_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
+          HTML(
+            '<div title="The desired long run probability of obtaining a significant result with TOST, given Delta.">',
             "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The desired long run probability of obtaining a significant result with TOST, given Delta."></i>')),
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.8,
-          step = 0.1),
+          step = 0.01),
         ## EqBand input
         sliderInput(
           NS(id, "eq_band"),
-          list(
-            "Equivalence Band (EqBand)",
-            HTML('<i class="fas fa-info"; title="The chosen width of the region for practical equivalence, i.e. the SESOI."></i>')),
+          HTML(
+            '<div title="The chosen width of the region for practical equivalence, i.e. the SESOI.">',
+            'Equivalence Band (EqBand)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.2,
@@ -47,9 +51,11 @@ mod_ssp_tost_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          list(
+          HTML(
+            '<div title="The expected population effect size. In most cases, this value will be zero.">',
             "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size. In most cases, this value will be zero."></i>')),
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 2, 
           value = 0, 
@@ -84,7 +90,7 @@ mod_ssp_tost_ui <- function(id) {
                 NS(id, "eq_band_justification"),
                 label = "Equivalence Band (EqBand)",
                 choices = c(
-                  "previous studies reported a similar SESOI ...",
+                  "previous studies reported a similar equivalence band ...",
                   "of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
@@ -134,9 +140,9 @@ mod_ssp_tost_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
           n1 = tost_result()$n1,
-          npower = tost_result()$npower
+          npower = round(tost_result()$npower, 2)
           )
         )
     })

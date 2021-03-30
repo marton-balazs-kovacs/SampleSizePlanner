@@ -27,9 +27,7 @@ plot_power_curve <- function(delta, n1, animated = FALSE) {
     ggplot2::scale_y_continuous(limits = c(0, 1500),
                                 labels = c("0", "500", "1000", "1500"),
                                 breaks = c(0, 500, 1000, 1500)) +
-    ggplot2::scale_x_continuous(limits = c(0, max(delta)),
-                                labels = as.character(delta),
-                                breaks = delta) +
+    ggplot2::scale_x_continuous(limits = c(0, max(delta))) +
     ggplot2::labs(x = "Delta",
                   y = "Planned sample size") +
     ggplot2::theme_classic()

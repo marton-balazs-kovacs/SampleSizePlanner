@@ -27,27 +27,33 @@ mod_ssp_power_curve_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta."></i>')),
+          HTML(
+            '<div title="The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.8,
-          step = 0.1),
+          step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="A range of hypothetical population effect sizes."></i>')),
+          HTML(
+            '<div title="A range of hypothetical population effect sizes.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 2,
           value = c(0.1, 0.9),
           step = 0.1),
         numericInput(
           NS(id, "max_n"),
-          list(
-            "Maximum N",
-            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
+          HTML(
+            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
+            'Maximum N',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 10,
           max = 20000,
           value = 5000,

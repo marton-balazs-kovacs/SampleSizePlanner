@@ -27,19 +27,23 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta."></i>')),
+          HTML(
+            '<div title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.8,
-          step = 0.1),
+          step = 0.01),
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          HTML(
+            '<div title="The expected population effect size.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 2,
           value = 0.5,
@@ -47,18 +51,22 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## Maximum N input
         numericInput(
           NS(id, "max_n"),
-          list(
-            "Maximum N",
-            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
+          HTML(
+            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
+            'Maximum N',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 10,
           max = 20000,
           value = 5000,
           step = 1),
       selectInput(
         NS(id, "thresh"),
-        list(
-          "Threshold",
-          HTML('<i class="fas fa-info"; title="Critical threshold for the Bayes factor."></i>')),
+        HTML(
+          '<div title="Critical threshold for the Bayes factor.">',
+          'Threshold',
+          '<i class="fas fa-info"></i>',
+          '</div>'),
         choices = c(10, 6, 3),
         selected = 10),
       # Run calculation
@@ -131,9 +139,9 @@ mod_ssp_bf_predetermined_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
           n1 = bf_predetermined_result()$n1,
-          npower = bf_predetermined_result()$npower
+          npower = round(bf_predetermined_result()$npower, 2)
         )
       )
     })

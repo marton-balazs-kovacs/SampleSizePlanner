@@ -27,27 +27,33 @@ mod_ssp_rope_ui <- function(id){
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta."></i>')),
+          HTML(
+            '<div title="The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0.5,
           max = 0.95,
           value = 0.8,
           step = 0.01),
         sliderInput(
           NS(id, "eq_band"),
-          list(
-            "Equivalence Band (EqBand)",
-            HTML('<i class="fas fa-info"; title="The chosen ROPE interval."></i>')),
+          HTML(
+            '<div title="The chosen ROPE interval.">',
+            'Equivalence Band (EqBand)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0.1,
           max = 0.5,
           value = 0.2,
           step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          HTML(
+            '<div title="The expected population effect size.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 0.5,
           value = 0,
@@ -138,9 +144,9 @@ mod_ssp_rope_server <- function(id){
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
           n1 = rope_result()$n1,
-          npower = rope_result()$npower
+          npower = round(rope_result()$npower, 2)
         )
       )
     })

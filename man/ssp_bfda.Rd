@@ -25,9 +25,10 @@ given threshold for the null hypothesis.
 The fourth `ha` is the same as `h0` but for the alternative hypothesis.
 }
 \description{
-The present method estimates the long-run rates of misleading
-evidence that one can expect for a specific research design if
-using preset Bayes Factor thresholds and allowing for sequential testing.
+The present method provides an expected sample size such that
+compelling evidence in the form of a Bayes factor can be collected
+for a given effect size with a certain long-run probability when
+allowing for sequential testing.
 }
 \examples{
 \dontrun{

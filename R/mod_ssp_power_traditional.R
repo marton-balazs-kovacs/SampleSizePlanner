@@ -22,24 +22,28 @@ mod_ssp_power_traditional_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("This method is used to estimate the minimum sample size that a design needs to reach a statistical power, given a  desired significance level and expected effect size."),
+        p("This method is used to estimate the minimum sample size that a design needs to reach a certain level of statistical power, given a desired significance level and expected effect size."),
         # Calculation settings
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          list(
-            "True Positive Rate (TPR)",
-            HTML('<i class="fas fa-info"; title="The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta."></i>')),
+          HTML(
+            '<div title="The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.">',
+            'True Positive Rate (TPR)',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 1,
           value = 0.8,
-          step = 0.1),
+          step = 0.01),
         ## Input Delta
         sliderInput(
           NS(id, "delta"),
-          list(
-            "Delta",
-            HTML('<i class="fas fa-info"; title="The expected population effect size."></i>')),
+          HTML(
+            '<div title="The expected population effect size.">',
+            'Delta',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 0,
           max = 2,
           value = 0.5,
@@ -47,9 +51,11 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Maximum n
         numericInput(
           NS(id, "max_n"),
-          list(
-            "Maximum N",
-            HTML('<i class="fas fa-info"; title="The maximum number of participants per group (both groups are assumed to have equal sample size)."></i>')),
+          HTML(
+            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
+            'Maximum N',
+            '<i class="fas fa-info"></i>',
+            '</div>'),
           min = 10,
           max = 20000,
           value = 5000,
@@ -125,9 +131,9 @@ mod_ssp_power_traditional_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>npower:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
           n1 = traditional_result()$n1,
-          npower = traditional_result()$npower
+          npower = round(traditional_result()$npower, 2)
         )
       )
     })
