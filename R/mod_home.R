@@ -23,9 +23,8 @@ mod_home_ui <- function(id){
       img(src = "www/flowchart_web.jpg"
           , width = "100%", style = "margin-bottom: 20px; margin-top: 20px;"
           ),
-      p("*This version of the application is presented in a tutorial paper that is not reviewed.</br>
-        Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2021) <a href='url'>link to preprint</a>",
-        style = "text-align: right;")
+      HTML("<p style='text-align: right;'>*This version of the application is presented in a tutorial paper that is not reviewed.</br>
+        Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2021) <a href='https://osf.io/preprints/metaarxiv/rm9dn/'>link to preprint</a></p>")
     )
   )
 }
