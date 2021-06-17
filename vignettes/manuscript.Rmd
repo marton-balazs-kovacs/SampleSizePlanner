@@ -54,10 +54,6 @@ figsintext        : yes
 documentclass     : "apa6"
 classoption       : "man"
 output            : papaja::apa6_pdf
-
-pkgdown:
-  as_is: true
-  extension: pdf
 ---
 
 ```{r setup, include = FALSE}
