@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - master
+      - pkgdown-papaja
 
 name: pkgdown
 
@@ -35,7 +36,12 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown", type = "binary")
+          remotes::install_github("marton-balazs-kovacs/SampleSizePlanner")
+          install.packages("tinytex")
+          tinytex::install_tinytex()
+          remotes::install_github("crsh/papaja", upgrade = FALSE)
+          install.packages("formatR")
+          install.packages("pkgdown")
         shell: Rscript {0}
 
       - name: Install package
