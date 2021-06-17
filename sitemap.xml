@@ -7,9 +7,6 @@
     <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/bfda_precalculation_results.html</loc>
   </url>
   <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_about.html</loc>
-  </url>
-  <url>
     <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_aipe.html</loc>
   </url>
   <url>
@@ -74,5 +71,8 @@
   </url>
   <url>
     <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_tost.html</loc>
+  </url>
+  <url>
+    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//articles/manuscript.html</loc>
   </url>
 </urlset>
