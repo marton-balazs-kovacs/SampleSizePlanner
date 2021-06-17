@@ -57,15 +57,15 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-if(!"tinytex" %in% rownames(installed.packages())) install.packages("tinytex")
+# if(!"tinytex" %in% rownames(installed.packages())) install.packages("tinytex")
 
-tinytex::install_tinytex()
+# tinytex::install_tinytex()
 
 # Install devtools package if necessary
-if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools")
+# if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools")
 
 # Install the stable development verions from GitHub
-devtools::install_github("crsh/papaja")
+# devtools::install_github("crsh/papaja")
 
 library("papaja")
 library("formatR")

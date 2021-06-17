@@ -35,7 +35,11 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown", type = "binary")
+          install.packages("tinytex")
+          tinytex::install_tinytex()
+          remotes::install_github("crsh/papaja", upgrade = FALSE)
+          install.packages("formatR")
+          install.packages("pkgdown")
         shell: Rscript {0}
 
       - name: Install package
