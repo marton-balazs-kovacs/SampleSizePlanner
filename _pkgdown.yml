@@ -1,4 +1,7 @@
 url: https://marton-balazs-kovacs.github.io/SampleSizePlanner/
+pkgdown:
+  as_is: true
+  extension: pdf
 reference:
 - title: Shiny App
   desc: Functions to use the shiny app
