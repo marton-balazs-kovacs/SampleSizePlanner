@@ -1,8 +1,8 @@
 url: https://marton-balazs-kovacs.github.io/SampleSizePlanner/
 
 navbar:
-  structure:
-    left:  [home, reference]
+  components:
+    articles: ~
 
 reference:
 - title: Shiny App
