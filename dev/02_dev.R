@@ -35,9 +35,15 @@ usethis::use_package("shinyBS")
 usethis::use_package("BayesFactor")
 usethis::use_package("assertthat")
 usethis::use_package("MBESS")
-usethis::use_package("rclipboard")
+usethis::use_package("clipr")
 usethis::use_package("papaja")
 usethis::use_package("formatR")
+usethis::use_package("config")
+usethis::use_package("dplyr")
+usethis::use_package("rlang")
+usethis::use_package("purrr")
+usethis::use_package("rclipboard")
+usethis::use_package("stats")
 
 ## 2.3 Add tests
 

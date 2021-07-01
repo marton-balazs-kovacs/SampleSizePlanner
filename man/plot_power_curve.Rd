@@ -7,7 +7,7 @@
 plot_power_curve(delta, n1, animated = FALSE)
 }
 \arguments{
-\item{delta}{Numeric. The range of sample size provided for the \code{\link{ssp_power_curve}} function.}
+\item{delta}{Numeric. The range of effect sizes.}
 
 \item{n1}{Numeric. The determined sample sizes for each `delta`.}
 
@@ -18,12 +18,15 @@ The function returns a `ggplot2` or a `plotly` object.
 }
 \description{
 The function plots the power curve based on the results
-of the \code{\link{ssp_power_curve}} function.
+of the \code{\link{ssp_power_curve}} function or the \code{\link{ssp_bf_predetermined}} function.
 }
 \examples{
 \dontrun{
 # Determine the sample sizes for each delta
-curve_data <- SampleSizePlanner::ssp_power_curve(tpr = 0.8, delta = seq(0.1, 0.9, 0.01), max_n = 5000)
+curve_data <- SampleSizePlanner::ssp_power_curve(
+tpr = 0.8,
+delta = seq(0.1, 0.9, 0.01),
+max_n = 5000)
 # Plot the power curve
 SampleSizePlanner::plot_power_curve(delta = curve_data$delta, n1 = curve_data$n1, animated = FALSE)
 }

@@ -28,7 +28,8 @@ the statistical power of a test. It is is similar to a
 classical power analysis but instead of calculating the
 appropriate sample size for one hypothesized population effect
 size, the method calculates the required sample size for a range
-of plausible population effect sizes.
+of plausible population effect sizes. To plot the results use the
+\code{\link{plot_power_curve}} function.
 }
 \examples{
 \dontrun{

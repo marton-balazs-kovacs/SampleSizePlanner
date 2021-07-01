@@ -7,27 +7,33 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    shiny,
-    golem,
-    processx,
-    attempt,
-    DT,
-    glue,
-    htmltools,
-    ggplot2,
-    shinyjs,
-    BayesFactor,
-    tibble,
-    plotly,
-    waiter,
-    assertive,
-    assertthat,
-    magrittr,
-    MBESS,
-    pkgload,
-    rclipboard
+    shiny (>= 1.6.0),
+    golem (>= 0.3.1),
+    processx (>= 3.5.2),
+    attempt (>= 0.3.1),
+    DT (>= 0.18),
+    glue (>= 1.4.2),
+    htmltools (>= 0.5.1.1),
+    ggplot2 (>= 3.3.4),
+    shinyjs (>= 2.0.0),
+    BayesFactor (>= 0.9.12.4.2),
+    tibble (>= 3.1.2),
+    plotly (>= 4.9.4.1),
+    waiter (>= 0.2.1),
+    assertive (>= 0.3.6),
+    assertthat (>= 0.2.1),
+    magrittr (>= 2.0.1),
+    MBESS (>= 4.8.0),
+    pkgload (>= 1.2.1),
+    config (>= 0.3.1),
+    clipr,
+    dplyr,
+    rlang,
+    purrr,
+    rclipboard,
+    stats
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat
+    testthat (>= 3.0.2)
 Depends: 
     R (>= 2.10)

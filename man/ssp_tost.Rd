@@ -4,7 +4,7 @@
 \alias{ssp_tost}
 \title{Determine sample size with Two One‐Sided Test (TOST) method}
 \usage{
-ssp_tost(tpr, eq_band, delta, sigma = 1, nr = 1, alpha = 0.05)
+ssp_tost(tpr, eq_band, delta, alpha = 0.05)
 }
 \arguments{
 \item{tpr}{Numeric. The desired long run probability of obtaining a significant result with TOST, given Delta.}
@@ -12,10 +12,6 @@ ssp_tost(tpr, eq_band, delta, sigma = 1, nr = 1, alpha = 0.05)
 \item{eq_band}{Numeric. The chosen width of the region for practical equivalence, i.e. the SESOI.}
 
 \item{delta}{Numeric. The expected population effect size. In most cases, this value will be zero.}
-
-\item{sigma}{Numeric. TODO}
-
-\item{nr}{Numeric. TODO}
 
 \item{alpha}{Numeric. The level of significance.}
 }

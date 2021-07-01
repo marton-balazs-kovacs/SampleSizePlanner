@@ -10,3 +10,6 @@ $run_dev.*
 ^rsconnect$
 ^CODE_OF_CONDUCT\.md$
 ^\.github$
+^manuscript$
+^docs$
+^_pkgdown\.yml$

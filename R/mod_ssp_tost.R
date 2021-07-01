@@ -16,7 +16,7 @@
 mod_ssp_tost_ui <- function(id) {
   tagList(
     # Method
-    h1("Two One‐Sided Tests (TOST)", class = "method-title"),
+    h1("Two One-Sided Tests (TOST)", class = "method-title"),
     sidebarLayout(
       sidebarPanel(
         # Panel title

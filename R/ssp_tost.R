@@ -8,24 +8,27 @@
 #' @param tpr Numeric. The desired long run probability of obtaining a significant result with TOST, given Delta.
 #' @param eq_band Numeric. The chosen width of the region for practical equivalence, i.e. the SESOI.
 #' @param delta Numeric. The expected population effect size. In most cases, this value will be zero.
-#' @param sigma Numeric. TODO
-#' @param nr Numeric. TODO
 #' @param alpha Numeric. The level of significance.
 #' 
 #' @return The function returns a list of three named numeric vectors. The
 #'   sample size for group 1 `n1`, the sample size for group 2 `n2` and
 #'   the associated power `npower`.
 #' @export
+#' 
+#' @importFrom stats dchisq pnorm
+#' 
 #' @examples 
 #' \dontrun{
 #' SampleSizePlanner::ssp_tost(tpr = 0.8, eq_band = 0.2, delta = 0)
 #' }
-ssp_tost <- function(tpr, eq_band, delta, sigma = 1, nr = 1, alpha = .05) {
+ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
   # Validation of function arguments
   assertthat::assert_that(is_positive_number(tpr))
   assertthat::assert_that(is_positive_number(eq_band))
   assertthat::assert_that(is_not_null(delta))
   
+  nr = 1
+  sigma = 1
   max_n = 10001
   n1 = 4
   sigsq = sigma^2
@@ -47,9 +50,9 @@ ssp_tost <- function(tpr, eq_band, delta, sigma = 1, nr = 1, alpha = .05) {
     int = cu - cl
     intl = int / numint
     cvec = cl + intl * (0:numint)
-    wcpdf = (intl / 3) * coevecc * dchisq(cvec, df)
+    wcpdf = (intl / 3) * coevecc * stats::dchisq(cvec, df)
     st = sqrt(cvec / df) * tcrit
-    npower = sum(wcpdf * (pnorm((eq_band - delta) / std - st) - pnorm((-eq_band - delta) / std + st)))
+    npower = sum(wcpdf * (stats::pnorm((eq_band - delta) / std - st) - stats::pnorm((-eq_band - delta) / std + st)))
   }
   
   if (npower == 0) {

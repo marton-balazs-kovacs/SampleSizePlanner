@@ -1,5 +1,10 @@
+#' The application server-side
+#' 
+#' @param input,output,session Internal parameters for {shiny}. 
+#'     DO NOT REMOVE.
 #' @import shiny
-app_server <- function(input, output,session) {
+#' @noRd
+app_server <- function(input, output, session) {
   
   # Methods modules
   mod_ssp_tost_server("tost")

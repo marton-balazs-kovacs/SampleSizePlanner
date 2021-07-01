@@ -11,11 +11,14 @@
 #' @return The function returns a list of one named element. The determined
 #' sample size for group one and two called `n1`.
 #' @export
+#' 
+#' @importFrom stats qnorm
+#' 
 #' @examples
 #' \dontrun{
 #' SampleSizePlanner::ssp_app(closeness = 0.2, confidence = 0.95)
 #' }
 ssp_app <- function(confidence, closeness) {
-  n1 <- ceiling((qnorm((sqrt(confidence) + 1) / 2) / closeness)^2)
+  n1 <- ceiling((stats::qnorm((sqrt(confidence) + 1) / 2) / closeness)^2)
   list(n1 = n1)
 }

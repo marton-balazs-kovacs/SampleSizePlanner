@@ -2,9 +2,30 @@
 % Please edit documentation in R/ssp_eq_bf.R
 \name{ssp_eq_bf}
 \alias{ssp_eq_bf}
+\alias{eq_bf}
 \title{Determine sample size with Equivalence interval Bayes factor method}
 \usage{
-ssp_eq_bf(tpr, eq_band, delta, thresh = 10, tol = 1e-04, granularity = 300)
+ssp_eq_bf(
+  tpr,
+  eq_band,
+  delta,
+  thresh = 10,
+  tol = 1e-04,
+  granularity = 300,
+  prior_location = 0,
+  prior_scale = 1/sqrt(2)
+)
+
+eq_bf(
+  n1,
+  eq_band,
+  delta,
+  thresh,
+  tol,
+  granularity,
+  prior_location,
+  prior_scale
+)
 }
 \arguments{
 \item{tpr}{Numeric. The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta.}
@@ -15,9 +36,13 @@ ssp_eq_bf(tpr, eq_band, delta, thresh = 10, tol = 1e-04, granularity = 300)
 
 \item{thresh}{Integer. Critical threshold for the Bayes factor.}
 
-\item{tol}{Numeric. TODO}
+\item{tol}{Numeric. Relative accuracy requested.}
 
-\item{granularity}{Numeric. TODO}
+\item{granularity}{Numeric. Relative precision of the tpr estimates, higher values mean more precision.}
+
+\item{prior_location}{Numeric. Location of the Cauchy prior distribution.}
+
+\item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
 }
 \value{
 The function returns a list of two named numeric vectors.

@@ -4,7 +4,7 @@
 \alias{ssp_bfda}
 \title{Determine sample size with Bayes Factor Design Analysis (BFDA)}
 \usage{
-ssp_bfda(tpr = 0.8, delta, thresh = 10, n_rep = 1000)
+ssp_bfda(tpr = 0.8, delta, thresh = 10, n_rep = 1000, prior_scale = 1/sqrt(2))
 }
 \arguments{
 \item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
@@ -14,7 +14,9 @@ as high as the critical threshold favoring superiority, given Delta.}
 
 \item{thresh}{Integer. The Bayes factor threshold for inference.}
 
-\item{n_rep}{Integer. the number of simulations.}
+\item{n_rep}{Integer. The number of simulations.}
+
+\item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
 }
 \value{
 The function returns a list of four named numeric vectors.

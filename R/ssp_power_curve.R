@@ -5,7 +5,8 @@
 #' classical power analysis but instead of calculating the
 #' appropriate sample size for one hypothesized population effect
 #' size, the method calculates the required sample size for a range
-#' of plausible population effect sizes.
+#' of plausible population effect sizes. To plot the results use the
+#' \code{\link{plot_power_curve}} function.
 #' 
 #' @param delta Numeric. A range of hypothetical population effect sizes.
 #' @param tpr Numeric. The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta.

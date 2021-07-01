@@ -2,9 +2,21 @@
 % Please edit documentation in R/ssp_rope.R
 \name{ssp_rope}
 \alias{ssp_rope}
+\alias{rope}
 \title{Determine sample size with Region of Practical Equivalence (ROPE) method}
 \usage{
-ssp_rope(tpr, eq_band, delta, alpha = 0.05, tol = 1e-04, granularity = 300)
+ssp_rope(
+  tpr,
+  eq_band,
+  delta,
+  alpha = 0.05,
+  tol = 1e-04,
+  granularity = 300,
+  prior_location = 0,
+  prior_scale = 1/sqrt(2)
+)
+
+rope(n1, delta, eq_band, alpha, tol, granularity, prior_location, prior_scale)
 }
 \arguments{
 \item{tpr}{Numeric. The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta.}
@@ -15,9 +27,13 @@ ssp_rope(tpr, eq_band, delta, alpha = 0.05, tol = 1e-04, granularity = 300)
 
 \item{alpha}{Numeric. The level of significance.}
 
-\item{tol}{Numeric. TODO}
+\item{tol}{Numeric. Relative accuracy requested.}
 
-\item{granularity}{Numeric. TODO}
+\item{granularity}{Numeric. Relative precision of the tpr estimates, higher values mean more precision.}
+
+\item{prior_location}{Numeric. Location of the Cauchy prior distribution.}
+
+\item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
 }
 \value{
 The function returns a list of three named numeric vectors.

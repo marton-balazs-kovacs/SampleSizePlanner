@@ -7,10 +7,10 @@
 #' function.
 #' 
 #' @param delta Numeric. The expected population effect size.
-#' @param confidence_levell Numeric. The desired level of confidence.
+#' @param confidence_level Numeric. The desired level of confidence.
 #' @param width Numeric. The desired width of the confidence interval, given Delta.
 #' @param which_width Character. The desired width of interest. Either `Full`, `Lower` or `Upper`.
-#' @param certainity Numeric. The desired certainty of the confidence interval width.
+#' @param certainty Numeric. The desired certainty of the confidence interval width.
 #' @param ... Other arguments to be passed to the \code{\link[MBESS]{ss.aipe.smd}} function.
 #' 
 #' @return The function returns a list of one named element. The determined

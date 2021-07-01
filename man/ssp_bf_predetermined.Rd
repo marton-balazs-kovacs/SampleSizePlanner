@@ -2,6 +2,7 @@
 % Please edit documentation in R/ssp_bf_predetermined.R
 \name{ssp_bf_predetermined}
 \alias{ssp_bf_predetermined}
+\alias{super_bf}
 \title{Determine sample size with Predetermined sample size with Bayes factor method}
 \usage{
 ssp_bf_predetermined(
@@ -10,8 +11,11 @@ ssp_bf_predetermined(
   thresh = 10,
   max_n = 5000,
   tol = 1e-04,
-  granularity = 300
+  granularity = 300,
+  prior_scale = 1/sqrt(2)
 )
+
+super_bf(n1, delta, thresh, tol, granularity, prior_scale)
 }
 \arguments{
 \item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.}
@@ -22,9 +26,11 @@ ssp_bf_predetermined(
 
 \item{max_n}{Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).}
 
-\item{tol}{Numeric. TODO}
+\item{tol}{Numeric. Relative accuracy requested.}
 
-\item{granularity}{Numeric. TODO}
+\item{granularity}{Numeric. Relative precision of the tpr estimates, higher values mean more precision.}
+
+\item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
 }
 \value{
 The function returns a list of three named numeric vectors.
@@ -35,8 +41,12 @@ with the given delta.
 }
 \description{
 The present method calculates the corresponding default Bayes factor for
-a t-test statistic with Cauchy prior distribution centered on zero with
-scale parameter 1/sqrt(2) for several sample sizes.
+a t-test statistic with Cauchy prior distribution for several sample sizes.
+The function returns the optimal sample size needed to reach the TPR for a given
+Bayes factor threshold to detect an expected population effect size. If a range of
+possible population effect sizes are plausible under the given hypothesis,
+the function can calculate the optimal sample sizes for the given range of
+effect sizes and present the results in a figure by using the \code{\link{plot_power_curve}} function.
 }
 \examples{
 \dontrun{
