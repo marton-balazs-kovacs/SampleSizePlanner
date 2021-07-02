@@ -27,35 +27,29 @@ mod_ssp_rope_ui <- function(id){
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta."),
           min = 0.5,
           max = 0.95,
           value = 0.8,
-          step = 0.01),
+          step = 0.05),
         sliderInput(
           NS(id, "eq_band"),
-          HTML(
-            '<div title="The chosen ROPE interval.">',
-            'Equivalence Band (EqBand)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The chosen ROPE interval."),
           min = 0.1,
           max = 0.5,
           value = 0.2,
           step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
-          max = 0.5,
+          max = 2,
           value = 0,
           step = 0.05),
         # Run calculation

@@ -28,11 +28,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Confidence level input
         sliderInput(
           NS(id, "confidence_level"),
-          HTML(
-            '<div title="The desired level of confidence.">',
-            'Confidence Level',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Confidence Level",
+            "The desired level of confidence."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -40,11 +38,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0.5,
@@ -52,11 +48,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Width input
         sliderInput(
           NS(id, "width"),
-          HTML(
-            '<div title="The desired width of the confidence interval, given Delta.">',
-            'Width',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Width",
+            "The desired width of the confidence interval, given Delta."),
           min = 0,
           max = 1,
           value = 0.2,

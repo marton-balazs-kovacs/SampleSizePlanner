@@ -27,11 +27,9 @@ mod_ssp_app_ui <- function(id) {
         ## Closeness input
         sliderInput(
           NS(id, "closeness"),
-          HTML(
-            '<div title="The desired closeness of the sample mean to the population mean defined in standard deviation.">',
-            'Closeness',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Closeness",
+            "The desired closeness of the sample mean to the population mean defined in standard deviation."),
           min = 0,
           max = 1,
           value = 0.2,
@@ -39,11 +37,9 @@ mod_ssp_app_ui <- function(id) {
         ## Confidence input
         sliderInput(
           NS(id, "confidence"),
-          HTML(
-            '<div title="The desired probability of obtaining the sample mean with the desired closeness to the population mean.">',
-            'Confidence',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Confidence",
+            "The desired probability of obtaining the sample mean with the desired closeness to the population mean."),
           min = 0, 
           max = 1,
           value = 0.95, 

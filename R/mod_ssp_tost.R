@@ -27,11 +27,9 @@ mod_ssp_tost_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long run probability of obtaining a significant result with TOST, given Delta.">',
+          name_with_info(
             "True Positive Rate (TPR)",
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+            "The desired long run probability of obtaining a significant result with TOST, given Delta."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,11 +37,9 @@ mod_ssp_tost_ui <- function(id) {
         ## EqBand input
         sliderInput(
           NS(id, "eq_band"),
-          HTML(
-            '<div title="The chosen width of the region for practical equivalence, i.e. the SESOI.">',
-            'Equivalence Band (EqBand)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The chosen width of the region for practical equivalence, i.e. the SESOI."),
           min = 0,
           max = 1,
           value = 0.2,
@@ -51,11 +47,9 @@ mod_ssp_tost_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size. In most cases, this value will be zero.">',
+          name_with_info(
             "Delta",
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+            "The expected population effect size. In most cases, this value will be zero."),
           min = 0,
           max = 2, 
           value = 0, 

@@ -26,34 +26,28 @@ mod_ssp_bfda_ui <- function(id) {
         # Calculation settings
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
-          min = 0,
-          max = 1, 
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta."),
+          min = 0.5,
+          max = 0.95, 
           value = 0.8, 
           step = 0.05),
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0, 
           max = 2, 
           value = 0,
-          step = 0.1),
+          step = 0.05),
         selectInput(
           NS(id, "thresh"), 
-          HTML(
-            '<div title="The Bayes factor threshold for inference">',
-            'Threshold',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Threshold",
+            "The Bayes factor threshold for inference"),
           choices = c(3, 6, 10),
           selected = 3),
         # Run calculation

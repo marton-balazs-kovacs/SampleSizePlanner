@@ -27,44 +27,43 @@ mod_ssp_eq_bf_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
-          min = 0,
-          max = 1,
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta."),
+          min = 0.5,
+          max = 0.95,
           value = 0.8,
-          step = 0.01),
+          step = 0.05),
         sliderInput(
           NS(id, "eq_band"),
-          HTML(
-            '<div title="The chosen width of the equivalence region.">',
-            'Equivalence Band (EqBand)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
-          min = 0,
-          max = 1,
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The chosen width of the equivalence region."),
+          min = 0.1,
+          max = 0.5,
           value = 0.2,
-          step = 0.1),
+          step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0,
-          step = 0.1),
+          step = 0.05),
         selectInput(
           NS(id, "thresh"),
-          HTML(
-            '<div title="Critical threshold for the Bayes factor.">',
-            'Threshold',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Threshold",
+            "Critical threshold for the Bayes factor."),
+          choices = c(10, 6, 3),
+          selected = 10),
+        selectInput(
+          NS(id, "prior_scale"),
+          name_with_info(
+            "Prior Scale",
+            "Scale of the Cauchy prior distribution."),
           choices = c(10, 6, 3),
           selected = 10),
         # Run calculation

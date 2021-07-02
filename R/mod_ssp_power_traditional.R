@@ -27,11 +27,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,11 +37,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Delta
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0.5,
@@ -51,11 +47,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Maximum n
         numericInput(
           NS(id, "max_n"),
-          HTML(
-            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
-            'Maximum N',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Maximum N",
+            "The maximum number of participants per group (both groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
           value = 5000,
