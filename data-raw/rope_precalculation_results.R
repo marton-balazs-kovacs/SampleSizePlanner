@@ -4,12 +4,13 @@ library(tidyverse)
 # Create datatable storing possible ROPE options
 rope_options <- 
   expand.grid(
-    power = seq(0.5, 0.95, by = 0.01),
+    tpr = seq(0.5, 0.95, by = 0.05),
     delta = seq(0, 2, by = 0.05),
-    band = seq(0.1, 0.5, by = 0.01)
+    eq_band = seq(0.1, 0.5, by = 0.01),
+    prior_scale = c(1 / sqrt(2), 1, sqrt(2))
   )
 
-rope_options <- rope_options[order(rope_options[, 1], rope_options[, 2]), ]
+# rope_options <- rope_options[order(rope_options[, 1], rope_options[, 2]), ]
 
 rope_options$iterate <- 1:nrow(rope_options)
 
