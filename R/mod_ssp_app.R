@@ -59,6 +59,7 @@ mod_ssp_app_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Create justification text
               actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
               # Show justification text

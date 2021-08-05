@@ -29,7 +29,7 @@ mod_ssp_eq_bf_ui <- function(id) {
           NS(id, "tpr"),
           name_with_info(
             "True Positive Rate (TPR)",
-            "The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta."),
+            'The desired long-run probability of obtaining a Bayes factor at least as high as the Threshold, given Delta.'),
           min = 0.5,
           max = 0.95,
           value = 0.8,
@@ -64,8 +64,8 @@ mod_ssp_eq_bf_ui <- function(id) {
           name_with_info(
             "Prior Scale",
             "Scale of the Cauchy prior distribution."),
-          choices = c(10, 6, 3),
-          selected = 10),
+          choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+          selected = "1/sqrt(2)"),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -81,6 +81,7 @@ mod_ssp_eq_bf_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -95,7 +96,7 @@ mod_ssp_eq_bf_ui <- function(id) {
                 NS(id, "eq_band_justification"),
                 label = "Equivalence Band (EqBand)",
                 choices = c(
-                  "previous studies reported a similar equivalence region",
+                  "previous studies reported the choice of a similar equivalence region",
                   " of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
@@ -139,8 +140,14 @@ mod_ssp_eq_bf_server <- function(id) {
     
     # Calculate results
     eq_bf_result <- eventReactive(input$calculate, {
+      prior_scale <- switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
       # waitress$start()
-      ssp_eq_bf(tpr = input$tpr, eq_band = input$eq_band, delta = input$delta, thresh = as.integer(input$thresh))
+      ssp_eq_bf(tpr = input$tpr, eq_band = input$eq_band, delta = input$delta, thresh = as.integer(input$thresh), prior_scale = prior_scale())
     })
     
     # Show calculated results
@@ -174,7 +181,8 @@ mod_ssp_eq_bf_server <- function(id) {
         tpr_justification = input$tpr_justification,
         n1 = eq_bf_result()$n1,
         npower = eq_bf_result()$npower,
-        thresh = input$thresh
+        thresh = input$thresh,
+        prior_scale = input$prior_scale
       )
     })
     
@@ -191,7 +199,8 @@ mod_ssp_eq_bf_server <- function(id) {
         tpr = input$tpr,
         eq_band = input$eq_band,
         delta = input$delta,
-        thresh = input$thresh
+        thresh = input$thresh,
+        prior_scale = input$prior_scale
       )
     })
     

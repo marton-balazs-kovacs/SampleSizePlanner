@@ -21,10 +21,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' SampleSizePlanner::ssp_bf_predetermined(tpr = 0.8, delta = 0.5, thresh = 10, max_n = 5000)
+#' SampleSizePlanner::ssp_rope(tpr = 0.8, eq_band = 0.2, delta = 0, thresh = 10, prior_scale = 1/sqrt(2))
 #' }
 ssp_rope <- function(tpr, eq_band, delta, alpha = .05, tol = 1e-4, granularity = 300, prior_location = 0, prior_scale = 1/sqrt(2)) {
-  est <- ssp_tost(tpr = tpr, eq_band = eq_band, delta = delta) %>% purrr::pluck("n1")
+  est <- ssp_tost(tpr = tpr, eq_band = eq_band, delta = delta, alpha = alpha) %>% purrr::pluck("n1")
   result <- power_optim(
     fun = rope,
     range = round(est * c(0.5, 1.5)),

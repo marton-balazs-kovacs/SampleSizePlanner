@@ -61,6 +61,13 @@ mod_ssp_bf_predetermined_ui <- function(id) {
           "Critical threshold for the Bayes factor."),
         choices = c(10, 6, 3),
         selected = 10),
+      selectInput(
+        NS(id, "prior_scale"),
+        name_with_info(
+          "Prior Scale",
+          "Scale of the Cauchy prior distribution."),
+        choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+        selected = "1/sqrt(2)"),
       # Run calculation
       actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
       # Show the results of the calculation
@@ -76,6 +83,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -124,7 +132,19 @@ mod_ssp_bf_predetermined_server <- function(id) {
     # Calculate results
     bf_predetermined_result <- eventReactive(input$calculate, {
       # Waitress$start()
-      ssp_bf_predetermined(tpr = input$tpr, delta = input$delta, thresh = as.integer(input$thresh), max_n = input$max_n)
+      prior_scale <- switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
+      
+      ssp_bf_predetermined(
+        tpr = input$tpr,
+        delta = input$delta,
+        thresh = as.integer(input$thresh),
+        max_n = input$max_n,
+        prior_scale = prior_scale)
       })
     
     # Show calculated results
@@ -156,7 +176,8 @@ mod_ssp_bf_predetermined_server <- function(id) {
         delta_justification = input$delta_justification,
         n1 = bf_predetermined_result()$n1,
         npower = bf_predetermined_result()$npower,
-        thresh = as.integer(input$thresh)
+        thresh = as.integer(input$thresh),
+        prior_scale = input$prior_scale
       )
     })
     
@@ -173,7 +194,8 @@ mod_ssp_bf_predetermined_server <- function(id) {
         tpr = input$tpr,
         thresh = input$thresh,
         delta = input$delta,
-        max_n = input$max_n
+        max_n = input$max_n,
+        prior_scale = input$prior_scale
       )
     })
     

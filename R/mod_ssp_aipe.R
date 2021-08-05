@@ -70,6 +70,7 @@ mod_ssp_aipe_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for confidence level
               selectizeInput(
                 NS(id, "confidence_level_justification"),

@@ -11,6 +11,7 @@
 #'   as high as the critical threshold favoring superiority, given Delta.
 #' @param n_rep Integer. The number of simulations.
 #' @param prior_scale Numeric. Scale of the Cauchy prior distribution.
+#' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' 
 #' @return The function returns a list of four named numeric vectors.
 #' The first `tpr` is the range of TPRs that were provided as a parameter.
@@ -23,7 +24,7 @@
 #' \dontrun{
 #' SampleSizePlanner::ssp_bfda(tpr = 0.8, delta = 0.5, thresh = 10, n_rep = 1000)
 #' }
-ssp_bfda <- function(tpr = 0.8, delta, thresh = 10, n_rep = 1000, prior_scale = 1 / sqrt(2)) {
+ssp_bfda <- function(tpr = 0.8, delta, thresh = 10, n_rep = 1000, prior_scale = 1 / sqrt(2), max_n = 1500) {
   Ns = NULL
   BFs = NULL
   for (i in 1:n_rep) {
@@ -38,7 +39,7 @@ ssp_bfda <- function(tpr = 0.8, delta, thresh = 10, n_rep = 1000, prior_scale = 
       nullInterval = c(0, Inf),
       simple = T)
     
-    while (BF > (1 / thresh) & BF < thresh & n < 1500) {
+    while (BF > (1 / thresh) & BF < thresh & n < max_n) {
       n = n + 1
       Plac = c(Plac, stats::rnorm(1, 0, 1))
       Treat = c(Treat, stats::rnorm(1, delta, 1))

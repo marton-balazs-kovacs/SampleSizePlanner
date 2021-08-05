@@ -11,6 +11,7 @@
 #' @param granularity Numeric. Relative precision of the tpr estimates, higher values mean more precision.
 #' @param prior_location Numeric. Location of the Cauchy prior distribution.
 #' @param prior_scale Numeric. Scale of the Cauchy prior distribution.
+#' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' 
 #' @return The function returns a list of two named numeric vectors.
 #' The first `n1`  the determined sample size per group.
@@ -20,8 +21,8 @@
 #' \dontrun{
 #' SampleSizePlanner::ssp_eq_bf(tpr = 0.8, delta = 0, eq_band = 0.2, thresh = 10)
 #' }
-ssp_eq_bf <- function(tpr, eq_band, delta, thresh = 10, tol = 1e-4, granularity = 300, prior_location = 0, prior_scale = 1/sqrt(2)) {
-  est <- ssp_tost(tpr = tpr, eq_band = eq_band, delta = delta) %>% purrr::pluck("n1")
+ssp_eq_bf <- function(tpr, eq_band, delta, thresh = 10, tol = 1e-4, granularity = 300, prior_location = 0, prior_scale = 1/sqrt(2), max_n = 10001) {
+  est <- ssp_tost(tpr = tpr, eq_band = eq_band, delta = delta, max_n = max_n) %>% purrr::pluck("n1")
   result <- power_optim(
     fun = eq_bf,
     range = c(10, est),
@@ -54,7 +55,7 @@ eq_bf <- function(n1, eq_band, delta, thresh, tol, granularity, prior_location, 
     prior_dens = stats::pcauchy(eq_band, location = prior_location, scale = prior_scale) - stats::pcauchy(-eq_band, location = prior_location, scale = prior_scale)
     bf = (post_dens / prior_dens) / ((1 - post_dens) / (1 - prior_dens))
     }
-  if (i==granularity) {
+  if (i == granularity) {
     npower = 0
     } else {
       bf = 1

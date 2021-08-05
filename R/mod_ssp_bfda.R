@@ -22,7 +22,7 @@ mod_ssp_bfda_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("The present method provides an expected sample size such that compelling evidence in the form of a Bayes factor can be collected for a given effect size with a certain long-run probability when allowing for sequential testing."),
+        p("The present method provides an expected sample size such that compelling evidence in the form of a Bayes factor can be collected for a given effect size with a certain long-run probability when allowing for sequential testing. Set delta = 0 to determine the sample size for H0 and delta > 0 for H1."),
         # Calculation settings
         sliderInput(
           NS(id, "tpr"),
@@ -50,6 +50,13 @@ mod_ssp_bfda_ui <- function(id) {
             "The Bayes factor threshold for inference"),
           choices = c(3, 6, 10),
           selected = 3),
+        selectInput(
+          NS(id, "prior_scale"),
+          name_with_info(
+            "Prior Scale",
+            "Scale of the Cauchy prior distribution."),
+          choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+          selected = "1/sqrt(2)"),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -65,6 +72,7 @@ mod_ssp_bfda_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(NS(id, "tpr_justification"),
                              label = "True Positive Rate (TPR)",
@@ -114,11 +122,19 @@ mod_ssp_bfda_server <- function(id) {
     # Calculate results
     bfda_result <- eventReactive(input$calculate, {
       # waitress$start()
+      prior_scale <- switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
+      
       bfda_precalculation_results %>% 
         dplyr::filter(
           dplyr::near(tpr, input$tpr),
           dplyr::near(delta, input$delta),
-          thresh == as.integer(input$thresh)
+          thresh == as.integer(input$thresh),
+          prior_scale == prior_scale
         ) %>% 
         dplyr::select(n1, tpr_out, h0, ha, error_message) %>% 
         as.list()
@@ -155,7 +171,8 @@ mod_ssp_bfda_server <- function(id) {
         tpr_justification = input$tpr_justification,
         n1 = bfda_result()$n1,
         error_message = bfda_result()$error_message,
-        thresh = input$thresh
+        thresh = input$thresh,
+        prior_scale = input$prior_scale
       )
     })
     
@@ -171,7 +188,8 @@ mod_ssp_bfda_server <- function(id) {
       list(
         tpr = input$tpr,
         delta = input$delta,
-        thresh = input$thresh
+        thresh = input$thresh,
+        prior_scale = input$prior_scale
       )
     })
     

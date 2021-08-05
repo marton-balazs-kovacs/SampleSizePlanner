@@ -52,6 +52,13 @@ mod_ssp_rope_ui <- function(id){
           max = 2,
           value = 0,
           step = 0.05),
+        selectInput(
+          NS(id, "prior_scale"),
+          name_with_info(
+            "Prior Scale",
+            "Scale of the Cauchy prior distribution."),
+          choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+          selected = "1/sqrt(2)"),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -67,6 +74,7 @@ mod_ssp_rope_ui <- function(id){
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -124,11 +132,19 @@ mod_ssp_rope_server <- function(id){
     # Calculate results
     rope_result <- eventReactive(input$calculate, {
       # waitress$start()
+      prior_scale <- switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
+      
       rope_precalculation_results %>% 
         dplyr::filter(
           dplyr::near(tpr, input$tpr),
           dplyr::near(delta, input$delta),
-          dplyr::near(eq_band, input$eq_band)
+          dplyr::near(eq_band, input$eq_band),
+          prior_scale == prior_scale
         ) %>% 
         dplyr::select(n1, npower, error_message) %>% 
         as.list()
@@ -165,7 +181,8 @@ mod_ssp_rope_server <- function(id){
         tpr_justification = input$tpr_justification,
         n1 = rope_result()$n1,
         npower = rope_result()$npower,
-        error_message = rope_result()$error_message
+        error_message = rope_result()$error_message,
+        prior_scale = input$prior_scale
       )
     })
     
@@ -181,7 +198,8 @@ mod_ssp_rope_server <- function(id){
       list(
         tpr = input$tpr,
         eq_band = input$eq_band,
-        delta = input$delta
+        delta = input$delta,
+        prior_scale = input$prior_scale
       )
     })
     

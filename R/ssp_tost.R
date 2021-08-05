@@ -9,6 +9,7 @@
 #' @param eq_band Numeric. The chosen width of the region for practical equivalence, i.e. the SESOI.
 #' @param delta Numeric. The expected population effect size. In most cases, this value will be zero.
 #' @param alpha Numeric. The level of significance.
+#' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' 
 #' @return The function returns a list of three named numeric vectors. The
 #'   sample size for group 1 `n1`, the sample size for group 2 `n2` and
@@ -21,7 +22,7 @@
 #' \dontrun{
 #' SampleSizePlanner::ssp_tost(tpr = 0.8, eq_band = 0.2, delta = 0)
 #' }
-ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
+ssp_tost <- function(tpr, eq_band, delta, alpha = .05, max_n = 10001) {
   # Validation of function arguments
   assertthat::assert_that(is_positive_number(tpr))
   assertthat::assert_that(is_positive_number(eq_band))
@@ -29,7 +30,6 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
   
   nr = 1
   sigma = 1
-  max_n = 10001
   n1 = 4
   sigsq = sigma^2
   numint = 1000
@@ -56,7 +56,7 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
   }
   
   if (npower == 0) {
-    stop("Your chosen power level cannot be achieved for n < 10001!")
+    stop(paste0("Your chosen power level cannot be achieved for n < ", max_n, "!"))
   } else {
     return(
       list(n1 = round(n1, 4),
