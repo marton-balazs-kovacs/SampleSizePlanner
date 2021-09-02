@@ -45,7 +45,8 @@ the statistical power of a test. It is is similar to a
 classical power analysis but instead of calculating the
 appropriate sample size for one hypothesized population effect
 size, the method calculates the required sample size for a range
-of plausible population effect sizes." />
+of plausible population effect sizes. To plot the results use the
+plot_power_curve function." />
 
 
 
@@ -119,7 +120,8 @@ the statistical power of a test. It is is similar to a
 classical power analysis but instead of calculating the
 appropriate sample size for one hypothesized population effect
 size, the method calculates the required sample size for a range
-of plausible population effect sizes.</p>
+of plausible population effect sizes. To plot the results use the
+<code><a href='plot_power_curve.html'>plot_power_curve</a></code> function.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ssp_power_curve</span><span class='op'>(</span><span class='va'>delta</span>, <span class='va'>tpr</span>, max_n <span class='op'>=</span> <span class='fl'>5000</span>, alpha <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></pre>
@@ -150,7 +152,7 @@ of plausible population effect sizes.</p>
     <p>The function returns a list of three named numeric vectors.
 The first `delta` is the range of deltas provided for the function.
 The second `n1` the determined sample size per group.
-The third `npower` is the TPR corresponding to the determined sample sizes
+The third `tpr_out` is the TPR corresponding to the determined sample sizes
 with the given delta.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

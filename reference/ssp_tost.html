@@ -118,7 +118,7 @@ TOST is a frequentist statistical testing approach aimed
 at establishing equivalence between two groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ssp_tost</span><span class='op'>(</span><span class='va'>tpr</span>, <span class='va'>eq_band</span>, <span class='va'>delta</span>, sigma <span class='op'>=</span> <span class='fl'>1</span>, nr <span class='op'>=</span> <span class='fl'>1</span>, alpha <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ssp_tost</span><span class='op'>(</span><span class='va'>tpr</span>, <span class='va'>eq_band</span>, <span class='va'>delta</span>, alpha <span class='op'>=</span> <span class='fl'>0.05</span>, max_n <span class='op'>=</span> <span class='fl'>10001</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,16 +136,12 @@ at establishing equivalence between two groups.</p>
       <td><p>Numeric. The expected population effect size. In most cases, this value will be zero.</p></td>
     </tr>
     <tr>
-      <th>sigma</th>
-      <td><p>Numeric. TODO</p></td>
-    </tr>
-    <tr>
-      <th>nr</th>
-      <td><p>Numeric. TODO</p></td>
-    </tr>
-    <tr>
       <th>alpha</th>
       <td><p>Numeric. The level of significance.</p></td>
+    </tr>
+    <tr>
+      <th>max_n</th>
+      <td><p>Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).</p></td>
     </tr>
     </table>
 
@@ -153,7 +149,7 @@ at establishing equivalence between two groups.</p>
 
     <p>The function returns a list of three named numeric vectors. The
   sample size for group 1 `n1`, the sample size for group 2 `n2` and
-  the associated power `npower`.</p>
+  the associated power `tpr_out`.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

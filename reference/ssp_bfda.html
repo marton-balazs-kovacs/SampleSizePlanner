@@ -118,7 +118,14 @@ for a given effect size with a certain long-run probability when
 allowing for sequential testing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ssp_bfda</span><span class='op'>(</span>tpr <span class='op'>=</span> <span class='fl'>0.8</span>, <span class='va'>delta</span>, thresh <span class='op'>=</span> <span class='fl'>10</span>, n_rep <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ssp_bfda</span><span class='op'>(</span>
+  tpr <span class='op'>=</span> <span class='fl'>0.8</span>,
+  <span class='va'>delta</span>,
+  thresh <span class='op'>=</span> <span class='fl'>10</span>,
+  n_rep <span class='op'>=</span> <span class='fl'>1000</span>,
+  prior_scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>,
+  max_n <span class='op'>=</span> <span class='fl'>1500</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,7 +145,15 @@ as high as the critical threshold favoring superiority, given Delta.</p></td>
     </tr>
     <tr>
       <th>n_rep</th>
-      <td><p>Integer. the number of simulations.</p></td>
+      <td><p>Integer. The number of simulations.</p></td>
+    </tr>
+    <tr>
+      <th>prior_scale</th>
+      <td><p>Numeric. Scale of the Cauchy prior distribution.</p></td>
+    </tr>
+    <tr>
+      <th>max_n</th>
+      <td><p>Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).</p></td>
     </tr>
     </table>
 
