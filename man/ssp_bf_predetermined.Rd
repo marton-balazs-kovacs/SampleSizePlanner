@@ -36,7 +36,7 @@ super_bf(n1, delta, thresh, tol, granularity, prior_scale)
 The function returns a list of three named numeric vectors.
 The first `delta` is the range of deltas provided for the function.
 The second `n1` the determined sample size per group.
-The third `npower` is the TPR corresponding to the determined sample sizes
+The third `tpr_out` is the TPR corresponding to the determined sample sizes
 with the given delta.
 }
 \description{

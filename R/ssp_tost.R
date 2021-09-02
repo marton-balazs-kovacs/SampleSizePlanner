@@ -13,7 +13,7 @@
 #' 
 #' @return The function returns a list of three named numeric vectors. The
 #'   sample size for group 1 `n1`, the sample size for group 2 `n2` and
-#'   the associated power `npower`.
+#'   the associated power `tpr_out`.
 #' @export
 #' 
 #' @importFrom stats dchisq pnorm
@@ -36,9 +36,9 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05, max_n = 10001) {
   lc = numint + 1
   cl = 1e-10
   coevecc = c(1, rep(c(4, 2), numint / 2 - 1), 4, 1)
-  npower = 0
+  tpr_out = 0
   
-  while (npower < tpr & n1 < max_n) {
+  while (tpr_out < tpr & n1 < max_n) {
     n1 = n1 + 1
     n2 = nr * n1
     df = n1 + n2 - 2
@@ -52,15 +52,15 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05, max_n = 10001) {
     cvec = cl + intl * (0:numint)
     wcpdf = (intl / 3) * coevecc * stats::dchisq(cvec, df)
     st = sqrt(cvec / df) * tcrit
-    npower = sum(wcpdf * (stats::pnorm((eq_band - delta) / std - st) - stats::pnorm((-eq_band - delta) / std + st)))
+    tpr_out = sum(wcpdf * (stats::pnorm((eq_band - delta) / std - st) - stats::pnorm((-eq_band - delta) / std + st)))
   }
   
-  if (npower == 0) {
+  if (dplyr::near(0, tpr_out)) {
     stop(paste0("Your chosen power level cannot be achieved for n < ", max_n, "!"))
   } else {
     return(
       list(n1 = round(n1, 4),
            n2 = round(n2, 4),
-           npower = round(npower, 4)))
+           tpr_out = round(tpr_out, 4)))
   }
 }

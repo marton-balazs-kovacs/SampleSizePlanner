@@ -1,12 +1,11 @@
-url: https://marton-balazs-kovacs.github.io/SampleSizePlanner/
 reference:
 - title: Shiny App
   desc: Functions to use the shiny app
-- contents: 
+  contents: 
   - run_app
 - title: Sample size planning functions
-- desc: Functions to determine the sample size with different methods
-- contents:
+  desc: Functions to determine the sample size with different methods
+  contents:
   - ssp_aipe
   - ssp_app
   - ssp_bf_predetermined
@@ -18,10 +17,16 @@ reference:
   - ssp_tost
 - title: Plotting
   desc: Functions to plot the results of sample determination
-- contents:
+  contents:
   - plot_power_curve
 - title: Datafiles
   desc: Description of pacakge datafiles
-- contents:
+  contents:
   - rope_precalculation_results
   - bfda_precalculation_results
+
+home:
+  strip_header: false
+  links:
+  - text: Find the Shiny app
+    href: https://marton-balazs-kovacs.github.io/SampleSizePlanner/

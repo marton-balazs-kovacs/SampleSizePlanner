@@ -70,6 +70,7 @@ if(!"devtools" %in% rownames(installed.packages())) install.packages("devtools")
 # devtools::install_github("crsh/papaja")
 
 library("papaja")
+library("ggplot2")
 library("formatR")
 library("kableExtra")
 devtools::install_github("marton-balazs-kovacs/SampleSizePlanner")
@@ -117,7 +118,7 @@ In the next section, we will illustrate the specific inference tools and resulti
 
 For each method, only the main parameters can be adjusted with a certain range of values in the ShinyApp by using a slider. These parameters are presented in the text in bold. Other parameters are set to preset values in the application but can be adjusted in the accompanying R package to any sensible value. These parameters are highlighted in italics in the tutorial. Both the app and the package allow the users to save or copy a text template with the results of the sample size determination. We offer a list of possible justifications at the decision points for each method (indicated between square brackets), but users are able to provide their own justification as free-text. It is important to note that the listed justifications are meant to provide guidance for the user, and they are not sufficient without further details provided by the researcher in the context of the given study. For example, previously reported values should always be accompanied by a theoretical justification of why these values make sense. The provided justification text could serve as a stub for the description of the chosen sample size in a paper, a preregistration or registered report, or a grant proposal.
 
-Throughout, we will use the example story of Mary the educational psychologist. Mary has come up with a new set of games that challenge spatial insight. She believes that distributed and targeted engagement with these games for a period of six months for children in the age range of 8 to 12 will lead to lasting improvements on their IQ score as measured through Raven's progressive matrices test (population mean 100, population SD 15). Mary collects data for a control sample that gets regular education and for an experimental sample and plans to compare those samples. For illustrative purposes, we will have Mary's hypothetical study goal depend on the earlier presented decisions to illustrate different scenarios for each sample size planning method. That means that in some of the upcoming examples, Mary expects a null effect and in others she expects a positive effect. We will also present a justification text based on Mary’s choices for each method.
+Throughout, we will use the example story of Mary the educational psychologist. Mary has come up with a new set of games that challenge spatial insight. She would like to test whether distributed and targeted engagement with these games for a period of six months for children in the age range of 8 to 12 will lead to lasting improvements on their IQ score as measured through Raven's progressive matrices test (population mean 100, population SD 15). Mary collects data for a control sample that gets regular education and for an experimental sample and plans to compare those samples. Mary has good reason to be skeptical about the effectiveness of training on increasing performance as there are several studies questioning the existence of such effects [@owen_putting_2010; @simons_brain-training_2016].     For illustrative purposes, in some of the upcoming examples Mary expects a null effect and in others Mary expects a positive effect in order to highlight the different research scenarios for each sample size planning method. We will also present a justification text for each sample size planning method based on Mary’s choices described in the example research scenario for the given method.
 
 The ShinyApp is available on <https://martonbalazskovacs.shinyapps.io/SampleSizePlanner> and the R package can be installed by running the following command in R `devtools::install_github("marton-balazs-kovacs/SampleSizePlanner")`. There is more information about the R package and the ShinyApp on the projects' Github page <https://github.com/marton-balazs-kovacs/SampleSizePlanner>, or on the website <https://marton-balazs-kovacs.github.io/SampleSizePlanner/>.
 
@@ -261,6 +262,9 @@ curve_data <- SampleSizePlanner::ssp_power_curve(
 SampleSizePlanner::plot_power_curve(
   delta = curve_data$delta, n1 = curve_data$n1, animated = FALSE
   )
+
+# Save the plot in pdf
+ggplot2::ggsave("fig2.pdf", plot = last_plot(), dpi = 300)
 ```
 
 (ref:powercurve-caption) The figure shows the resulting power curve created by the application. The X-axis shows the range of deltas from the example, while the Y-axis shows the corresponding sample sizes determined by the power curve method.

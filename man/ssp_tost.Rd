@@ -4,7 +4,7 @@
 \alias{ssp_tost}
 \title{Determine sample size with Two One‐Sided Test (TOST) method}
 \usage{
-ssp_tost(tpr, eq_band, delta, alpha = 0.05)
+ssp_tost(tpr, eq_band, delta, alpha = 0.05, max_n = 10001)
 }
 \arguments{
 \item{tpr}{Numeric. The desired long run probability of obtaining a significant result with TOST, given Delta.}
@@ -14,11 +14,13 @@ ssp_tost(tpr, eq_band, delta, alpha = 0.05)
 \item{delta}{Numeric. The expected population effect size. In most cases, this value will be zero.}
 
 \item{alpha}{Numeric. The level of significance.}
+
+\item{max_n}{Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).}
 }
 \value{
 The function returns a list of three named numeric vectors. The
   sample size for group 1 `n1`, the sample size for group 2 `n2` and
-  the associated power `npower`.
+  the associated power `tpr_out`.
 }
 \description{
 The function determines the appropriate sample size for the

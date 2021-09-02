@@ -42,7 +42,7 @@ mod_ssp_rope_ui <- function(id){
           min = 0.1,
           max = 0.5,
           value = 0.2,
-          step = 0.01),
+          step = 0.05),
         sliderInput(
           NS(id, "delta"),
           name_with_info(
@@ -103,7 +103,7 @@ mod_ssp_rope_ui <- function(id){
                 multiple = FALSE,
                 options = list(create = TRUE)),
             # Create justification text
-            actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+            actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
             # Show justification text
             mod_preview_ui(NS(id, "preview"))
           ),
@@ -129,44 +129,59 @@ mod_ssp_rope_server <- function(id){
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
     # waitress <- waiter::Waitress$new("#rope-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
-    # Calculate results
-    rope_result <- eventReactive(input$calculate, {
-      # waitress$start()
-      prior_scale <- switch(
+    
+    input_prior_scale <- reactive({
+      switch(
         input$prior_scale,
         "1/sqrt(2)" = 1/sqrt(2),
         "1" = 1,
         "sqrt(2)" = sqrt(2)
       )
+    })
+    
+    # Calculate results
+    rope_result <- eventReactive(input$calculate, {
+      # waitress$start()
       
       rope_precalculation_results %>% 
         dplyr::filter(
           dplyr::near(tpr, input$tpr),
           dplyr::near(delta, input$delta),
           dplyr::near(eq_band, input$eq_band),
-          prior_scale == prior_scale
+          dplyr::near(prior_scale, input_prior_scale())
         ) %>% 
-        dplyr::select(n1, npower, error_message) %>% 
+        dplyr::select(n1, tpr_out, error_message) %>% 
         as.list()
       })
     
     # Show calculated results
     output$calculate_output <- renderUI({
+      if (!is.na(rope_result()$n1)) {
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
           n1 = rope_result()$n1,
-          npower = round(rope_result()$npower, 2)
+          tpr_out = round(rope_result()$tpr_out, 2)
         )
       )
+      } else {
+        HTML(
+          glue::glue(
+            "<b>{error_message}</b>",
+            error_message = rope_result()$error_message
+          )
+        )
+      }
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(rope_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -180,7 +195,7 @@ mod_ssp_rope_server <- function(id){
         eq_band_justification = input$eq_band_justification,
         tpr_justification = input$tpr_justification,
         n1 = rope_result()$n1,
-        npower = rope_result()$npower,
+        tpr_out = rope_result()$tpr_out,
         error_message = rope_result()$error_message,
         prior_scale = input$prior_scale
       )
@@ -190,6 +205,7 @@ mod_ssp_rope_server <- function(id){
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "rope")
     

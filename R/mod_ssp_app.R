@@ -61,7 +61,7 @@ mod_ssp_app_ui <- function(id) {
               h3("Justify your sample size"),
               p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -104,10 +104,12 @@ mod_ssp_app_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(app_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -124,6 +126,7 @@ mod_ssp_app_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "app")
     

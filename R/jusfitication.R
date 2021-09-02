@@ -33,16 +33,15 @@ justification <- function(method, output_parameters) {
       glue::glue(
         "In order to calculate an appropriate sample size for testing whether the \\
         two groups are practically equivalent, we used the Two One-Sided Tests of \\
-        Equivalence (TOST; Schuirmann, 1981) method. We used an alpha of {alpha}. We set the aimed TPR to be {tpr}, \\
+        Equivalence (TOST; Schuirmann, 1981) method. We used an alpha of 0.05. We set the aimed TPR to be {tpr}, \\
         because {tpr_justification}. We consider all effect sizes below {eq_band} \\
         equivalent to zero, because {eq_band_justification}. The expected delta was {delta} \\
         because {delta_justification}. Based on these parameters, a sample size of {n1} \\
-        per group was estimated in order to reach a TPR of {round(npower, 1)} with our design.",
+        per group was estimated in order to reach a TPR of {round(tpr_out, 1)} with our design.",
         eq_band = output_parameters$eq_band,
         delta = output_parameters$delta,
-        alpha = output_parameters$alpha,
         n1 = output_parameters$n1,
-        npower = output_parameters$npower,
+        tpr_out = output_parameters$tpr_out,
         tpr = output_parameters$tpr,
         tpr_justification = output_parameters$tpr_justification,
         eq_band_justification = output_parameters$eq_band_justification,
@@ -57,12 +56,12 @@ justification <- function(method, output_parameters) {
         {tpr}, because {tpr_justification}. We consider all effect sizes below {eq_band} equivalent to zero, \\
         because {eq_band_justification}. The expected delta was {delta} because {delta_justification}. \\
         Our Bayes factor threshold for concluding equivalence was {thresh}. Based on these parameters, a minimal \\
-        sample size of {n1} was estimated in order to reach {round(npower, 1)} TPR for our design.",
+        sample size of {n1} was estimated in order to reach {round(tpr_out, 1)} TPR for our design.",
         eq_band = output_parameters$eq_band,
         thresh = output_parameters$thresh, 
         delta = output_parameters$delta,
         n1 = output_parameters$n1,
-        npower = output_parameters$npower,
+        tpr_out = output_parameters$tpr_out,
         tpr = output_parameters$tpr,
         prior_scale = output_parameters$prior_scale,
         tpr_justification = output_parameters$tpr_justification,
@@ -72,13 +71,12 @@ justification <- function(method, output_parameters) {
   } else if (method == "traditional") {
     text <- 
       glue::glue(
-        "We used a power analysis to estimate the sample size. We used an alpha of {alpha}. We set the aimed power at {tpr}, because \\
+        "We used a power analysis to estimate the sample size. We used an alpha of 0.05. We set the aimed power at {tpr}, because \\
         {tpr_justification}. The expected delta was {delta} {delta_justification}. Based on these parameters, \\
-        a minimal sample size of {n1} was estimated in order to reach {round(npower, 1)} power for our design.",
+        a minimal sample size of {n1} was estimated in order to reach {round(tpr_out, 1)} power for our design.",
         n1 = output_parameters$n1,
-        npower = output_parameters$npower,
+        tpr_out = output_parameters$tpr_out,
         tpr = output_parameters$tpr,
-        alpha = output_parameters$alpha,
         tpr_justification = output_parameters$tpr_justification,
         delta = output_parameters$delta,
         delta_justification = output_parameters$delta_justification
@@ -90,9 +88,9 @@ justification <- function(method, output_parameters) {
         distribution centered on zero with a scale of {prior_scale}.We set the aimed \\
         TPR at {tpr}, because {tpr_justification}. The expected delta was {delta} because {delta_justification}. Our \\
         evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} per group was estimated \\
-        in order to reach a {round(npower, 1)} TPR for our design.",
+        in order to reach a {round(tpr_out, 1)} TPR for our design.",
         n1 = output_parameters$n1,
-        npower = output_parameters$npower,
+        tpr_out = output_parameters$tpr_out,
         prior_scale = output_parameters$prior_scale,
         tpr = output_parameters$tpr,
         tpr_justification = output_parameters$tpr_justification,
@@ -107,9 +105,9 @@ justification <- function(method, output_parameters) {
           "In order to estimate the sample size, we used the Region of Practical Equivalence (Kruschke and Liddell, 2018) \\
           method. We used a Cauchy prior distribution centered on zero with a scale of {prior_scale}. We set the aimed TPR at {tpr}, because {tpr_justification}. We consider all effect sizes below \\
           {eq_band} equivalent to zero, because {eq_band_justification}. The expected delta was {delta} because {delta_justification}. \\
-          Based on these parameters, a minimal sample size of {n1} per group was estimated in order to reach a {round(npower,1)} TPR for our design.",
+          Based on these parameters, a minimal sample size of {n1} per group was estimated in order to reach a {round(tpr_out,1)} TPR for our design.",
           n1 = output_parameters$n1,
-          npower = output_parameters$npower,
+          tpr_out = output_parameters$tpr_out,
           tpr = output_parameters$tpr,
           tpr_justification = output_parameters$tpr_justification,
           eq_band = output_parameters$eq_band,
@@ -125,15 +123,14 @@ justification <- function(method, output_parameters) {
   } else if (method == "power_curve") {
     text <- 
       glue::glue(
-        "We used a power analysis to estimate the sample size. We used an alpha of {alpha}. We set the aimed TPR at {tpr}, \\
+        "We used a power analysis to estimate the sample size. We used an alpha of 0.05. We set the aimed TPR at {tpr}, \\
         because {tpr_justification}. Because we {delta_justification}, \\
         we include power calculations for delta ranging from {min(delta)} to {max(delta)}. Based on these parameters, \\
         minimal sample sizes for different hypothetical effect sizes to reach {tpr} TPR can be found in Figure X.",
         tpr = output_parameters$tpr,
         tpr_justification = output_parameters$tpr_justification,
         delta = output_parameters$delta,
-        delta_justification = output_parameters$delta_justification,
-        alpha = output_parameters$alpha
+        delta_justification = output_parameters$delta_justification
       )
   } else if (method == "bfda") {
     if (!is.na(output_parameters$n1)) {
@@ -145,7 +142,6 @@ justification <- function(method, output_parameters) {
           Our evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} \\
           per group was estimated in order to reach a {tpr} TPR for our design.",
           tpr = output_parameters$tpr,
-          alpha = output_parameters$alpha,
           tpr_justification = output_parameters$tpr_justification,
           delta = output_parameters$delta,
           delta_justification = output_parameters$delta_justification,

@@ -16,7 +16,7 @@
 #' @return The function returns a list of three named numeric vectors.
 #' The first `delta` is the range of deltas provided for the function.
 #' The second `n1` the determined sample size per group.
-#' The third `npower` is the TPR corresponding to the determined sample sizes
+#' The third `tpr_out` is the TPR corresponding to the determined sample sizes
 #' with the given delta.
 #' @export
 #' @examples 
@@ -25,16 +25,16 @@
 #' }
 ssp_power_curve <- function(delta, tpr, max_n = 5000, alpha = 0.05) {
   n1 <- NULL
-  npower <- NULL
+  tpr_out <- NULL
   for (i in 1:length(delta)) {
-    res = power_optim(fun = traditional, range = c(5, max_n), delta[i], tpr = tpr, alpha = alpha)
+    res = tpr_optim(fun = traditional, range = c(5, max_n), delta[i], tpr = tpr, alpha = alpha)
     n1[i] = res$n1
-    npower[i] = res$npower
+    tpr_out[i] = res$tpr_out
   }
   
   list(
     delta = delta,
     n1 = n1,
-    npower = npower
+    tpr_out = tpr_out
   )
 }

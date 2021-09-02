@@ -92,7 +92,7 @@ mod_ssp_bfda_ui <- function(id) {
                              multiple = FALSE,
                              options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))
             ),
@@ -119,22 +119,25 @@ mod_ssp_bfda_server <- function(id) {
     # Setup loadingbar
     # waitress <- waiter::Waitress$new("#bfda-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
-    # Calculate results
-    bfda_result <- eventReactive(input$calculate, {
-      # waitress$start()
-      prior_scale <- switch(
+    input_prior_scale <- reactive({
+      switch(
         input$prior_scale,
         "1/sqrt(2)" = 1/sqrt(2),
         "1" = 1,
         "sqrt(2)" = sqrt(2)
       )
+    })
+    
+    # Calculate results
+    bfda_result <- eventReactive(input$calculate, {
+      # waitress$start()
       
       bfda_precalculation_results %>% 
         dplyr::filter(
-          dplyr::near(tpr, input$tpr),
+          dplyr::near(tpr_out, input$tpr),
           dplyr::near(delta, input$delta),
           thresh == as.integer(input$thresh),
-          prior_scale == prior_scale
+          dplyr::near(prior_scale, input_prior_scale()),
         ) %>% 
         dplyr::select(n1, tpr_out, h0, ha, error_message) %>% 
         as.list()
@@ -142,6 +145,7 @@ mod_ssp_bfda_server <- function(id) {
     
     # Show calculated results
     output$calculate_output <- renderUI({
+      if (!is.na(bfda_result()$n1)) {
       HTML(
         glue::glue(
           "<b>n1:</b> {n1}<br/><b>TPR:</b> {tpr_out}<br/><b>Ha:</b> {ha}<br/><b>H0:</b> {h0}",
@@ -151,14 +155,24 @@ mod_ssp_bfda_server <- function(id) {
           h0 = bfda_result()$h0
         )
       )
+      } else {
+        HTML(
+          glue::glue(
+            "<b>{error_message}</b>",
+            error_message = bfda_result()$error_message
+          )
+        )
+      }
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(bfda_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -180,6 +194,7 @@ mod_ssp_bfda_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "bfda")
     

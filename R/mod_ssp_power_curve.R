@@ -88,14 +88,15 @@ mod_ssp_power_curve_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview")),
               wellPanel(
                 style = "margin-top: 15px;",
-                plotly:: plotlyOutput(NS(id, "figure_preview")),
-                div(class = "download-btn",
-                    downloadButton(NS(id, "figure_download"), label = "Download figure")))),
+                plotly:: plotlyOutput(NS(id, "figure_preview"))),
+              div(class = "download-btn",
+                  downloadButton(NS(id, "figure_download"), label = "Download figure"))
+              ),
             tabPanel(
               "Code",
               # Panel title
@@ -119,15 +120,6 @@ mod_ssp_power_curve_server <- function(id) {
       # Setup loadingbar
       # waitress <- waiter::Waitress$new("#curve-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
       
-      # Add downloadbutton enable logic
-      observe({
-        if (input$calculate) {
-          shinyjs::enable("justification")
-        } else{
-          shinyjs::disable("justification")
-        }
-      })
-      
       # Create delta vector
       delta <- reactive({
         seq(input$delta[1], input$delta[2], 0.01)
@@ -141,6 +133,7 @@ mod_ssp_power_curve_server <- function(id) {
       
       # Show calculated results
       output$calculate_output <- renderUI({
+        if ("n1" %in% names(curve_result())) {
         HTML(
           glue::glue(
             "<b>n1:</b> {n1} <b>delta:</b> {delta}<br/>",
@@ -148,6 +141,25 @@ mod_ssp_power_curve_server <- function(id) {
             delta = curve_result()$delta
           )
         )
+        } else {
+          HTML(
+            glue::glue(
+              "<b>{error_message}</b>",
+              error_message = curve_result()$message
+            )
+          )
+        }
+      })
+      
+      # Add downloadbutton enable logic
+      observe({
+        if (input$calculate  && "n1" %in% names(curve_result())) {
+          shinyjs::enable("justification")
+          shinyjs::runjs("$('.justification-btn').removeAttr('title');")
+        } else{
+          shinyjs::disable("justification")
+          shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
+        }
       })
       
       # Justification text
@@ -165,31 +177,38 @@ mod_ssp_power_curve_server <- function(id) {
       mod_preview_server(
         "preview",
         activate = reactive(input$justification),
+        deactivate = reactive(input$calculate),
         output_parameters = output_parameters,
         method = "power_curve")
       
       # Figure
       ## Create figure
-      figure <- eventReactive(input$justification, {
-        plot_power_curve(
-          delta = curve_result()$delta,
-          n1 = curve_result()$n1,
-          animated = FALSE)
+      shinyjs::disable("figure_download")
+      figure <- reactiveVal(NULL)
+      
+      observeEvent(input$justification, {
+        figure(
+          plot_power_curve(
+            delta = curve_result()$delta,
+            n1 = curve_result()$n1,
+            animated = FALSE)
+        )
+        shinyjs::enable("figure_download")
+      })
+      
+      observeEvent(input$calculate, {
+        shinyjs::disable("figure_download")
+        figure(NULL)
       })
       
       ## Show figure preview
       output$figure_preview <- plotly::renderPlotly({
+        if (is.null(figure())) {
+          NULL
+        } else {
         figure() %>% 
           plotly::ggplotly(tooltip = "text") %>% 
           plotly::config(displayModeBar = F)
-      })
-      
-      # Add downloadbutton enable logic
-      observe({
-        if (input$justification) {
-          shinyjs::enable("figure_download")
-        } else{
-          shinyjs::disable("figure_download")
         }
       })
       

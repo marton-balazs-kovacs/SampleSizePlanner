@@ -238,7 +238,7 @@ In the statistical literature, a few methods have been proposed to determine and
 
 A lot of factors go into the determination of the sample size for an independent two group study design. In this section, we will first provide a birds-eye view of the most important decisions. Next, we will go into more detail on the specific inference tool that results from the combination of the larger choices.
 
-It is crucial to not just state how we determined our planned sample size but to also give the reader insight into the reasons behind our choices. In a recent overview, Lakens (2021) lists six types of general approaches to justify sample size in quantitative empirical studies: (1) Measure entire population; (2) Resource constraints; (3) A-priori power analysis; (4) Accuracy; (5) Heuristics; and (6) No justification. For the first approach, no quantitative justification is necessary; and for the second approach, the researcher has no freedom to increase the sample size. Power analysis, or more generally the estimation of true positive rate, is used when one plans to conduct hypothesis testing; accuracy justifications are used when one plans to conduct parameter estimation. Our tutorial mainly focuses on approaches two, three, and four, and is aimed at providing a hands-on approach for the mechanical part of the sample size determination (i.e., the calculation). For a deeper discussion of justification of these approaches, or for other approaches (i.e., using heuristics or not providing justification), we refer the reader to Lakens (2021).
+It is crucial to not just state how we determined our planned sample size but to also give the reader insight into the reasons behind our choices. In a recent overview, Daniel Lakens (2021) lists six types of general approaches to justify sample size in quantitative empirical studies: (1) Measure entire population; (2) Resource constraints; (3) A-priori power analysis; (4) Accuracy; (5) Heuristics; and (6) No justification. For the first approach, no quantitative justification is necessary; and for the second approach, the researcher has no freedom to increase the sample size. Power analysis, or more generally the estimation of true positive rate, is used when one plans to conduct hypothesis testing; accuracy justifications are used when one plans to conduct parameter estimation. Our tutorial mainly focuses on approaches two, three, and four, and is aimed at providing a hands-on approach for the mechanical part of the sample size determination (i.e., the calculation). For a deeper discussion of justification of these approaches, or for other approaches (i.e., using heuristics or not providing justification), we refer the reader to Daniel Lakens (2021).
 
 \hypertarget{choosing-a-method-in-case-of-sample-size-justification}{%
 \subsection{Choosing a method in case of sample size justification}\label{choosing-a-method-in-case-of-sample-size-justification}}
@@ -271,7 +271,7 @@ In the next section, we will illustrate the specific inference tools and resulti
 
 For each method, only the main parameters can be adjusted with a certain range of values in the ShinyApp by using a slider. These parameters are presented in the text in bold. Other parameters are set to preset values in the application but can be adjusted in the accompanying R package to any sensible value. These parameters are highlighted in italics in the tutorial. Both the app and the package allow the users to save or copy a text template with the results of the sample size determination. We offer a list of possible justifications at the decision points for each method (indicated between square brackets), but users are able to provide their own justification as free-text. It is important to note that the listed justifications are meant to provide guidance for the user, and they are not sufficient without further details provided by the researcher in the context of the given study. For example, previously reported values should always be accompanied by a theoretical justification of why these values make sense. The provided justification text could serve as a stub for the description of the chosen sample size in a paper, a preregistration or registered report, or a grant proposal.
 
-Throughout, we will use the example story of Mary the educational psychologist. Mary has come up with a new set of games that challenge spatial insight. She believes that distributed and targeted engagement with these games for a period of six months for children in the age range of 8 to 12 will lead to lasting improvements on their IQ score as measured through Raven's progressive matrices test (population mean 100, population SD 15). Mary collects data for a control sample that gets regular education and for an experimental sample and plans to compare those samples. For illustrative purposes, we will have Mary's hypothetical study goal depend on the earlier presented decisions to illustrate different scenarios for each sample size planning method. That means that in some of the upcoming examples, Mary expects a null effect and in others she expects a positive effect. We will also present a justification text based on Mary's choices for each method.
+Throughout, we will use the example story of Mary the educational psychologist. Mary has come up with a new set of games that challenge spatial insight. She would like to test whether distributed and targeted engagement with these games for a period of six months for children in the age range of 8 to 12 will lead to lasting improvements on their IQ score as measured through Raven's progressive matrices test (population mean 100, population SD 15). Mary collects data for a control sample that gets regular education and for an experimental sample and plans to compare those samples. Mary has good reason to be skeptical about the effectiveness of training on increasing performance as there are several studies questioning the existence of such effects (Owen et al., 2010; Simons et al., 2016). For illustrative purposes, in some of the upcoming examples Mary expects a null effect and in others Mary expects a positive effect in order to highlight the different research scenarios for each sample size planning method. We will also present a justification text for each sample size planning method based on Mary's choices described in the example research scenario for the given method.
 
 The ShinyApp is available on \url{https://martonbalazskovacs.shinyapps.io/SampleSizePlanner} and the R package can be installed by running the following command in R \texttt{devtools::install\_github("marton-balazs-kovacs/SampleSizePlanner")}. There is more information about the R package and the ShinyApp on the projects' Github page \url{https://github.com/marton-balazs-kovacs/SampleSizePlanner}, or on the website \url{https://marton-balazs-kovacs.github.io/SampleSizePlanner/}.
 
@@ -292,7 +292,7 @@ Mary would like to know what sample size she needs for a power of .80 to study w
 \hypertarget{description}{%
 \subparagraph{Description}\label{description}}
 
-TOST is a frequentist equivalence testing approach that adopts two one-sided hypotheses to designate an interval hypothesis (Schuirmann, 1987). The lower and upper boundaries of the interval are determined by the equivalence band (i.e.~SESOI) around the expected population effect size (e.g., 0). Lakens, Scheel, and Isager (2018) lists several methods that can be used to determine the SESOI . In case of TOST, the two null hypotheses state that the effect size is equal to the lower and upper equivalence band values, whereas the alternative hypotheses state that the effect size is significantly smaller than the upper equivalence band value and significantly larger than the lower equivalence band value. In case both one-sided tests reject the null-hypothesis at a given significance level, the group means are considered to be practically equivalent. See Lakens, Scheel, and Isager (2018), for further reading.
+TOST is a frequentist equivalence testing approach that adopts two one-sided hypotheses to designate an interval hypothesis (Schuirmann, 1987). The lower and upper boundaries of the interval are determined by the equivalence band (i.e.~SESOI) around the expected population effect size (e.g., 0). Daniël Lakens, Scheel, and Isager (2018) lists several methods that can be used to determine the SESOI . In case of TOST, the two null hypotheses state that the effect size is equal to the lower and upper equivalence band values, whereas the alternative hypotheses state that the effect size is significantly smaller than the upper equivalence band value and significantly larger than the lower equivalence band value. In case both one-sided tests reject the null-hypothesis at a given significance level, the group means are considered to be practically equivalent. See Daniël Lakens, Scheel, and Isager (2018), for further reading.
 
 \hypertarget{parameters}{%
 \subparagraph{Parameters}\label{parameters}}
@@ -660,46 +660,52 @@ Justifying the decisions made during the sample size planning process presents v
 Halpern, S. D., Karlawish, J. H., \& Berlin, J. A. (2002). The continuing unethical conduct of underpowered clinical trials. \emph{Jama}, \emph{288}(3), 358--362.
 
 \leavevmode\hypertarget{ref-ioannidis_why_2005}{}%
-Ioannidis, J. P. (2005). Why most published research findings are false. \emph{{PLoS} Medicine}, \emph{2}(8), e124.
+Ioannidis, J. P. (2005). Why most published research findings are false. \emph{PLoS Medicine}, \emph{2}(8), e124.
 
 \leavevmode\hypertarget{ref-kelley_sample_2006}{}%
-Kelley, K., \& Rausch, J. R. (2006). Sample size planning for the standardized mean difference: Accuracy in parameter estimation via narrow confidence intervals. \emph{Psychological Methods}, \emph{11}(4), 363--385.
+Kelley, K., \& Rausch, J. R. (2006). Sample size planning for the standardized mean difference: {Accuracy} in parameter estimation via narrow confidence intervals. \emph{Psychological Methods}, \emph{11}(4), 363.
 
 \leavevmode\hypertarget{ref-kruschke_bayesian_2011}{}%
 Kruschke, J. K. (2011). Bayesian assessment of null values via parameter estimation and model comparison. \emph{Perspectives on Psychological Science}, \emph{6}(3), 299--312.
 
 \leavevmode\hypertarget{ref-kruschke_rejecting_2018}{}%
-Kruschke, J. K. (2018). Rejecting or accepting parameter values in bayesian estimation. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(2), 270--280.
+Kruschke, J. K. (2018). Rejecting or accepting parameter values in {Bayesian} estimation. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(2), 270--280.
 
 \leavevmode\hypertarget{ref-lakens_sample_2021}{}%
-Lakens, D. (2021). Sample size justification. Retrieved from \url{https://doi.org/10.31234/osf.io/9d3yf}
+Lakens, Daniel. (2021). Sample {Size} {Justification}.
 
 \leavevmode\hypertarget{ref-lakens_equivalence_2018}{}%
-Lakens, D., Scheel, A. M., \& Isager, P. M. (2018). Equivalence testing for psychological research: A tutorial. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(2), 259--269.
+Lakens, Daniël, Scheel, A. M., \& Isager, P. M. (2018). Equivalence testing for psychological research: {A} tutorial. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(2), 259--269.
 
 \leavevmode\hypertarget{ref-linde_tendeiro_selker_wagenmakers_van_ravenzwaaij_2020}{}%
 Linde, M., Tendeiro, J., Selker, R., Wagenmakers, E.-J., \& Ravenzwaaij, D. van. (2020). Decisions about equivalence: A comparison of TOST, HDI-ROPE, and the bayes factor. PsyArXiv. \url{https://doi.org/10.31234/osf.io/bh8vu}
 
 \leavevmode\hypertarget{ref-maxwell_persistence_2004}{}%
-Maxwell, S. E. (2004). The persistence of underpowered studies in psychological research: Causes, consequences, and remedies. \emph{Psychological Methods}, \emph{9}(2), 147--163.
+Maxwell, S. E. (2004). The persistence of underpowered studies in psychological research: Causes, consequences, and remedies. \emph{Psychological Methods}, \emph{9}(2), 147.
 
 \leavevmode\hypertarget{ref-morey_bayes_2011}{}%
-Morey, R. D., \& Rouder, J. N. (2011). Bayes factor approaches for testing interval null hypotheses. \emph{Psychological Methods}, \emph{16}(4), 406--419.
+Morey, R. D., \& Rouder, J. N. (2011). Bayes factor approaches for testing interval null hypotheses. \emph{Psychological Methods}, \emph{16}(4), 406.
+
+\leavevmode\hypertarget{ref-owen_putting_2010}{}%
+Owen, A. M., Hampshire, A., Grahn, J. A., Stenton, R., Dajani, S., Burns, A. S., \ldots{} Ballard, C. G. (2010). Putting brain training to the test. \emph{Nature}, \emph{465}(7299), 775--778.
 
 \leavevmode\hypertarget{ref-van_ravenzwaaij_bayes_2019}{}%
-Ravenzwaaij, D. van, Monden, R., Tendeiro, J. N., \& Ioannidis, J. P. (2019). Bayes factors for superiority, non-inferiority, and equivalence designs. \emph{{BMC} Medical Research Methodology}, \emph{19}(1), 1--12.
+Ravenzwaaij, D. van, Monden, R., Tendeiro, J. N., \& Ioannidis, J. P. (2019). Bayes factors for superiority, non-inferiority, and equivalence designs. \emph{BMC Medical Research Methodology}, \emph{19}(1), 1--12.
 
 \leavevmode\hypertarget{ref-rouder_bayesian_2009}{}%
 Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., \& Iverson, G. (2009). Bayesian t tests for accepting and rejecting the null hypothesis. \emph{Psychonomic Bulletin \& Review}, \emph{16}(2), 225--237.
 
 \leavevmode\hypertarget{ref-schonbrodt_bayes_2018}{}%
-Schönbrodt, F. D., \& Wagenmakers, E.-J. (2018). Bayes factor design analysis: Planning for compelling evidence. \emph{Psychonomic Bulletin \& Review}, \emph{25}(1), 128--142.
+Schönbrodt, F. D., \& Wagenmakers, E.-J. (2018). Bayes factor design analysis: {Planning} for compelling evidence. \emph{Psychonomic Bulletin \& Review}, \emph{25}(1), 128--142.
 
 \leavevmode\hypertarget{ref-schonbrodt_sequential_2017}{}%
-Schönbrodt, F. D., Wagenmakers, E.-J., Zehetleitner, M., \& Perugini, M. (2017). Sequential hypothesis testing with bayes factors: Efficiently testing mean differences. \emph{Psychological Methods}, \emph{22}(2), 322--339.
+Schönbrodt, F. D., Wagenmakers, E.-J., Zehetleitner, M., \& Perugini, M. (2017). Sequential hypothesis testing with {Bayes} factors: {Efficiently} testing mean differences. \emph{Psychological Methods}, \emph{22}(2), 322.
 
 \leavevmode\hypertarget{ref-schuirmann_comparison_1987}{}%
 Schuirmann, D. J. (1987). A comparison of the two one-sided tests procedure and the power approach for assessing the equivalence of average bioavailability. \emph{Journal of Pharmacokinetics and Biopharmaceutics}, \emph{15}(6), 657--680.
+
+\leavevmode\hypertarget{ref-simons_brain-training_2016}{}%
+Simons, D. J., Boot, W. R., Charness, N., Gathercole, S. E., Chabris, C. F., Hambrick, D. Z., \& Stine-Morrow, E. A. (2016). Do {``brain-training''} programs work? \emph{Psychological Science in the Public Interest}, \emph{17}(3), 103--186.
 
 \leavevmode\hypertarget{ref-trafimow_performing_2017}{}%
 Trafimow, D., \& MacDonald, J. A. (2017). Performing inferential statistics prior to data collection. \emph{Educational and Psychological Measurement}, \emph{77}(2), 204--219.

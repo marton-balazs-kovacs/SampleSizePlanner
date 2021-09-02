@@ -104,7 +104,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -151,19 +151,21 @@ mod_ssp_bf_predetermined_server <- function(id) {
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
           n1 = bf_predetermined_result()$n1,
-          npower = round(bf_predetermined_result()$npower, 2)
+          tpr_out = round(bf_predetermined_result()$tpr_out, 2)
         )
       )
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(bf_predetermined_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
 
@@ -175,7 +177,7 @@ mod_ssp_bf_predetermined_server <- function(id) {
         delta = input$delta,
         delta_justification = input$delta_justification,
         n1 = bf_predetermined_result()$n1,
-        npower = bf_predetermined_result()$npower,
+        tpr_out = bf_predetermined_result()$tpr_out,
         thresh = as.integer(input$thresh),
         prior_scale = input$prior_scale
       )
@@ -185,6 +187,7 @@ mod_ssp_bf_predetermined_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "bf_predetermined")
     
