@@ -19,7 +19,7 @@
 #' @return The function returns a list of three named numeric vectors.
 #' The first `delta` is the range of deltas provided for the function.
 #' The second `n1` the determined sample size per group.
-#' The third `npower` is the TPR corresponding to the determined sample sizes
+#' The third `tpr_out` is the TPR corresponding to the determined sample sizes
 #' with the given delta.
 #' @export
 #' @examples
@@ -28,9 +28,9 @@
 #' }
 ssp_bf_predetermined <- function(tpr, delta, thresh = 10, max_n = 5000, tol = 1e-4, granularity = 300, prior_scale = 1/sqrt(2)) {
   n1 <- NULL
-  npower <- NULL
+  tpr_out <- NULL
   for (i in 1:length(delta)) {
-    res = power_optim(
+    res = tpr_optim(
       fun = super_bf,
       range = c(5, max_n),
       delta = delta[i],
@@ -40,12 +40,12 @@ ssp_bf_predetermined <- function(tpr, delta, thresh = 10, max_n = 5000, tol = 1e
       granularity = granularity,
       prior_scale = prior_scale)
     n1[i] = res$n1
-    npower[i] = res$npower
+    tpr_out[i] = res$tpr_out
   }
   list(
     delta = delta,
     n1 = n1,
-    npower = npower
+    tpr_out = tpr_out
   )
 }
 
@@ -56,17 +56,21 @@ super_bf <- function(n1, delta, thresh, tol, granularity, prior_scale) {
           stats::qt(.995, n1+n2-2, delta/sqrt(1/n1+1/n2)), length = granularity)
   bf = 1
   i = 0
-  while (bf < thresh) {
+  while (bf < thresh & i < granularity) {
     i = i + 1
     bf = exp(BayesFactor::ttest.tstat(t = t[i], n1 = n1, n2 = n2, nullInterval = c(0, Inf), rscale = prior_scale)[['bf']])
   }
-  bf = 1
-  j = length(t) + 1
-  while (bf < thresh) {
-    j = j - 1
-    bf = exp(BayesFactor::ttest.tstat(t = t[j], n1 = n1, n2 = n2, nullInterval = c(0, Inf), rscale = prior_scale)[['bf']])
-  }
-  npower = stats::pt(t[j], n1+n2-2, delta/sqrt(1/n1+1/n2)) - stats::pt(t[i], n1+n2-2, delta/sqrt(1/n1+1/n2))
   
-  npower
+  if (i == granularity) {
+    tpr_out = 0
+  } else {
+    bf = 1
+    j = length(t) + 1
+    while (bf < thresh) {
+      j = j - 1
+      bf = exp(BayesFactor::ttest.tstat(t = t[j], n1 = n1, n2 = n2, nullInterval = c(0, Inf), rscale = prior_scale)[['bf']])
+      }
+    tpr_out = stats::pt(t[j], n1+n2-2, delta/sqrt(1/n1+1/n2)) - stats::pt(t[i], n1+n2-2, delta/sqrt(1/n1+1/n2))
+    }
+  tpr_out
 }

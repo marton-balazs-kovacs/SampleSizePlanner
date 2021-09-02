@@ -39,7 +39,7 @@ rope(n1, delta, eq_band, alpha, tol, granularity, prior_location, prior_scale)
 The function returns a list of three named numeric vectors.
 The first `delta` is the range of deltas provided for the function.
 The second `n1` the determined sample size per group.
-The third `npower` is the TPR corresponding to the determined sample sizes
+The third `tpr_out` is the TPR corresponding to the determined sample sizes
 with the given delta.
 }
 \description{
@@ -49,6 +49,6 @@ whether or not the HDI is fully contained within the equivalence interval.
 }
 \examples{
 \dontrun{
-SampleSizePlanner::ssp_bf_predetermined(tpr = 0.8, delta = 0.5, thresh = 10, max_n = 5000)
+SampleSizePlanner::ssp_rope(tpr = 0.8, eq_band = 0.2, delta = 0, thresh = 10, prior_scale = 1/sqrt(2))
 }
 }

@@ -9,10 +9,11 @@
 #' @param eq_band Numeric. The chosen width of the region for practical equivalence, i.e. the SESOI.
 #' @param delta Numeric. The expected population effect size. In most cases, this value will be zero.
 #' @param alpha Numeric. The level of significance.
+#' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' 
 #' @return The function returns a list of three named numeric vectors. The
 #'   sample size for group 1 `n1`, the sample size for group 2 `n2` and
-#'   the associated power `npower`.
+#'   the associated power `tpr_out`.
 #' @export
 #' 
 #' @importFrom stats dchisq pnorm
@@ -21,7 +22,7 @@
 #' \dontrun{
 #' SampleSizePlanner::ssp_tost(tpr = 0.8, eq_band = 0.2, delta = 0)
 #' }
-ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
+ssp_tost <- function(tpr, eq_band, delta, alpha = .05, max_n = 10001) {
   # Validation of function arguments
   assertthat::assert_that(is_positive_number(tpr))
   assertthat::assert_that(is_positive_number(eq_band))
@@ -29,16 +30,15 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
   
   nr = 1
   sigma = 1
-  max_n = 10001
   n1 = 4
   sigsq = sigma^2
   numint = 1000
   lc = numint + 1
   cl = 1e-10
   coevecc = c(1, rep(c(4, 2), numint / 2 - 1), 4, 1)
-  npower = 0
+  tpr_out = 0
   
-  while (npower < tpr & n1 < max_n) {
+  while (tpr_out < tpr & n1 < max_n) {
     n1 = n1 + 1
     n2 = nr * n1
     df = n1 + n2 - 2
@@ -52,15 +52,15 @@ ssp_tost <- function(tpr, eq_band, delta, alpha = .05) {
     cvec = cl + intl * (0:numint)
     wcpdf = (intl / 3) * coevecc * stats::dchisq(cvec, df)
     st = sqrt(cvec / df) * tcrit
-    npower = sum(wcpdf * (stats::pnorm((eq_band - delta) / std - st) - stats::pnorm((-eq_band - delta) / std + st)))
+    tpr_out = sum(wcpdf * (stats::pnorm((eq_band - delta) / std - st) - stats::pnorm((-eq_band - delta) / std + st)))
   }
   
-  if (npower == 0) {
-    stop("Your chosen power level cannot be achieved for n < 10001!")
+  if (dplyr::near(0, tpr_out)) {
+    stop(paste0("Your chosen power level cannot be achieved for n < ", max_n, "!"))
   } else {
     return(
       list(n1 = round(n1, 4),
            n2 = round(n2, 4),
-           npower = round(npower, 4)))
+           tpr_out = round(tpr_out, 4)))
   }
 }

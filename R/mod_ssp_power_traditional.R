@@ -27,11 +27,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,11 +37,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Delta
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0.5,
@@ -51,11 +47,9 @@ mod_ssp_power_traditional_ui <- function(id) {
         ## Input Maximum n
         numericInput(
           NS(id, "max_n"),
-          HTML(
-            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
-            'Maximum N',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Maximum N",
+            "The maximum number of participants per group (both groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
           value = 5000,
@@ -75,6 +69,7 @@ mod_ssp_power_traditional_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -95,7 +90,7 @@ mod_ssp_power_traditional_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -124,26 +119,43 @@ mod_ssp_power_traditional_server <- function(id) {
     # Calculate results
     traditional_result <- eventReactive(input$calculate, {
       # waitress$start()
-      ssp_power_traditional(tpr = input$tpr, delta = input$delta, max_n = input$max_n)
+      safe_ssp_power_traditional <- purrr::safely(ssp_power_traditional)
+      res <- safe_ssp_power_traditional(tpr = input$tpr, delta = input$delta, max_n = input$max_n)
+      if (is.null(res$error)) {
+        res$result
+      } else {
+        res$error
+      }
     })
     
     # Show calculated results
     output$calculate_output <- renderUI({
-      HTML(
-        glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
-          n1 = traditional_result()$n1,
-          npower = round(traditional_result()$npower, 2)
+      if ("n1" %in% names(traditional_result())) {
+        HTML(
+          glue::glue(
+            "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
+            n1 = traditional_result()$n1,
+            tpr_out = round(traditional_result()$tpr_out, 2)
+          )
         )
-      )
+      } else {
+        HTML(
+          glue::glue(
+            "<b>{error_message}</b>",
+            error_message = traditional_result()$message
+          )
+        )
+      }
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && "n1" %in% names(traditional_result())) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
 
@@ -155,7 +167,7 @@ mod_ssp_power_traditional_server <- function(id) {
         delta_justification = input$delta_justification,
         tpr_justification = input$tpr_justification,
         n1 = traditional_result()$n1,
-        npower = traditional_result()$npower
+        tpr_out = traditional_result()$tpr_out
       )
     })
     
@@ -163,6 +175,7 @@ mod_ssp_power_traditional_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "traditional")
     

@@ -28,11 +28,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Confidence level input
         sliderInput(
           NS(id, "confidence_level"),
-          HTML(
-            '<div title="The desired level of confidence.">',
-            'Confidence Level',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Confidence Level",
+            "The desired level of confidence."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -40,11 +38,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0.5,
@@ -52,11 +48,9 @@ mod_ssp_aipe_ui <- function(id) {
         ## Width input
         sliderInput(
           NS(id, "width"),
-          HTML(
-            '<div title="The desired width of the confidence interval, given Delta.">',
-            'Width',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Width",
+            "The desired width of the confidence interval, given Delta."),
           min = 0,
           max = 1,
           value = 0.2,
@@ -76,6 +70,7 @@ mod_ssp_aipe_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for confidence level
               selectizeInput(
                 NS(id, "confidence_level_justification"),
@@ -107,7 +102,7 @@ mod_ssp_aipe_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))
               ),
@@ -153,10 +148,12 @@ mod_ssp_aipe_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(aipe_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -177,6 +174,7 @@ mod_ssp_aipe_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "aipe")
     

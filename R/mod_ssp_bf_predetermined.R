@@ -27,11 +27,9 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,11 +37,9 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
           max = 2,
           value = 0.5,
@@ -51,24 +47,27 @@ mod_ssp_bf_predetermined_ui <- function(id) {
         ## Maximum N input
         numericInput(
           NS(id, "max_n"),
-          HTML(
-            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
-            'Maximum N',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Maximum N",
+            "The maximum number of participants per group (both groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
           value = 5000,
           step = 1),
       selectInput(
         NS(id, "thresh"),
-        HTML(
-          '<div title="Critical threshold for the Bayes factor.">',
-          'Threshold',
-          '<i class="fas fa-info"></i>',
-          '</div>'),
+        name_with_info(
+          "Threshold",
+          "Critical threshold for the Bayes factor."),
         choices = c(10, 6, 3),
         selected = 10),
+      selectInput(
+        NS(id, "prior_scale"),
+        name_with_info(
+          "Prior Scale",
+          "Scale of the Cauchy prior distribution."),
+        choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+        selected = "1/sqrt(2)"),
       # Run calculation
       actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
       # Show the results of the calculation
@@ -84,6 +83,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -104,7 +104,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -132,26 +132,40 @@ mod_ssp_bf_predetermined_server <- function(id) {
     # Calculate results
     bf_predetermined_result <- eventReactive(input$calculate, {
       # Waitress$start()
-      ssp_bf_predetermined(tpr = input$tpr, delta = input$delta, thresh = as.integer(input$thresh), max_n = input$max_n)
+      prior_scale <- switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
+      
+      ssp_bf_predetermined(
+        tpr = input$tpr,
+        delta = input$delta,
+        thresh = as.integer(input$thresh),
+        max_n = input$max_n,
+        prior_scale = prior_scale)
       })
     
     # Show calculated results
     output$calculate_output <- renderUI({
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
           n1 = bf_predetermined_result()$n1,
-          npower = round(bf_predetermined_result()$npower, 2)
+          tpr_out = round(bf_predetermined_result()$tpr_out, 2)
         )
       )
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(bf_predetermined_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
 
@@ -163,8 +177,9 @@ mod_ssp_bf_predetermined_server <- function(id) {
         delta = input$delta,
         delta_justification = input$delta_justification,
         n1 = bf_predetermined_result()$n1,
-        npower = bf_predetermined_result()$npower,
-        thresh = as.integer(input$thresh)
+        tpr_out = bf_predetermined_result()$tpr_out,
+        thresh = as.integer(input$thresh),
+        prior_scale = input$prior_scale
       )
     })
     
@@ -172,6 +187,7 @@ mod_ssp_bf_predetermined_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "bf_predetermined")
     
@@ -181,7 +197,8 @@ mod_ssp_bf_predetermined_server <- function(id) {
         tpr = input$tpr,
         thresh = input$thresh,
         delta = input$delta,
-        max_n = input$max_n
+        max_n = input$max_n,
+        prior_scale = input$prior_scale
       )
     })
     

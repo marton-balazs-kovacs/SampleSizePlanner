@@ -27,11 +27,9 @@ mod_ssp_tost_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long run probability of obtaining a significant result with TOST, given Delta.">',
+          name_with_info(
             "True Positive Rate (TPR)",
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+            "The desired long run probability of obtaining a significant result with TOST, given Delta."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,11 +37,9 @@ mod_ssp_tost_ui <- function(id) {
         ## EqBand input
         sliderInput(
           NS(id, "eq_band"),
-          HTML(
-            '<div title="The chosen width of the region for practical equivalence, i.e. the SESOI.">',
-            'Equivalence Band (EqBand)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The chosen width of the region for practical equivalence, i.e. the SESOI."),
           min = 0,
           max = 1,
           value = 0.2,
@@ -51,11 +47,9 @@ mod_ssp_tost_ui <- function(id) {
         ## Delta input
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size. In most cases, this value will be zero.">',
+          name_with_info(
             "Delta",
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+            "The expected population effect size. In most cases, this value will be zero."),
           min = 0,
           max = 2, 
           value = 0, 
@@ -75,6 +69,7 @@ mod_ssp_tost_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -105,7 +100,7 @@ mod_ssp_tost_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -133,26 +128,43 @@ mod_ssp_tost_server <- function(id) {
     # Calculate results
     tost_result <- eventReactive(input$calculate, {
       # waitress$start()
-      ssp_tost(tpr = input$tpr, eq_band = input$eq_band, delta = input$delta)
+      safe_ssp_tost <- purrr::safely(ssp_tost)
+      res <- safe_ssp_tost(tpr = input$tpr, eq_band = input$eq_band, delta = input$delta)
+      if (is.null(res$error)) {
+        res$result
+        } else {
+          res$error
+          }
       })
     
     # Show calculated results
     output$calculate_output <- renderUI({
+      if ("n1" %in% names(tost_result())) {
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
           n1 = tost_result()$n1,
-          npower = round(tost_result()$npower, 2)
+          tpr_out = round(tost_result()$tpr_out, 2)
           )
         )
+      } else {
+        HTML(
+          glue::glue(
+            "<b>{error_message}</b>",
+            error_message = tost_result()$message
+          )
+        )
+      }
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && "n1" %in% names(tost_result())) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
 
@@ -166,7 +178,7 @@ mod_ssp_tost_server <- function(id) {
         eq_band_justification = input$eq_band_justification,
         tpr_justification = input$tpr_justification,
         n1 = tost_result()$n1,
-        npower = tost_result()$npower
+        tpr_out = tost_result()$tpr_out
       )
     })
 
@@ -174,6 +186,7 @@ mod_ssp_tost_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "tost")
     

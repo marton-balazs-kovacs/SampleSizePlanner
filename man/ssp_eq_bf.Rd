@@ -13,7 +13,8 @@ ssp_eq_bf(
   tol = 1e-04,
   granularity = 300,
   prior_location = 0,
-  prior_scale = 1/sqrt(2)
+  prior_scale = 1/sqrt(2),
+  max_n = 10001
 )
 
 eq_bf(
@@ -43,11 +44,13 @@ eq_bf(
 \item{prior_location}{Numeric. Location of the Cauchy prior distribution.}
 
 \item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
+
+\item{max_n}{Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).}
 }
 \value{
 The function returns a list of two named numeric vectors.
 The first `n1`  the determined sample size per group.
-The third `npower` is the TPR corresponding to the determined sample sizes.
+The third `tpr_out` is the TPR corresponding to the determined sample sizes.
 }
 \description{
 A Bayesian statistical testing approach aimed at establishing

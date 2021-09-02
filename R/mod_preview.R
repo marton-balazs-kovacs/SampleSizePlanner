@@ -26,31 +26,44 @@ mod_preview_ui <- function(id){
 #' preview Server Function
 #'
 #' @noRd 
-mod_preview_server <- function(id, activate, output_parameters, method){
+mod_preview_server <- function(id, activate, deactivate, output_parameters, method){
   moduleServer(id, function(input, output, session) {
-    # Create justification text
-    justification_text <- reactive({
-      req(activate())
-      justification(
-        method = method,
-        output_parameters = isolate(output_parameters())
+    # Setup initial values and settings
+    justification_text <- reactiveVal(NULL)
+    shinyjs::disable("clip")
+    shinyjs::disable("report")
+    shinyjs::runjs("$('.download-justification-btn').attr('title', 'Please run the calculation first');")
+    
+    # Run if "justification" button is clicked
+    observeEvent(activate(), {
+      # Create justification text
+      justification_text(
+        justification(
+          method = method,
+          output_parameters = isolate(output_parameters())
         )
+      )
+      # Add copy button enable logic
+      shinyjs::enable("clip")
+      # Add downloadbutton enable logic
+      shinyjs::enable("report")
+      shinyjs::runjs("$('.download-justification-btn').removeAttr('title');")
+      })
+    
+    # Run if "calculate" button is clicked
+    observeEvent(deactivate(), {
+      # Make justification text NULL
+      justification_text(NULL)
+      # Add copy button disable logic
+      shinyjs::disable("clip")
+      # Add downloadbutton disable logic
+      shinyjs::disable("report")
+      shinyjs::runjs("$('.download-justification-btn').attr('title', 'Please run the calculation first');")
       })
     
     # Show justification
-    output$show_preview <- renderText(justification_text())
-    
-    # Add downloadbutton enable logic
-    observe({
-      if (activate()) {
-        shinyjs::enable("report")
-        shinyjs::enable("clip")
-        shinyjs::runjs("$('.download-justification-btn').removeAttr('title');")
-        } else{
-          shinyjs::disable("report")
-          shinyjs::disable("clip")
-          shinyjs::runjs("$('.download-justification-btn').attr('title', 'Please run the calculation first');")
-          }
+    output$show_preview <- renderText({
+      justification_text()
       })
   
     # Download the output

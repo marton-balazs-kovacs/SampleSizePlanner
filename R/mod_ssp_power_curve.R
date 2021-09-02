@@ -27,33 +27,27 @@ mod_ssp_power_curve_ui <- function(id) {
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long-run probabilities of obtaining a significant result with a one-sided t-test, given each value of Delta."),
           min = 0,
           max = 1,
           value = 0.8,
           step = 0.01),
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="A range of hypothetical population effect sizes.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "A range of hypothetical population effect sizes."),
           min = 0,
           max = 2,
           value = c(0.1, 0.9),
           step = 0.1),
         numericInput(
           NS(id, "max_n"),
-          HTML(
-            '<div title="The maximum number of participants per group (both groups are assumed to have equal sample size).">',
-            'Maximum N',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Maximum N",
+            "The maximum number of participants per group (both groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
           value = 5000,
@@ -73,6 +67,7 @@ mod_ssp_power_curve_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -93,14 +88,15 @@ mod_ssp_power_curve_ui <- function(id) {
                 multiple = FALSE,
                 options = list(create = TRUE)),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview")),
               wellPanel(
                 style = "margin-top: 15px;",
-                plotly:: plotlyOutput(NS(id, "figure_preview")),
-                div(class = "download-btn",
-                    downloadButton(NS(id, "figure_download"), label = "Download figure")))),
+                plotly:: plotlyOutput(NS(id, "figure_preview"))),
+              div(class = "download-btn",
+                  downloadButton(NS(id, "figure_download"), label = "Download figure"))
+              ),
             tabPanel(
               "Code",
               # Panel title
@@ -124,15 +120,6 @@ mod_ssp_power_curve_server <- function(id) {
       # Setup loadingbar
       # waitress <- waiter::Waitress$new("#curve-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
       
-      # Add downloadbutton enable logic
-      observe({
-        if (input$calculate) {
-          shinyjs::enable("justification")
-        } else{
-          shinyjs::disable("justification")
-        }
-      })
-      
       # Create delta vector
       delta <- reactive({
         seq(input$delta[1], input$delta[2], 0.01)
@@ -146,6 +133,7 @@ mod_ssp_power_curve_server <- function(id) {
       
       # Show calculated results
       output$calculate_output <- renderUI({
+        if ("n1" %in% names(curve_result())) {
         HTML(
           glue::glue(
             "<b>n1:</b> {n1} <b>delta:</b> {delta}<br/>",
@@ -153,6 +141,25 @@ mod_ssp_power_curve_server <- function(id) {
             delta = curve_result()$delta
           )
         )
+        } else {
+          HTML(
+            glue::glue(
+              "<b>{error_message}</b>",
+              error_message = curve_result()$message
+            )
+          )
+        }
+      })
+      
+      # Add downloadbutton enable logic
+      observe({
+        if (input$calculate  && "n1" %in% names(curve_result())) {
+          shinyjs::enable("justification")
+          shinyjs::runjs("$('.justification-btn').removeAttr('title');")
+        } else{
+          shinyjs::disable("justification")
+          shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
+        }
       })
       
       # Justification text
@@ -170,31 +177,38 @@ mod_ssp_power_curve_server <- function(id) {
       mod_preview_server(
         "preview",
         activate = reactive(input$justification),
+        deactivate = reactive(input$calculate),
         output_parameters = output_parameters,
         method = "power_curve")
       
       # Figure
       ## Create figure
-      figure <- eventReactive(input$justification, {
-        plot_power_curve(
-          delta = curve_result()$delta,
-          n1 = curve_result()$n1,
-          animated = FALSE)
+      shinyjs::disable("figure_download")
+      figure <- reactiveVal(NULL)
+      
+      observeEvent(input$justification, {
+        figure(
+          plot_power_curve(
+            delta = curve_result()$delta,
+            n1 = curve_result()$n1,
+            animated = FALSE)
+        )
+        shinyjs::enable("figure_download")
+      })
+      
+      observeEvent(input$calculate, {
+        shinyjs::disable("figure_download")
+        figure(NULL)
       })
       
       ## Show figure preview
       output$figure_preview <- plotly::renderPlotly({
+        if (is.null(figure())) {
+          NULL
+        } else {
         figure() %>% 
           plotly::ggplotly(tooltip = "text") %>% 
           plotly::config(displayModeBar = F)
-      })
-      
-      # Add downloadbutton enable logic
-      observe({
-        if (input$justification) {
-          shinyjs::enable("figure_download")
-        } else{
-          shinyjs::disable("figure_download")
         }
       })
       

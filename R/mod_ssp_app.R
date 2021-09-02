@@ -27,11 +27,9 @@ mod_ssp_app_ui <- function(id) {
         ## Closeness input
         sliderInput(
           NS(id, "closeness"),
-          HTML(
-            '<div title="The desired closeness of the sample mean to the population mean defined in standard deviation.">',
-            'Closeness',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Closeness",
+            "The desired closeness of the sample mean to the population mean defined in standard deviation."),
           min = 0,
           max = 1,
           value = 0.2,
@@ -39,11 +37,9 @@ mod_ssp_app_ui <- function(id) {
         ## Confidence input
         sliderInput(
           NS(id, "confidence"),
-          HTML(
-            '<div title="The desired probability of obtaining the sample mean with the desired closeness to the population mean.">',
-            'Confidence',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Confidence",
+            "The desired probability of obtaining the sample mean with the desired closeness to the population mean."),
           min = 0, 
           max = 1,
           value = 0.95, 
@@ -63,8 +59,9 @@ mod_ssp_app_ui <- function(id) {
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Create justification text
-              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+              actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
               mod_preview_ui(NS(id, "preview"))),
             tabPanel(
@@ -107,10 +104,12 @@ mod_ssp_app_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(app_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -127,6 +126,7 @@ mod_ssp_app_server <- function(id) {
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "app")
     

@@ -27,37 +27,38 @@ mod_ssp_rope_ui <- function(id){
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
-          HTML(
-            '<div title="The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta.">',
-            'True Positive Rate (TPR)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "True Positive Rate (TPR)",
+            "The desired long run probability of having the HDI fully contained within the ROPE interval, given Delta."),
           min = 0.5,
           max = 0.95,
           value = 0.8,
-          step = 0.01),
+          step = 0.05),
         sliderInput(
           NS(id, "eq_band"),
-          HTML(
-            '<div title="The chosen ROPE interval.">',
-            'Equivalence Band (EqBand)',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The chosen ROPE interval."),
           min = 0.1,
           max = 0.5,
           value = 0.2,
-          step = 0.01),
+          step = 0.05),
         sliderInput(
           NS(id, "delta"),
-          HTML(
-            '<div title="The expected population effect size.">',
-            'Delta',
-            '<i class="fas fa-info"></i>',
-            '</div>'),
+          name_with_info(
+            "Delta",
+            "The expected population effect size."),
           min = 0,
-          max = 0.5,
+          max = 2,
           value = 0,
           step = 0.05),
+        selectInput(
+          NS(id, "prior_scale"),
+          name_with_info(
+            "Prior Scale",
+            "Scale of the Cauchy prior distribution."),
+          choices = c("1/sqrt(2)", "1", "sqrt(2)"),
+          selected = "1/sqrt(2)"),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -73,6 +74,7 @@ mod_ssp_rope_ui <- function(id){
               "Justification",
               # Panel title
               h3("Justify your sample size"),
+              p("The template justification boilerplate sentences should be supplemented with further details based on the context of the research."),
               # Justification for TPR
               selectizeInput(
                 NS(id, "tpr_justification"),
@@ -101,7 +103,7 @@ mod_ssp_rope_ui <- function(id){
                 multiple = FALSE,
                 options = list(create = TRUE)),
             # Create justification text
-            actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn"),
+            actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
             # Show justification text
             mod_preview_ui(NS(id, "preview"))
           ),
@@ -127,36 +129,59 @@ mod_ssp_rope_server <- function(id){
   moduleServer(id, function(input, output, session) {
     # Setup loadingbar
     # waitress <- waiter::Waitress$new("#rope-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    
+    input_prior_scale <- reactive({
+      switch(
+        input$prior_scale,
+        "1/sqrt(2)" = 1/sqrt(2),
+        "1" = 1,
+        "sqrt(2)" = sqrt(2)
+      )
+    })
+    
     # Calculate results
     rope_result <- eventReactive(input$calculate, {
       # waitress$start()
+      
       rope_precalculation_results %>% 
         dplyr::filter(
           dplyr::near(tpr, input$tpr),
           dplyr::near(delta, input$delta),
-          dplyr::near(eq_band, input$eq_band)
+          dplyr::near(eq_band, input$eq_band),
+          dplyr::near(prior_scale, input_prior_scale())
         ) %>% 
-        dplyr::select(n1, npower, error_message) %>% 
+        dplyr::select(n1, tpr_out, error_message) %>% 
         as.list()
       })
     
     # Show calculated results
     output$calculate_output <- renderUI({
+      if (!is.na(rope_result()$n1)) {
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {npower}",
+          "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
           n1 = rope_result()$n1,
-          npower = round(rope_result()$npower, 2)
+          tpr_out = round(rope_result()$tpr_out, 2)
         )
       )
+      } else {
+        HTML(
+          glue::glue(
+            "<b>{error_message}</b>",
+            error_message = rope_result()$error_message
+          )
+        )
+      }
     })
     
     # Add justification enable logic
     observe({
-      if (input$calculate) {
+      if (input$calculate && !is.na(rope_result()$n1)) {
         shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else{
         shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
     
@@ -170,8 +195,9 @@ mod_ssp_rope_server <- function(id){
         eq_band_justification = input$eq_band_justification,
         tpr_justification = input$tpr_justification,
         n1 = rope_result()$n1,
-        npower = rope_result()$npower,
-        error_message = rope_result()$error_message
+        tpr_out = rope_result()$tpr_out,
+        error_message = rope_result()$error_message,
+        prior_scale = input$prior_scale
       )
     })
     
@@ -179,6 +205,7 @@ mod_ssp_rope_server <- function(id){
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
       method = "rope")
     
@@ -187,7 +214,8 @@ mod_ssp_rope_server <- function(id){
       list(
         tpr = input$tpr,
         eq_band = input$eq_band,
-        delta = input$delta
+        delta = input$delta,
+        prior_scale = input$prior_scale
       )
     })
     
