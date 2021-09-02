@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SampleSizePlanner <a href='https://marton-balazs-kovacs.github.io/SampleSizePlanner/'><img src='inst/app/www/ssp_logo.png' align="right" height="200" /></a>
+# SampleSizePlanner <a href='https://marton-balazs-kovacs.github.io/SampleSizePlanner/'><img src='man/figures/ssp_logo.png' align="right" height="200" /></a>
 
 <!-- badges: start -->
 
