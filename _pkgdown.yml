@@ -24,6 +24,7 @@ reference:
   contents:
   - rope_precalculation_results
   - bfda_precalculation_results
+  - eq_bf_precalculation_results
 
 home:
   strip_header: false
