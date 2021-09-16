@@ -148,7 +148,8 @@ mod_ssp_bfda_server <- function(id) {
       if (!is.na(bfda_result()$n1)) {
       HTML(
         glue::glue(
-          "<b>n1:</b> {n1}<br/><b>TPR:</b> {tpr_out}<br/><b>Ha:</b> {ha}<br/><b>H0:</b> {h0}",
+          "<b>n1:</b> {n1}<br/><b>TPR:</b> {tpr_out}<br/><b>Ha:</b> {ha}<br/><b>H0:</b> {h0}<br/><br/> \\
+          <i>The numbers after Ha and H0 indicate the proportion of times either Ha (BF>threshold) and H0 (BF<(1/threshold)) are reached. These numbers do not necessarily sum to 1 as sometimes neither is reached before the maximum N.</i>",
           n1 = bfda_result()$n1,
           tpr_out = bfda_result()$tpr_out,
           ha = bfda_result()$ha,

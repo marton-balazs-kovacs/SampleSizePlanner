@@ -52,7 +52,7 @@ justification <- function(method, output_parameters) {
       glue::glue(
         "In order to estimate the sample size, we used the interval equivalent Bayes factor \\
         (Morey & Rouder, 2011; van Ravenzwaaij et al., 2019) method. We used a Cauchy prior \\
-        distribution centered on zero with a scale of {prior_scale}. We set the aimed TPR at \\
+        distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed TPR at \\
         {tpr}, because {tpr_justification}. We consider all effect sizes below {eq_band} equivalent to zero, \\
         because {eq_band_justification}. The expected delta was {delta} because {delta_justification}. \\
         Our Bayes factor threshold for concluding equivalence was {thresh}. Based on these parameters, a minimal \\
@@ -85,7 +85,7 @@ justification <- function(method, output_parameters) {
     text <- 
       glue::glue(
         "We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We used a Cauchy prior\\
-        distribution centered on zero with a scale of {prior_scale}.We set the aimed \\
+        distribution centered on 0 with a scale parameter of {prior_scale}.We set the aimed \\
         TPR at {tpr}, because {tpr_justification}. The expected delta was {delta} because {delta_justification}. Our \\
         evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} per group was estimated \\
         in order to reach a {round(tpr_out, 1)} TPR for our design.",
@@ -103,7 +103,7 @@ justification <- function(method, output_parameters) {
       text <- 
         glue::glue(
           "In order to estimate the sample size, we used the Region of Practical Equivalence (Kruschke and Liddell, 2018) \\
-          method. We used a Cauchy prior distribution centered on zero with a scale of {prior_scale}. We set the aimed TPR at {tpr}, because {tpr_justification}. We consider all effect sizes below \\
+          method. We used a Cauchy prior distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed TPR at {tpr}, because {tpr_justification}. We consider all effect sizes below \\
           {eq_band} equivalent to zero, because {eq_band_justification}. The expected delta was {delta} because {delta_justification}. \\
           Based on these parameters, a minimal sample size of {n1} per group was estimated in order to reach a {round(tpr_out,1)} TPR for our design.",
           n1 = output_parameters$n1,
@@ -137,7 +137,7 @@ justification <- function(method, output_parameters) {
       text <- 
         glue::glue(
           "We used the BFDA method to estimate the sample size. We used a Cauchy prior \\
-          distribution centered on zero with a scale of {prior_scale}. We set the aimed TPR at {tpr}, \\
+          distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed TPR at {tpr}, \\
           because {tpr_justification}. The expected delta was {delta} because {delta_justification}. \\
           Our evidence threshold was {thresh}. Based on these parameters, a minimal sample size of {n1} \\
           per group was estimated in order to reach a {tpr} TPR for our design.",
