@@ -73,7 +73,7 @@ ROPE method. The dataset contains the input and output values of these calculati
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SampleSizePlanner</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -119,11 +119,12 @@ ROPE method. The dataset contains the input and output values of these calculati
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with 77278 rows and 7 variables:</p><dl>
+    <p>A dataframe with 11070 rows and 8 variables:</p><dl>
   <dt>iterate</dt><dd><p>numeric, unique id of iteration</p></dd>
   <dt>n1</dt><dd><p>numeric, The determined sample size per group.</p></dd>
   <dt>npower</dt><dd><p>numeric, The TPR associated with the resulting sample sizes.</p></dd>
   <dt>tpr</dt><dd><p>numeric, The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.</p></dd>
+  <dt>prior_scale</dt><dd><p>numeric, Scale of the Cauchy prior distribution. Either 1/sqrt(2), 1, or sqrt(2).</p></dd>
   <dt>delta</dt><dd><p>numeric, The expected population effect size.</p></dd>
   <dt>eq_band</dt><dd><p>numeric, The chosen ROPE interval.</p></dd>
   <dt>error_message</dt><dd><p>character, The error message in case of an error.</p></dd>

@@ -74,7 +74,7 @@ dataset contains the input and output values of these calculations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SampleSizePlanner</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -121,11 +121,12 @@ dataset contains the input and output values of these calculations.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with 1230 rows and 9 variables:</p><dl>
+    <p>A dataframe with 3690 rows and 9 variables:</p><dl>
   <dt>iterate</dt><dd><p>numeric, unique id of iteration</p></dd>
   <dt>tpr</dt><dd><p>numeric, The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.</p></dd>
   <dt>delta</dt><dd><p>numeric, The expected population effect size.</p></dd>
-  <dt>thresh</dt><dd><p>numeric, The Bayes factor threshold for inference. Either 3, 6 or 10.</p></dd>
+  <dt>thresh</dt><dd><p>numeric, The Bayes factor threshold for inference. Either 3, 6, or 10.</p></dd>
+  <dt>prior_scale</dt><dd><p>numeric, Scale of the Cauchy prior distribution. Either 1/sqrt(2), 1, or sqrt(2).</p></dd>
   <dt>n1</dt><dd><p>numeric, The determined sample size per group.</p></dd>
   <dt>tpr_out</dt><dd><p>numeric, The TPR associated with the resulting sample sizes.</p></dd>
   <dt>h0</dt><dd><p>numeric, The frequency of the Bayes factor providing evidence for the null hypothesis with the given threshold.</p></dd>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Determine sample size with Bayes Factor Design Analysis (BFDA) — ssp_bfda • SampleSizePlanner</title>
+<title>Equivalence Interval Bayes Factor Precalculation Results — eq_bf_precalculation_results • SampleSizePlanner</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,10 @@
 
 
 
-<meta property="og:title" content="Determine sample size with Bayes Factor Design Analysis (BFDA) — ssp_bfda" />
-<meta property="og:description" content="The present method provides an expected sample size such that
-compelling evidence in the form of a Bayes factor can be collected
-for a given effect size with a certain long-run probability when
-allowing for sequential testing." />
+<meta property="og:title" content="Equivalence Interval Bayes Factor Precalculation Results — eq_bf_precalculation_results" />
+<meta property="og:description" content="Dataset that contains precalculated sample sizes with the
+equivalence interval Bayes factor method. The
+dataset contains the input and output values of these calculations." />
 
 
 
@@ -106,71 +105,43 @@ allowing for sequential testing." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Determine sample size with Bayes Factor Design Analysis (BFDA)</h1>
+    <h1>Equivalence Interval Bayes Factor Precalculation Results</h1>
     
-    <div class="hidden name"><code>ssp_bfda.Rd</code></div>
+    <div class="hidden name"><code>eq_bf_precalculation_results.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The present method provides an expected sample size such that
-compelling evidence in the form of a Bayes factor can be collected
-for a given effect size with a certain long-run probability when
-allowing for sequential testing.</p>
+    <p>Dataset that contains precalculated sample sizes with the
+equivalence interval Bayes factor method. The
+dataset contains the input and output values of these calculations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ssp_bfda</span><span class='op'>(</span>
-  tpr <span class='op'>=</span> <span class='fl'>0.8</span>,
-  <span class='va'>delta</span>,
-  thresh <span class='op'>=</span> <span class='fl'>10</span>,
-  n_rep <span class='op'>=</span> <span class='fl'>1000</span>,
-  prior_scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>,
-  max_n <span class='op'>=</span> <span class='fl'>1500</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>eq_bf_precalculation_results</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>tpr</th>
-      <td><p>Numeric. The long-run probability of obtaining a Bayes factor at least
-as high as the critical threshold favoring superiority, given Delta.</p></td>
-    </tr>
-    <tr>
-      <th>delta</th>
-      <td><p>Numeric. The expected population effect size.</p></td>
-    </tr>
-    <tr>
-      <th>thresh</th>
-      <td><p>Integer. The Bayes factor threshold for inference.</p></td>
-    </tr>
-    <tr>
-      <th>n_rep</th>
-      <td><p>Integer. The number of simulations.</p></td>
-    </tr>
-    <tr>
-      <th>prior_scale</th>
-      <td><p>Numeric. Scale of the Cauchy prior distribution.</p></td>
-    </tr>
-    <tr>
-      <th>max_n</th>
-      <td><p>Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>The function returns a list of four named numeric vectors.
-The first `tpr` is the range of TPRs that were provided as a parameter.
-The second `n1` is the range of determined sample sizes for the given design.
-The third `h0` is the frequency of Bayes factor providing evidence with the
-given threshold for the null hypothesis.
-The fourth `ha` is the same as `h0` but for the alternative hypothesis.</p>
+    <p>A dataframe with 33210 rows and 9 variables:</p><dl>
+  <dt>iterate</dt><dd><p>numeric, unique id of iteration</p></dd>
+  <dt>tpr</dt><dd><p>numeric, The long-run probability of obtaining a Bayes factor at least as high as the critical threshold favoring superiority, given Delta.</p></dd>
+  <dt>delta</dt><dd><p>numeric, The expected population effect size.</p></dd>
+  <dt>thresh</dt><dd><p>numeric, The Bayes factor threshold for inference. Either 3, 6, or 10.</p></dd>
+  <dt>prior_scale</dt><dd><p>numeric, Scale of the Cauchy prior distribution. Either 1/sqrt(2), 1, or sqrt(2).</p></dd>
+  <dt>eq_band</dt><dd><p>numeric, The chosen width of the equivalence region.</p></dd>
+  <dt>n1</dt><dd><p>numeric, The determined sample size per group.</p></dd>
+  <dt>tpr_out</dt><dd><p>numeric, The TPR associated with the resulting sample sizes.</p></dd>
+  <dt>error_message</dt><dd><p>character, The error message in case of an error.</p></dd>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>SampleSizePlanner</span><span class='fu'>::</span><span class='fu'>ssp_bfda</span><span class='op'>(</span>tpr <span class='op'>=</span> <span class='fl'>0.8</span>, delta <span class='op'>=</span> <span class='fl'>0.5</span>, thresh <span class='op'>=</span> <span class='fl'>10</span>, n_rep <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+</dl>
+
+    <h2 class="hasAnchor" id="remark"><a class="anchor" href="#remark"></a>Remark</h2>
+
+    
+
+<p>If none of the precalculated values suit your sample size
+  determination plan, than feel free the calculations with the R package
+  by using the <code><a href='ssp_eq_bf.html'>ssp_eq_bf</a></code> function.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
