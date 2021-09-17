@@ -39,7 +39,7 @@
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   pdftitle={SampleSizePlanner: A Tool to Estimate and Justify Sample Size for Two-Group Studies},
-  pdfauthor={Marton Kovacs1,2, Don van Ravenzwaaij3, Rink Hoekstra3, \& Balazs Aczel1},
+  pdfauthor={Marton Kovacs1,2, Don van Ravenzwaaij3, Rink Hoekstra3, \& Balazs Aczel2},
   pdflang={en-EN},
   pdfkeywords={sample size determination; power analysis; study design},
   colorlinks=true,
@@ -197,7 +197,7 @@
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \title{SampleSizePlanner: A Tool to Estimate and Justify Sample Size for Two-Group Studies}
-\author{Marton Kovacs\textsuperscript{1,2}, Don van Ravenzwaaij\textsuperscript{3}, Rink Hoekstra\textsuperscript{3}, \& Balazs Aczel\textsuperscript{1}}
+\author{Marton Kovacs\textsuperscript{1,2}, Don van Ravenzwaaij\textsuperscript{3}, Rink Hoekstra\textsuperscript{3}, \& Balazs Aczel\textsuperscript{2}}
 \date{}
 
 
@@ -209,7 +209,7 @@ Correspondence concerning this article should be addressed to Marton Kovacs, Hun
 
 }
 
-\affiliation{\vspace{0.5cm}\textsuperscript{1} Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary\\\textsuperscript{2} Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary\\\textsuperscript{3} University of Groningen, Groningen, The Netherlands}
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary\\\textsuperscript{2} Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary\\\textsuperscript{3} University of Groningen, Groningen, The Netherlands}
 
 \abstract{
 Planning sample size often requires researchers to identify a statistical technique
@@ -351,7 +351,7 @@ Equivalence interval Bayes factors contrast an equivalence hypothesis to a non-e
 \hypertarget{how-to-report-your-sample-size-estimation-1}{%
 \subparagraph{How to report your sample size estimation}\label{how-to-report-your-sample-size-estimation-1}}
 
-In order to estimate the sample size, we used the interval equivalent Bayes factor (Morey \& Rouder, 2011; Ravenzwaaij, Monden, Tendeiro, \& Ioannidis, 2019) method. We used a Cauchy prior distribution centered on zero with a scale of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. We consider all effect sizes below 0.2 equivalent to zero, because {[}1) previous studies reported the choice of a similar equivalence region; 2) of the following substantive reasons: \ldots{]}. The expected delta was 0 because {[}1) we expected no difference between the groups{]}. Our Bayes factor threshold for concluding equivalence was 10. Based on these parameters, a minimal sample size of 144 per group was estimated in order to reach 0.8 TPR for our design.
+In order to estimate the sample size, we used the interval equivalent Bayes factor (Morey \& Rouder, 2011; Ravenzwaaij, Monden, Tendeiro, \& Ioannidis, 2019) method. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. We consider all effect sizes below 0.2 equivalent to zero, because {[}1) previous studies reported the choice of a similar equivalence region; 2) of the following substantive reasons: \ldots{]}. The expected delta was 0 because {[}1) we expected no difference between the groups{]}. Our Bayes factor threshold for concluding equivalence was 10. Based on these parameters, a minimal sample size of 144 per group was estimated in order to reach 0.8 TPR for our design.
 
 \hypertarget{effect-size-0-1}{%
 \subsubsection{1.2. Effect size \textgreater0}\label{effect-size-0-1}}
@@ -449,7 +449,7 @@ Mary would like to test whether the mean IQ score of the experimental group's po
 
 Description
 
-The present method calculates the corresponding default Bayes factor for a \emph{t}-test statistic with Cauchy prior distribution centered on zero with scale parameter of either 1/\(\sqrt{2}\), 1, or \(\sqrt{2}\) for several sample sizes (the so-called Jeffrey-Zellner-Siow Bayes factor, see e.g., Rouder, Speckman, Sun, Morey, \& Iverson, 2009). The function returns the optimal sample size needed to reach the TPR for a given Bayes factor threshold to detect an expected population effect size. If a range of possible population effect sizes are plausible under the given hypothesis, the function can calculate the optimal sample sizes for the given range of effect sizes and present the results in a figure (analogous to the Power Curve method). This method is designed to determine the sample sizes for the existence of an effect (i.e., Delta \textgreater{} 0).
+The present method calculates the corresponding default Bayes factor for a \emph{t}-test statistic with Cauchy prior distribution centered on 0 with scale parameter of either 1/\(\sqrt{2}\), 1, or \(\sqrt{2}\) for several sample sizes (the so-called Jeffrey-Zellner-Siow Bayes factor, see e.g., Rouder, Speckman, Sun, Morey, \& Iverson, 2009). The function returns the optimal sample size needed to reach the TPR for a given Bayes factor threshold to detect an expected population effect size. If a range of possible population effect sizes are plausible under the given hypothesis, the function can calculate the optimal sample sizes for the given range of effect sizes and present the results in a figure (analogous to the Power Curve method). This method is designed to determine the sample sizes for the existence of an effect (i.e., Delta \textgreater{} 0).
 
 Parameters
 
@@ -470,7 +470,7 @@ How to use the package
 
 How to report your sample size estimation
 
-We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We used a Cauchy prior distribution centered on zero with a scale of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. The expected delta was 0.5 because {[}1) previous results published in \ldots; of the following substantive reasons: \ldots{]}. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 105 per group was estimated in order to reach a 0.8 TPR for our design.
+We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. The expected delta was 0.5 because {[}1) previous results published in \ldots; of the following substantive reasons: \ldots{]}. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 105 per group was estimated in order to reach a 0.8 TPR for our design.
 
 \hypertarget{bayes-factor-design-analysis-bfda}{%
 \subparagraph{1.2.2.2. Bayes Factor Design Analysis (BFDA)}\label{bayes-factor-design-analysis-bfda}}
@@ -501,7 +501,7 @@ How to use the package
 
 How to report your sample size estimation
 
-We used the BFDA method to estimate the sample size. We used a Cauchy prior distribution centered on zero with a scale of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. The expected delta was 0.5 because {[}1) previous results published in \ldots; 2) of the following substantive reasons: \ldots{]}. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 81 per group was estimated in order to reach a 0.8 TPR for our design.
+We used the BFDA method to estimate the sample size. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. The expected delta was 0.5 because {[}1) previous results published in \ldots; 2) of the following substantive reasons: \ldots{]}. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 81 per group was estimated in order to reach a 0.8 TPR for our design.
 
 \hypertarget{estimation}{%
 \subsection{2. Estimation}\label{estimation}}
@@ -604,7 +604,7 @@ How to use the package
 
 How to report your sample size estimation
 
-In order to estimate the sample size, we used the Region of Practical Equivalence (Kruschke, 2018) method. We used a Cauchy prior distribution centered on zero with a scale of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. We consider all effect sizes below 0.2 equivalent to zero, because {[}1) previous studies reported the choice of a similar region of practical equivalence; 2) of the following substantive reasons: \ldots{]}. The expected delta was 0 because {[}1) we expected no difference between the groups{]}. Based on these parameters, a minimal sample size of 517 per group was estimated in order to reach a 0.8 TPR for our design.
+In order to estimate the sample size, we used the Region of Practical Equivalence (Kruschke, 2018) method. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/\(\sqrt{2}\). We set the aimed TPR at 0.8, because {[}1) it is the common standard in the field; 2) it is the journal publishing requirement{]}. We consider all effect sizes below 0.2 equivalent to zero, because {[}1) previous studies reported the choice of a similar region of practical equivalence; 2) of the following substantive reasons: \ldots{]}. The expected delta was 0 because {[}1) we expected no difference between the groups{]}. Based on these parameters, a minimal sample size of 517 per group was estimated in order to reach a 0.8 TPR for our design.
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}

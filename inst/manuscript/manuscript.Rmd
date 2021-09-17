@@ -13,13 +13,13 @@ author:
   - name          : "Rink Hoekstra"
     affiliation   : "3"
   - name          : "Balazs Aczel"
-    affiliation   : "1"
+    affiliation   : "2"
 
 affiliation:
   - id            : "1"
-    institution   : "Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary"
-  - id            : "2"
     institution   : "Doctoral School of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary"
+  - id            : "2"
+    institution   : "Institute of Psychology, ELTE Eotvos Lorand University, Budapest, Hungary"
   - id            : "3"
     institution   : "University of Groningen, Groningen, The Netherlands"
 
@@ -182,7 +182,7 @@ SampleSizePlanner::ssp_eq_bf(
 
 ##### How to report your sample size estimation
 
-In order to estimate the sample size, we used the interval equivalent Bayes factor [@morey_bayes_2011; @van_ravenzwaaij_bayes_2019] method. We used a Cauchy prior distribution centered on zero with a scale of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. We consider all effect sizes below 0.2 equivalent to zero, because [1) previous studies reported the choice of a similar equivalence region; 2) of the following substantive reasons: ...]. The expected delta was 0 because [1) we expected no difference between the groups]. Our Bayes factor threshold for concluding equivalence was 10. Based on these parameters, a minimal sample size of 144 per group was estimated in order to reach 0.8 TPR for our design.
+In order to estimate the sample size, we used the interval equivalent Bayes factor [@morey_bayes_2011; @van_ravenzwaaij_bayes_2019] method. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. We consider all effect sizes below 0.2 equivalent to zero, because [1) previous studies reported the choice of a similar equivalence region; 2) of the following substantive reasons: ...]. The expected delta was 0 because [1) we expected no difference between the groups]. Our Bayes factor threshold for concluding equivalence was 10. Based on these parameters, a minimal sample size of 144 per group was estimated in order to reach 0.8 TPR for our design.
 
 ### 1.2. Effect size \>0
 
@@ -279,7 +279,7 @@ Mary would like to test whether the mean IQ score of the experimental group's po
 
 ###### Description
 
-The present method calculates the corresponding default Bayes factor for a *t*-test statistic with Cauchy prior distribution centered on zero with scale parameter of either 1/$\sqrt{2}$, 1, or $\sqrt{2}$ for several sample sizes [the so-called Jeffrey-Zellner-Siow Bayes factor, see e.g., @rouder_bayesian_2009]. The function returns the optimal sample size needed to reach the TPR for a given Bayes factor threshold to detect an expected population effect size. If a range of possible population effect sizes are plausible under the given hypothesis, the function can calculate the optimal sample sizes for the given range of effect sizes and present the results in a figure (analogous to the Power Curve method). This method is designed to determine the sample sizes for the existence of an effect (i.e., Delta > 0).
+The present method calculates the corresponding default Bayes factor for a *t*-test statistic with Cauchy prior distribution centered on 0 with scale parameter of either 1/$\sqrt{2}$, 1, or $\sqrt{2}$ for several sample sizes [the so-called Jeffrey-Zellner-Siow Bayes factor, see e.g., @rouder_bayesian_2009]. The function returns the optimal sample size needed to reach the TPR for a given Bayes factor threshold to detect an expected population effect size. If a range of possible population effect sizes are plausible under the given hypothesis, the function can calculate the optimal sample sizes for the given range of effect sizes and present the results in a figure (analogous to the Power Curve method). This method is designed to determine the sample sizes for the existence of an effect (i.e., Delta > 0).
 
 ###### Parameters
 
@@ -299,7 +299,7 @@ SampleSizePlanner::ssp_bf_predetermined(
 
 ###### How to report your sample size estimation
 
-We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We used a Cauchy prior distribution centered on zero with a scale of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. The expected delta was 0.5 because [1) previous results published in ...; of the following substantive reasons: ...]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 105 per group was estimated in order to reach a 0.8 TPR for our design.
+We used the Jeffrey-Zellner-Siow Bayes factor method to estimate the sample size. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. The expected delta was 0.5 because [1) previous results published in ...; of the following substantive reasons: ...]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 105 per group was estimated in order to reach a 0.8 TPR for our design.
 
 ##### 1.2.2.2. Bayes Factor Design Analysis (BFDA)
 
@@ -328,7 +328,7 @@ SampleSizePlanner::ssp_bfda(
 
 ###### How to report your sample size estimation
 
-We used the BFDA method to estimate the sample size. We used a Cauchy prior distribution centered on zero with a scale of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. The expected delta was 0.5 because [1) previous results published in ...; 2) of the following substantive reasons: ...]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 81 per group was estimated in order to reach a 0.8 TPR for our design.
+We used the BFDA method to estimate the sample size. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. The expected delta was 0.5 because [1) previous results published in ...; 2) of the following substantive reasons: ...]. Our evidence threshold was 10. Based on these parameters, a minimal sample size of 81 per group was estimated in order to reach a 0.8 TPR for our design.
 
 ## 2. Estimation
 
@@ -418,7 +418,7 @@ SampleSizePlanner::ssp_rope(
 
 ###### How to report your sample size estimation
 
-In order to estimate the sample size, we used the Region of Practical Equivalence [@kruschke_rejecting_2018] method. We used a Cauchy prior distribution centered on zero with a scale of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. We consider all effect sizes below 0.2 equivalent to zero, because [1) previous studies reported the choice of a similar region of practical equivalence; 2) of the following substantive reasons: ...]. The expected delta was 0 because [1) we expected no difference between the groups]. Based on these parameters, a minimal sample size of 517 per group was estimated in order to reach a 0.8 TPR for our design.
+In order to estimate the sample size, we used the Region of Practical Equivalence [@kruschke_rejecting_2018] method. We used a Cauchy prior distribution centered on 0 with a scale parameter of 1/$\sqrt{2}$. We set the aimed TPR at 0.8, because [1) it is the common standard in the field; 2) it is the journal publishing requirement]. We consider all effect sizes below 0.2 equivalent to zero, because [1) previous studies reported the choice of a similar region of practical equivalence; 2) of the following substantive reasons: ...]. The expected delta was 0 because [1) we expected no difference between the groups]. Based on these parameters, a minimal sample size of 517 per group was estimated in order to reach a 0.8 TPR for our design.
 
 # Summary
 
