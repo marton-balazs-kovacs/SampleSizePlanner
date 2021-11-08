@@ -2,21 +2,30 @@
 % Please edit documentation in R/informed_t_test_functions.R
 \name{informed_t_test_functions}
 \alias{informed_t_test_functions}
-\alias{cdf_normal}
-\alias{cdf_t}
 \alias{integrand_t}
 \alias{posterior_t}
+\alias{cdf_t}
+\alias{quantile_t}
+\alias{ciPlusMedian_t}
 \alias{posterior_normal}
+\alias{cdf_normal}
+\alias{quantile_normal}
+\alias{ciPlusMedian_normal}
+\alias{bf10_t}
+\alias{bf10_normal}
 \title{Informed t-test functions}
 \usage{
-cdf_normal(
-  x,
+integrand_t(delta, t, n, nu, mu.delta, gamma, kappa)
+
+posterior_t(
+  delta,
   t,
   n1,
   n2 = NULL,
   independentSamples = FALSE,
-  prior.mean,
-  prior.variance,
+  prior.location,
+  prior.scale,
+  prior.df,
   rel.tol = .Machine$double.eps^0.25
 )
 
@@ -32,10 +41,8 @@ cdf_t(
   rel.tol = .Machine$double.eps^0.25
 )
 
-integrand_t(delta, t, n, nu, mu.delta, gamma, kappa)
-
-posterior_t(
-  delta,
+quantile_t(
+  q,
   t,
   n1,
   n2 = NULL,
@@ -43,6 +50,23 @@ posterior_t(
   prior.location,
   prior.scale,
   prior.df,
+  tol = 1e-04,
+  max.iter = 100,
+  rel.tol = .Machine$double.eps^0.25
+)
+
+ciPlusMedian_t(
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.location,
+  prior.scale,
+  prior.df,
+  ci = 0.95,
+  type = "two-sided",
+  tol = 1e-04,
+  max.iter = 100,
   rel.tol = .Machine$double.eps^0.25
 )
 
@@ -54,6 +78,65 @@ posterior_normal(
   independentSamples = FALSE,
   prior.mean,
   prior.variance
+)
+
+cdf_normal(
+  x,
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.mean,
+  prior.variance,
+  rel.tol = .Machine$double.eps^0.25
+)
+
+quantile_normal(
+  q,
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.mean,
+  prior.variance,
+  tol = 1e-04,
+  max.iter = 100,
+  rel.tol = .Machine$double.eps^0.25
+)
+
+ciPlusMedian_normal(
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.mean,
+  prior.variance,
+  ci = 0.95,
+  type = "two-sided",
+  tol = 1e-04,
+  max.iter = 100,
+  rel.tol = .Machine$double.eps^0.25
+)
+
+bf10_t(
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.location,
+  prior.scale,
+  prior.df,
+  rel.tol = .Machine$double.eps^0.25
+)
+
+bf10_normal(
+  t,
+  n1,
+  n2 = NULL,
+  independentSamples = FALSE,
+  prior.mean,
+  prior.variance,
+  rel.tol = .Machine$double.eps^0.25
 )
 }
 \description{
