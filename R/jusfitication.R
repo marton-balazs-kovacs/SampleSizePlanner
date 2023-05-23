@@ -81,6 +81,19 @@ justification <- function(method, output_parameters) {
         delta = output_parameters$delta,
         delta_justification = output_parameters$delta_justification
       )
+  } else if (method == "traditional-twoway-anova") {
+    text <- 
+      glue::glue(
+        "We used a power analysis to estimate the sample size. We used an alpha of 0.05. We set the aimed power at {tpr}, because \\
+        {tpr_justification}. Based on these parameters, \\
+        a minimal sample size of {n1} was estimated in order to reach {round(tpr_out, 1)} power for our design.",
+        n1 = output_parameters$n1,
+        tpr_out = output_parameters$tpr_out,
+        tpr = output_parameters$tpr,
+        tpr_justification = output_parameters$tpr_justification,
+        # delta = output_parameters$delta,
+        # delta_justification = output_parameters$delta_justification
+      )
   } else if (method == "bf_predetermined") {
     text <- 
       glue::glue(

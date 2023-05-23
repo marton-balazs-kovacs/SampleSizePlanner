@@ -35,24 +35,27 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           value = 0.8,
           step = 0.01),
         ## Input Choice of Effects
-        selectInput(
+        selectizeInput(
           NS(id, "effect"),
           name_with_info(
             "Which effect's power you want to detect?",
             "Determine which effect of the ANOVA analysis, in which you want to check for power"),
-          c("Main Effect A", "Main Effect B", "Interaction Effect")),
+          choices = c(
+            "Main Effect A", 
+            "Main Effect B", 
+            "Interaction Effect"),
+          multiple = FALSE,
+          options = list(create = TRUE)),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
           label = name_with_info(
             "Mean of Each Group",
             "Specify the mean for each group."),
-          value = matrix(c(1), nrow = 1, ncol = 4,
+          value = matrix(c(1, 1.2, 1.5, 1.3), nrow = 1, ncol = 4,
                          dimnames = list(c("mu"),
-                                         c("a1_b1",
-                                           "a1_b2",
-                                           "a2_b1",
-                                           "a2_b2"))),
+                                         c("a1_b1", "a1_b2", 
+                                           "a2_b1", "a2_b2"))),
           rows = list(names = TRUE),
           cols = list(names = TRUE),
           class = "numeric"),
@@ -64,7 +67,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
             "The standard deviation per group (all groups are assumed to have the same standard deviation)."),
           min = 1e-3,
           max = 10,
-          value = 1,
+          value = 1.2,
           step = 0.1),
         ## Input Maximum N
         numericInput(
@@ -74,7 +77,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
             "The maximum number of participants per group (all groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
-          value = 80,
+          value = 300,
           step = 1),
         ## Input Number of Iteration
         numericInput(
@@ -84,7 +87,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
             "Numebr of iterations for calculating the power"),
           min = 10,
           max = 5000,
-          value = 1000,
+          value = 500,
           step = 10),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
@@ -112,15 +115,15 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
-              selectizeInput(
-                NS(id, "delta_justification"),
-                label = "Delta",
-                choices = c(
-                  "previous results published in ...",
-                  "our reasoning that ...",
-                  "other..."),
-                multiple = FALSE,
-                options = list(create = TRUE)),
+              # selectizeInput(
+              #   NS(id, "delta_justification"),
+              #   label = "Delta",
+              #   choices = c(
+              #     "previous results published in ...",
+              #     "our reasoning that ...",
+              #     "other..."),
+              #   multiple = FALSE,
+              #   options = list(create = TRUE)),
               # Create justification text
               actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
@@ -173,7 +176,12 @@ mod_ssp_power_traditional_anova_server <- function(id) {
       if ("n1" %in% names(traditional_result())) {
         HTML(
           glue::glue(
-            "<b>n1:</b> {n1}<br/><b>Resulting TPR:</b> {tpr_out}",
+            "
+            <b>n per group:</b> {n1}<br/>
+            <b>Resulting TPR:</b> {tpr_out}<br/>
+            <b>TPR for:</b> {effect}
+            ",
+            effect = traditional_result()$effect,
             n1 = traditional_result()$n1,
             tpr_out = round(traditional_result()$tpr_out, 2)
           )
@@ -189,50 +197,54 @@ mod_ssp_power_traditional_anova_server <- function(id) {
     })
     
     # Add justification enable logic
-    # observe({
-    #   if (input$calculate && "n1" %in% names(traditional_result())) {
-    #     shinyjs::enable("justification")
-    #     shinyjs::runjs("$('.justification-btn').removeAttr('title');")
-    #   } else{
-    #     shinyjs::disable("justification")
-    #     shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
-    #   }
-    # })
+    observe({
+      if (input$calculate && "n1" %in% names(traditional_result())) {
+        shinyjs::enable("justification")
+        shinyjs::runjs("$('.justification-btn').removeAttr('title');")
+      } else{
+        shinyjs::disable("justification")
+        shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
+      }
+    })
     
     # Set output parameters
-    # output_parameters <- reactive({
-    #   list(
-    #     tpr = input$tpr,
-    #     delta = input$delta,
-    #     delta_justification = input$delta_justification,
-    #     tpr_justification = input$tpr_justification,
-    #     n1 = traditional_result()$n1,
-    #     tpr_out = traditional_result()$tpr_out
-    #   )
-    # })
+    output_parameters <- reactive({
+      list(
+        tpr = input$tpr,
+        tpr_justification = input$tpr_justification,
+        # delta = input$delta,
+        # delta_justification = input$delta_justification,
+        n1 = traditional_result()$n1,
+        tpr_out = traditional_result()$tpr_out
+      )
+    })
     
     # Render preview
-    # mod_preview_server(
-    #   "preview",
-    #   activate = reactive(input$justification),
-    #   deactivate = reactive(input$calculate),
-    #   output_parameters = output_parameters,
-    #   method = "traditional")
+    mod_preview_server(
+      "preview",
+      activate = reactive(input$justification),
+      deactivate = reactive(input$calculate),
+      output_parameters = output_parameters,
+      method = "traditional-twoway-anova")
     
     # Set code parameters
-    # code_parameters <- reactive({
-    #   list(
-    #     tpr = input$tpr,
-    #     max_n = input$max_n,
-    #     delta = input$delta
-    #   )
-    # })
+    code_parameters <- reactive({
+      list(
+        effect = input$effect,
+        iter   = input$iter,
+        max_n  = input$max_n,
+        mu     = as.vector(input$muMatrix),
+        sigma  = input$sigma,
+        tpr    = input$tpr
+        # delta = input$delta
+      )
+    })
     
     # Render code preview
-    # mod_code_server(
-    #   "code",
-    #   code_parameters = code_parameters,
-    #   method = "traditional")
+    mod_code_server(
+      "code",
+      code_parameters = code_parameters,
+      method = "traditional-twoway-anova")
   })
 }
 

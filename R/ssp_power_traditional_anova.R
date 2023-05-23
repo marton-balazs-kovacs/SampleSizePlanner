@@ -24,7 +24,7 @@ ssp_power_traditional_anova <- function(
     effect = c("Main Effect A", "Main Effect B", "Interaction Effect"), 
     iter = 1000, max_n, mu, sigma, seed = NULL, tpr, alpha = 0.05) {
   
-  tpr_optim(
+  tpr_optim_res <- tpr_optim(
     fun    = twowayANOVApwr,
     effect = effect,
     iter   = iter,
@@ -34,6 +34,14 @@ ssp_power_traditional_anova <- function(
     seed   = seed,
     tpr    = tpr, 
     alpha  = alpha
+  )
+  
+  return(
+    list(
+      n1 = tpr_optim_res$n1,
+      tpr_out = tpr_optim_res$tpr_out,
+      effect = effect
+    )
   )
 }
 
@@ -99,3 +107,4 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   }
   
 }
+  
