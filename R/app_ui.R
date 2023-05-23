@@ -19,6 +19,8 @@ app_ui <- function(request) {
                           mod_ssp_eq_bf_ui("eq_bf")),
                  tabPanel("Classical power",
                           mod_ssp_power_traditional_ui("traditional")),
+                 tabPanel("Classical power - ANOVA",
+                          mod_ssp_power_traditional_anova_ui("traditional_anova")),
                  tabPanel("Power curve",
                           mod_ssp_power_curve_ui("curve")),
                  tabPanel("BFDA",
@@ -30,7 +32,7 @@ app_ui <- function(request) {
                  tabPanel("APP",
                           mod_ssp_app_ui("app")),
                  tabPanel("ROPE",
-                          mod_ssp_rope_ui("rope"))
+                          mod_ssp_rope_ui("rope")),
                  ),
       tabPanel("About",
                includeMarkdown(app_sys("app/www/about.Rmd")))

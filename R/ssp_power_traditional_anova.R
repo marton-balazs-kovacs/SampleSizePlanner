@@ -15,11 +15,14 @@
 #' @export
 #' @examples 
 #' \dontrun{
-#' SampleSizePlanner::ssp_power_traditional(tpr = 0.8, delta = 0.5, max_n = 5000, alpha = 0.05)
+#' SampleSizePlanner::ssp_power_traditional_anova(
+#'   tpr = 0.8, max_n = 400, mu = c(1, 1.2, 1.5, 1.3), sigma = 2, 
+#'   seed = NULL, alpha = 0.05
+#'  )
 #' }
 ssp_power_traditional_anova <- function(
-    effect = c("Main Effect 1", "Main Effect 2", "Interaction"), 
-    iter = 100, max_n, tpr, alpha = 0.05, seed = NULL) {
+    effect = c("Main Effect A", "Main Effect B", "Interaction Effect"), 
+    iter = 1000, max_n, mu, sigma, seed = NULL, tpr, alpha = 0.05) {
   
   tpr_optim(
     fun    = twowayANOVApwr,
@@ -30,8 +33,7 @@ ssp_power_traditional_anova <- function(
     sigma  = sigma,
     seed   = seed,
     tpr    = tpr, 
-    alpha  = alpha,
-    seed   = seed
+    alpha  = alpha
   )
 }
 
@@ -39,7 +41,7 @@ ssp_power_traditional_anova <- function(
 twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   
   # Evaluate if effects are specified
-  effects <- c("Main Effect 1", "Main Effect 2", "Interaction")
+  effects <- c("Main Effect A", "Main Effect B", "Interaction Effect")
   if (is.na(effect)||!effect %in% effects) {
     message("Specify which effect: Main or interaction")
     stop(call. = FALSE)
@@ -68,12 +70,12 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   # For each iteration, generate data, do ANOVA, and record p-values
   for (i in 1:iter) {
     # Generate data
-    grp1  <- c(rep(0, n*2), rep(1, n*2))
-    grp2  <- c(rep(0, n), rep(1, n), rep(0, n), rep(1, n))
-    value <- c(rnorm(n = n, mean = mu[1], sd = sigma), # grp1 = 0; grp2 = 0
-               rnorm(n = n, mean = mu[2], sd = sigma), # grp1 = 0; grp2 = 1
-               rnorm(n = n, mean = mu[3], sd = sigma), # grp1 = 1; grp2 = 0
-               rnorm(n = n, mean = mu[4], sd = sigma)) # grp1 = 1; grp2 = 1
+    grp1  <- c(rep(0, n1*2), rep(1, n1*2))
+    grp2  <- c(rep(0, n1), rep(1, n1), rep(0, n1), rep(1, n1))
+    value <- c(rnorm(n = n1, mean = mu[1], sd = sigma), # grp1 = 0; grp2 = 0
+               rnorm(n = n1, mean = mu[2], sd = sigma), # grp1 = 0; grp2 = 1
+               rnorm(n = n1, mean = mu[3], sd = sigma), # grp1 = 1; grp2 = 0
+               rnorm(n = n1, mean = mu[4], sd = sigma)) # grp1 = 1; grp2 = 1
     data <- data.frame(grp1, grp2, value)
     
     # Anova analysis
@@ -88,16 +90,12 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   }
   
   # Determine which effect that gets evaluated or shown
-  if (effect == "Main Effect 1") {
+  if (effect == "Main Effect A") {
     return(pwr_grp1 = sum(pval_data$pval_grp1 < alpha) / iter)
-    
-  } else if (effect == "Main Effect 2") {
+  } else if (effect == "Main Effect B") {
     return(pwr_grp2 = sum(pval_data$pval_grp2 < alpha) / iter)
-    
-  } else if (effect == "Interaction") {
+  } else if (effect == "Interaction Effect") {
     return(pwr_int  = sum(pval_data$pval_int  < alpha) / iter)
-    
   }
   
 }
-
