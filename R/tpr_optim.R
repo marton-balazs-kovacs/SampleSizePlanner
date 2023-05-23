@@ -31,7 +31,7 @@ tpr_optim <- function(fun, range, tpr, ...) {
       NewN = ifelse(Res[length(Res)] > tpr, NewN - 1, NewN + 1)
       }
     Ns = c(Ns, NewN)
-    Res = c(Res, fun(Ns[length(Ns)], delta, ...))
+    Res = c(Res, fun(Ns[length(Ns)], ...))
     }
   
   return(
