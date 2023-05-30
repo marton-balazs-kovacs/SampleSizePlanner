@@ -4,8 +4,7 @@
 #' a design needs to reach a statistical power, given a  desired
 #' significance level and expected effect size.
 #' 
-#' @param tpr Numeric. The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.
-#' @param delta Numeric. The expected population effect size.
+#' @param tpr Numeric. The desired long-run probability of obtaining a significant result with two-way ANOVA
 #' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' @param alpha Numeric. The level of significance.
 #' 
@@ -107,4 +106,3 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   }
   
 }
-  
