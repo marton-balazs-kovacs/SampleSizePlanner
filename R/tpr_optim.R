@@ -5,6 +5,7 @@
 #' 
 #' @param fun Function. The sample size determining method to use.
 #' @param range Integer. Range of sample sizes of interest.
+#' @param delta Numeric. The expected population effect size.
 #' @param tpr Numeric. The desired long-run probability.
 #' @param ... Additional arguments to pass to `fun`.
 #' 
@@ -31,7 +32,7 @@ tpr_optim <- function(fun, range, tpr, ...) {
       NewN = ifelse(Res[length(Res)] > tpr, NewN - 1, NewN + 1)
       }
     Ns = c(Ns, NewN)
-    Res = c(Res, fun(Ns[length(Ns)], ...))
+    Res = c(Res, fun(Ns[length(Ns)], delta, ...))
     }
   
   return(

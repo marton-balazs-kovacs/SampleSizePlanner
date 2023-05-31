@@ -40,12 +40,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           name_with_info(
             "Which effect's power you want to detect?",
             "Determine which effect of the ANOVA analysis, in which you want to check for power"),
-          choices = c(
-            "Main Effect A", 
-            "Main Effect B", 
-            "Interaction Effect"),
-          multiple = FALSE,
-          options = list(create = TRUE)),
+          c("Main Effect A", "Main Effect B", "Interaction Effect")),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
@@ -115,15 +110,15 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
-              # selectizeInput(
-              #   NS(id, "delta_justification"),
-              #   label = "Delta",
-              #   choices = c(
-              #     "previous results published in ...",
-              #     "our reasoning that ...",
-              #     "other..."),
-              #   multiple = FALSE,
-              #   options = list(create = TRUE)),
+              selectizeInput(
+                NS(id, "delta_justification"),
+                label = "Delta",
+                choices = c(
+                  "previous results published in ...",
+                  "our reasoning that ...",
+                  "other..."),
+                multiple = FALSE,
+                options = list(create = TRUE)),
               # Create justification text
               actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
@@ -201,12 +196,12 @@ mod_ssp_power_traditional_anova_server <- function(id) {
       if (input$calculate && "n1" %in% names(traditional_result())) {
         shinyjs::enable("justification")
         shinyjs::runjs("$('.justification-btn').removeAttr('title');")
-      } else{
+      } else {
         shinyjs::disable("justification")
         shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
-    
+
     # Set output parameters
     output_parameters <- reactive({
       list(
@@ -218,15 +213,16 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         tpr_out = traditional_result()$tpr_out
       )
     })
-    
+
     # Render preview
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
       deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
-      method = "traditional-twoway-anova")
-    
+      method = "traditional-twoway-anova"
+    )
+
     # Set code parameters
     code_parameters <- reactive({
       list(
@@ -239,12 +235,13 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         # delta = input$delta
       )
     })
-    
+
     # Render code preview
     mod_code_server(
       "code",
       code_parameters = code_parameters,
-      method = "traditional-twoway-anova")
+      method = "traditional-twoway-anova"
+    )
   })
 }
 
