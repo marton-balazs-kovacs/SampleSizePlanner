@@ -5,7 +5,6 @@
 #' significance level and expected effect size.
 #' 
 #' @param tpr Numeric. The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.
-#' @param delta Numeric. The expected population effect size.
 #' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' @param alpha Numeric. The level of significance.
 #' 
