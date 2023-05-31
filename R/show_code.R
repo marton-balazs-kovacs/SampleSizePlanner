@@ -49,7 +49,7 @@ show_code <- function(method, code_parameters) {
         tpr = code_parameters$tpr,
         max_n = code_parameters$max_n)
     
-  } else if (method == "traditional") {
+  } else if (method == "traditional-anova") {
     function_call <-
       glue::glue(
         "ssp_power_traditional_anova(effect = {effect}, iter = {iter}, max_n = {max_n}, mu = {mu}, sigma = {sigma}, tpr = {tpr}, alpha = 0.05)",
