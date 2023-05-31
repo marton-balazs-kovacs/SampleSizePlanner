@@ -110,15 +110,15 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
-              selectizeInput(
-                NS(id, "delta_justification"),
-                label = "Delta",
-                choices = c(
-                  "previous results published in ...",
-                  "our reasoning that ...",
-                  "other..."),
-                multiple = FALSE,
-                options = list(create = TRUE)),
+              # selectizeInput(
+              #   NS(id, "delta_justification"),
+              #   label = "Delta",
+              #   choices = c(
+              #     "previous results published in ...",
+              #     "our reasoning that ...",
+              #     "other..."),
+              #   multiple = FALSE,
+              #   options = list(create = TRUE)),
               # Create justification text
               actionButton(NS(id, "justification"), "Create justification report", class = "calculate-btn justification-btn"),
               # Show justification text
