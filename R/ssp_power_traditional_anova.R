@@ -34,7 +34,7 @@ ssp_power_traditional_anova <- function(
     tpr    = tpr,
     alpha  = alpha
   )
-
+  
   return(
     list(
       n1 = tpr_optim_res$n1,
