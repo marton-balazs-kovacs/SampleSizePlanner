@@ -34,6 +34,8 @@ app_ui <- function(request) {
                           mod_ssp_bf_predetermined_ui("bf_predetermined")),
                  tabPanel("ROPE",
                           mod_ssp_rope_ui("rope")),
+                 tabPanel("Non-inferiority BF",
+                          mod_ssp_infer_bf_ui("infer_bf"))
         ),
       navbarMenu("ANOVA",
                  "Frequentist",

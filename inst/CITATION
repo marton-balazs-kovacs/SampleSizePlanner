@@ -1,0 +1,16 @@
+
+bibentry(bibtype = "Misc",
+         key = "kovacsvanravenzwaaij",
+         title = "SampleSizePlanner: A Tool to Estimate and Justify Sample Size",
+         author = c(person(given = "Marton",
+                           family = "Kovacs"),
+                    person(given = "Don",
+                           family = "van Ravenzwaaij"),
+                    person(given = "Rink",
+                           family = "Hoekstra"),
+                    person(given = "Balazs",
+                           family = "Aczel")),
+         year = "2021",
+         url = "https://github.com/marton-balazs-kovacs/SampleSizePlanner",
+         abstract = "The SampleSizePlanner R package (and shiny application) enables researchers to calculate the sample size for different study desings. The aim of the package is to make the various sample size calculating methods available and propagate the transparent reporting of the chosen method.",
+         version = "0.1.0")

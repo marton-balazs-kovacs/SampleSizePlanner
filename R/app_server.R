@@ -15,6 +15,7 @@ app_server <- function(input, output, session) {
   mod_ssp_bf_predetermined_server("bf_predetermined")
   mod_ssp_app_server("app")
   mod_ssp_eq_bf_server("eq_bf")
+  mod_ssp_infer_bf_server("infer_bf")
   mod_ssp_aipe_server("aipe")
   mod_ssp_bfda_server("bfda")
 }
