@@ -17,15 +17,16 @@ sample size plan.
 
 ## Available sample size planning methods
 
--   Two One‐Sided Tests (TOST)
--   Interval Equivalence Bayes factor
--   Classical power analysis
--   Power curve
--   Bayes Factor Design Analysis (BFDA)
--   Predetermined sample size with Bayes factor
--   Accuracy In Parameter Estimation (AIPE)
--   A-priori precision (APP)
--   Region of Practical Equivalence (ROPE)
+- Two One‐Sided Tests (TOST)
+- Interval Equivalence Bayes factor
+- Classical power analysis
+- Power curve
+- Bayes Factor Design Analysis (BFDA)
+- Predetermined sample size with Bayes factor
+- Accuracy In Parameter Estimation (AIPE)
+- A-priori precision (APP)
+- Region of Practical Equivalence (ROPE)
+- Non-inferiority Bayes factor
 
 ## Usage
 
@@ -61,11 +62,35 @@ currently to generate a justification report from the R package. Please
 see the tutorial paper or the web app for example sample size
 justifications for each method.
 
-## Note
+The tutorial paper for two-group study designs can be found
+[HERE](https://journals.sagepub.com/doi/pdf/10.1177/25152459211054059).
 
-The tutorial paper that presents the web application and R package is
-not reviewed yet. More details are available in Kovacs, van Ravenzwaaij,
-Hoekstra & Aczel (2021).
+## Citation
+
+Please cite `SampleSizePlanner` if you use it for determining your
+sample size. To cite SampleSizePlanner the software, use:
+
+Kovacs M (2023). *SampleSizePlanner: Application to Select the Fitting
+Sample Size Planning Method*. R package version 0.1.0.
+
+Or copy the reference information to your BibTeX file:
+
+``` bibtex
+
+@Manual{,
+  title = {SampleSizePlanner: Application to Select the Fitting Sample Size Planning Method},
+  author = {Marton Kovacs},
+  year = {2023},
+  note = {R package version 0.1.0},
+}
+```
+
+To cite the tutorial paper on two-group designs use:
+
+Kovacs, M., van Ravenzwaaij, D., Hoekstra, R., & Aczel, B. (2022).
+SampleSizePlanner: A tool to estimate and justify sample size for
+two-group studies. *Advances in Methods and Practices in Psychological
+Science, 5*(1), 25152459211054059.
 
 ## Code of Conduct
 

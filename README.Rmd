@@ -31,6 +31,7 @@ The goal of SampleSizePlanner is to help researchers determine the sample size f
 * Accuracy In Parameter Estimation (AIPE)
 * A-priori precision (APP)
 * Region of Practical Equivalence (ROPE)
+* Non-inferiority Bayes factor
 
 ## Usage
 
@@ -59,9 +60,29 @@ SampleSizePlanner::run_app()
 
 You can use the R package to determine the sample size with any of the 9 methods that present in the web app. However, it is not possible currently to generate a justification report from the R package. Please see the tutorial paper or the web app for example sample size justifications for each method.
 
-## Note
+The tutorial paper for two-group study designs can be found [HERE](https://journals.sagepub.com/doi/pdf/10.1177/25152459211054059).
 
-The tutorial paper that presents the web application and R package is not reviewed yet. More details are available in Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2021).
+## Citation
+
+Please cite `SampleSizePlanner` if you use it for determining your sample size. To cite SampleSizePlanner the software, use: 
+
+```{r echo = FALSE, results = "asis"}
+print(citation("SampleSizePlanner"), style = "text")
+```
+
+Or copy the reference information to your BibTeX file:
+
+~~~bibtex
+
+```{r echo = FALSE, results = "asis"}
+print(citation("SampleSizePlanner"), style = "Bibtex")
+```
+
+~~~
+
+To cite the tutorial paper on two-group designs use:
+
+Kovacs, M., van Ravenzwaaij, D., Hoekstra, R., & Aczel, B. (2022). SampleSizePlanner: A tool to estimate and justify sample size for two-group studies. _Advances in Methods and Practices in Psychological Science, 5_(1), 25152459211054059.
 
 ## Code of Conduct
 
