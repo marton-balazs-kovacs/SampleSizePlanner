@@ -68,6 +68,27 @@ justification <- function(method, output_parameters) {
         eq_band_justification = output_parameters$eq_band_justification,
         delta_justification = output_parameters$delta_justification
       )
+  } else if (method == "infer_bf") {
+    text <-
+      glue::glue(
+        "In order to estimate the sample size, we used the non-inferiority Bayes factor \\
+        (van Ravenzwaaij et al., 2019) method. We used a Cauchy prior \\
+        distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed TPR at \\
+        {tpr}, because {tpr_justification}. We chose a non-inferiority margin of {ni_margin} because {ni_margin_justification}. \\
+        The expected delta was {delta} because {delta_justification}. \\
+        Our Bayes factor threshold for concluding non-inferiority was {thresh}. Based on these parameters, a minimal \\
+        sample size of {n1} was estimated in order to reach {round(tpr_out, 1)} TPR for our design.",
+        ni_margin = output_parameters$ni_margin,
+        thresh = output_parameters$thresh, 
+        delta = output_parameters$delta,
+        n1 = output_parameters$n1,
+        tpr_out = output_parameters$tpr_out,
+        tpr = output_parameters$tpr,
+        prior_scale = output_parameters$prior_scale,
+        tpr_justification = output_parameters$tpr_justification,
+        ni_margin_justification = output_parameters$ni_margin_justification,
+        delta_justification = output_parameters$delta_justification
+      )
   } else if (method == "traditional") {
     text <- 
       glue::glue(

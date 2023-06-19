@@ -17,6 +17,8 @@ app_ui <- function(request) {
                           mod_ssp_tost_ui("tost")),
                  tabPanel("Interval Equivalence BF",
                           mod_ssp_eq_bf_ui("eq_bf")),
+                 tabPanel("Non-inferiority BF",
+                          mod_ssp_infer_bf_ui("infer_bf")),
                  tabPanel("Classical power",
                           mod_ssp_power_traditional_ui("traditional")),
                  tabPanel("Power curve",
