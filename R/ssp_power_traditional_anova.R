@@ -61,10 +61,10 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   }
 
   # Re-scale the mu and sigma before calculating the power
-  while (mu[1] != 0 | sigma != 1) {
-    mu    = mu/sigma    # scale mu by sigma
-    sigma = sigma/sigma # scale sigma to 1
-    mu    = mu - mu[1]  # scale the mean of first group to 0
+  while (min(mu) != 0 | sigma != 1) {
+    mu    = mu/sigma      # scale mu by sigma
+    sigma = sigma/sigma   # scale sigma to 1
+    mu    = mu - min(mu)  # scale that the smallest mean is zero
   }
 
   # Create a data frame to store the p-values from each iteration
