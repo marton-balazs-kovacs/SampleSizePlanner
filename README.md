@@ -70,18 +70,21 @@ The tutorial paper for two-group study designs can be found
 Please cite `SampleSizePlanner` if you use it for determining your
 sample size. To cite SampleSizePlanner the software, use:
 
-Kovacs M (2023). *SampleSizePlanner: Application to Select the Fitting
-Sample Size Planning Method*. R package version 0.1.0.
+Kovacs M, van Ravenzwaaij D, Hoekstra R, Aczel B (2021).
+“SampleSizePlanner: A Tool to Estimate and Justify Sample Size.”
+<https://github.com/marton-balazs-kovacs/SampleSizePlanner>.
 
 Or copy the reference information to your BibTeX file:
 
 ``` bibtex
 
-@Manual{,
-  title = {SampleSizePlanner: Application to Select the Fitting Sample Size Planning Method},
-  author = {Marton Kovacs},
-  year = {2023},
-  note = {R package version 0.1.0},
+@Misc{kovacsvanravenzwaaij,
+  title = {SampleSizePlanner: A Tool to Estimate and Justify Sample Size},
+  author = {Marton Kovacs and Don {van Ravenzwaaij} and Rink Hoekstra and Balazs Aczel},
+  year = {2021},
+  url = {https://github.com/marton-balazs-kovacs/SampleSizePlanner},
+  abstract = {The SampleSizePlanner R package (and shiny application) enables researchers to calculate the sample size for different study desings. The aim of the package is to make the various sample size calculating methods available and propagate the transparent reporting of the chosen method.},
+  version = {0.1.0},
 }
 ```
 
