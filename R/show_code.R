@@ -49,6 +49,26 @@ show_code <- function(method, code_parameters) {
         tpr = code_parameters$tpr,
         max_n = code_parameters$max_n)
     
+  } else if (method == "traditional-twoway-anova") {
+    function_call <-
+      glue::glue("
+        ssp_power_traditional_anova(
+          effect = \"{effect}\", 
+          iter   = {iter}, 
+          max_n  = {max_n}, 
+          mu     = c({glue::glue_collapse(mu, sep = ', ')}),
+          sigma  = {sigma}, 
+          tpr    = {tpr}, 
+          alpha  = 0.05
+        )
+        ",
+        effect = code_parameters$effect,
+        iter = code_parameters$iter,
+        mu = code_parameters$mu,
+        sigma = code_parameters$sigma,
+        tpr = code_parameters$tpr,
+        max_n = code_parameters$max_n)
+  
   } else if (method == "bf_predetermined") {
     function_call <-
       glue::glue(
