@@ -24,7 +24,7 @@ mod_home_ui <- function(id){
           , width = "100%", style = "margin-bottom: 20px; margin-top: 20px;"
           ),
       HTML("<p style='text-align: right;'>*This version of the application is presented in a tutorial paper that is accepted for publication.</br>
-        Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2021) <a href='https://osf.io/preprints/metaarxiv/rm9dn/'>link to preprint</a></p>")
+           Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2022) <a href='https://doi.org/10.1177/25152459211054059'>link to publication</a></p>")
     )
   )
 }
