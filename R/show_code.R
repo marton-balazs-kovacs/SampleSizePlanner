@@ -53,7 +53,7 @@ show_code <- function(method, code_parameters) {
     function_call <-
       glue::glue("
         ssp_power_traditional_anova(
-          effect = {effect}, 
+          effect = \"{effect}\", 
           iter   = {iter}, 
           max_n  = {max_n}, 
           mu     = c({glue::glue_collapse(mu, sep = ', ')}),
