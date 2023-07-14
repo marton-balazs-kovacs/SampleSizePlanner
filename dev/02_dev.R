@@ -46,6 +46,7 @@ usethis::use_package("rlang")
 usethis::use_package("purrr")
 usethis::use_package("rclipboard")
 usethis::use_package("stats")
+usethis::use_package("shinyMatrix")
 
 ## 2.3 Add tests
 

@@ -4,18 +4,18 @@
 \alias{tpr_optim}
 \title{Optimize output TPR}
 \usage{
-tpr_optim(fun, range, delta, tpr, ...)
+tpr_optim(fun, range, tpr, ...)
 }
 \arguments{
 \item{fun}{Function. The sample size determining method to use.}
 
 \item{range}{Integer. Range of sample sizes of interest.}
 
-\item{delta}{Numeric. The expected population effect size.}
-
 \item{tpr}{Numeric. The desired long-run probability.}
 
 \item{...}{Additional arguments to pass to `fun`.}
+
+\item{delta}{Numeric. The expected population effect size.}
 }
 \value{
 The function returns a list of two. `n1` the resulting sample size and `tpr_out`
