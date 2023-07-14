@@ -64,7 +64,7 @@ twoway_ANOVA_bf_pwr  <- function(
     seed   = NULL) {
   
   # Evaluate if effects are specified
-  effects <- c("Main Effect 1", "Main Effect 2", "Interaction")
+  effects <- c("Main Effect 1", "Main Effect 2", "Interaction Effect")
   if (is.na(effect)||!effect %in% effects) {
     message("Specify which effect: Main or interaction")
     stop(call. = FALSE)
@@ -85,14 +85,14 @@ twoway_ANOVA_bf_pwr  <- function(
   
   # Re-scale the mu and sigma before calculating the power
   while (sorted_mu[1] != 0 | sigma != 1) {
-    sorted_mu    = sorted_mu/sigma    # scale mu by sigma
-    sigma = sigma/sigma # scale sigma to 1
+    sorted_mu    = sorted_mu/sigma           # scale mu by sigma
+    sigma        = sigma/sigma               # scale sigma to 1
     sorted_mu    = sorted_mu - sorted_mu[1]  # scale the mean of first group to 0
   }
  
   # Create a data frame to store the p-values from each iteration
-  pval_data <- data.frame(matrix(NA, nrow = iter, ncol = 3))
-  colnames(pval_data) <- c("pval_grp1", "pval_grp2", "pval_int")
+  bf_value_data <- data.frame(matrix(NA, nrow = iter, ncol = 3))
+  colnames(bf_value_data) <- c("bf_grp1", "bf_grp2", "bf_int")
   
   # Set seeds
   set.seed(seed)
@@ -101,8 +101,8 @@ twoway_ANOVA_bf_pwr  <- function(
   for (i in 1:iter) {
     # Generate data
     
-    grp1  <- as.factor(rep(c(0, 1), each = 2*n))
-    grp2  <- as.factor(rep(c(0, 1), each = n, times = 2))
+    grp1 <- as.factor(rep(c(0, 1), each = 2*n))
+    grp2 <- as.factor(rep(c(0, 1), each = n, times = 2))
     
     value <- c(rnorm(n = n, mean = sorted_mu[1], sd = sigma), # grp1 = 0; grp2 = 0
                rnorm(n = n, mean = sorted_mu[2], sd = sigma), # grp1 = 0; grp2 = 1
@@ -117,24 +117,22 @@ twoway_ANOVA_bf_pwr  <- function(
     bf_value <- BayesFactor::extractBF(results)[, 1]
     
     # Store p-values of each iteration into the data frame
-    pval_data[i, ] <- c(
-      
+    bf_value_data[i, ] <- c(
       bf_value[1],  # p-value for main effect (group 1)
       bf_value[2],  # p-value for main effect (group 2)
       bf_value[4] / bf_value[3]   # p-value for interaction effect (grp1 + grp2 + grp1:grp2 vs. grp1 + grp2)
     )
   }
   
+  browser()
+
   # Determine which effect that gets evaluated or shown
   if (effect == "Main Effect 1") {
-    return(pwr_grp1 = sum(pval_data$pval_grp1 >= thresh) / iter)
-    
+    return(pwr_grp1 = sum(bf_value_data$bf_grp1 >= thresh) / iter)
   } else if (effect == "Main Effect 2") {
-    return(pwr_grp2 = sum(pval_data$pval_grp2 >= thresh) / iter)
-    
-  } else if (effect == "Interaction") {
-    return(pwr_int  = sum(pval_data$pval_int  >= thresh) / iter)
-    
+    return(pwr_grp2 = sum(bf_value_data$bf_grp2 >= thresh) / iter)
+  } else if (effect == "Interaction Effect") {
+    return(pwr_int = sum(bf_value_data$bf_int >= thresh) / iter)
   }
   
 }

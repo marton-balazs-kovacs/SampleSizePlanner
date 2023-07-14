@@ -60,11 +60,18 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
     stop(call. = FALSE)
   }
 
+  # Arrange order so that m1_1 < m1_2 & m2_1 < m2_2
+  sorted_mu <- c(sort(mu[1:2]), sort(mu[3:4]))
+  # sort that m1_1 < m2_1
+  if (sorted_mu[3] < sorted_mu[1]) {
+    sorted_mu <- c(sorted_mu[c(3:4, 1:2)])
+  }
+
   # Re-scale the mu and sigma before calculating the power
-  while (min(mu) != 0 | sigma != 1) {
-    mu    = mu/sigma      # scale mu by sigma
-    sigma = sigma/sigma   # scale sigma to 1
-    mu    = mu - min(mu)  # scale that the smallest mean is zero
+  while (sorted_mu[1] != 0 || sigma != 1) {
+    sorted_mu <- sorted_mu / sigma        # scale mu by sigma
+    sigma     <- sigma / sigma            # scale sigma to 1
+    sorted_mu <- sorted_mu - sorted_mu[1] # scale the mean of first group to 0
   }
 
   # Create a data frame to store the p-values from each iteration
@@ -79,10 +86,10 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
     # Generate data
     grp1  <- c(rep(0, n1*2), rep(1, n1*2))
     grp2  <- c(rep(0, n1), rep(1, n1), rep(0, n1), rep(1, n1))
-    value <- c(rnorm(n = n1, mean = mu[1], sd = sigma), # grp1 = 0; grp2 = 0
-               rnorm(n = n1, mean = mu[2], sd = sigma), # grp1 = 0; grp2 = 1
-               rnorm(n = n1, mean = mu[3], sd = sigma), # grp1 = 1; grp2 = 0
-               rnorm(n = n1, mean = mu[4], sd = sigma)) # grp1 = 1; grp2 = 1
+    value <- c(rnorm(n = n1, mean = sorted_mu[1], sd = sigma),
+               rnorm(n = n1, mean = sorted_mu[2], sd = sigma),
+               rnorm(n = n1, mean = sorted_mu[3], sd = sigma),
+               rnorm(n = n1, mean = sorted_mu[4], sd = sigma))
     data <- data.frame(grp1, grp2, value)
 
     # Anova analysis
