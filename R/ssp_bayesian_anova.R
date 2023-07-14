@@ -123,8 +123,6 @@ twoway_ANOVA_bf_pwr  <- function(
       bf_value[4] / bf_value[3]   # p-value for interaction effect (grp1 + grp2 + grp1:grp2 vs. grp1 + grp2)
     )
   }
-  
-  browser()
 
   # Determine which effect that gets evaluated or shown
   if (effect == "Main Effect 1") {
