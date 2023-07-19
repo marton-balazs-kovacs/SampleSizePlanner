@@ -61,7 +61,8 @@ bayes_anova_options <-
   dplyr::slice(-1) %>%
   dplyr::rowwise() %>%
   dplyr::mutate(mu = mapply(c, m11, m12, m21, m22, SIMPLIFY = FALSE)) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::mutate(iter = row_number())
 
 # Set file directory -----------------------------------------------------------
 
@@ -74,43 +75,50 @@ ifelse(
 # Run calculations -------------------------------------------------------------
 
 # As a safety net:
-# Instead of running a batch of 100 possible configurations, 
-# The data set was split based on TPR, effect, thresh, and prior_scale
-bayes_anova_options_split <- split(
-  bayes_anova_options,
-  ~ tpr + effect + thresh + prior_scale  
-)
+# Instead of running a batch of 75 possible configurations,
 
-# Number of saves
-n_saves <- length(bayes_anova_options_split)
+# First, we split all the iteration as list
+bayes_anova_options_split <- 
+  split(bayes_anova_options, bayes_anova_options$iter)
+
+# Since each iteration has 75 possible configuration, then we need:
+n_saves <- ceiling(length(bayes_anova_options_split) / 75)
+init <- 1
 
 # Run iterations
 for (i in 1:2) {
   # Print the current iteration
-  print(paste("The", i, "iteration is running Currently.",
-              "Batch Name:", names(bayes_anova_options_split[i])))
+  print(paste("The", i, "iteration is running Currently."))
+
+  # Slice the data
+  slice_n <- i * 75
+  bayes_anova_options_sliced <- bayes_anova_options_split[init:slice_n]
 
   # Calculate Bayesian ANOVA
   ssp_bayes_anova_res <- future.apply::future_lapply(
-    bayes_anova_options_split[i], 
-    function(x) {
-      x[[1]]
-    }
-  )
+    bayes_anova_options_sliced,
+    function(x) safe_ssp_anova_bf(
+        tpr = x$tpr,
+        effect = x$effect,
+        thresh = x$thresh,
+        prior_scale = x$prior_scale,
+        iter = 10, # ffixed to 1000
+        max_n = 400, # fixed to 500
+        mu = c(x$m11, x$m12, x$m21, x$m22),
+        sigma = 1,
+      )
+    )
 
-  browser()
-  # # Save the results
-  # saveRDS(ssp_bayes_anova_res, paste0("./data/bayes-anova-res/set-", i, ".rds"))
+  # Save the results
+  saveRDS(ssp_bayes_anova_res, paste0("./data/bayes-anova-res/set-", i, ".rds"))
 
-  # # Remove object
-  # rm(ssp_bayes_anova_res)
+  # Remove object
+  rm(ssp_bayes_anova_res)
 
-  # # Empty memory
-  # gc()
-} 
+  # Empty memory
+  gc()
 
-x <- list(a = 1:10, beta = exp(-3:3), logic = c(TRUE, FALSE, FALSE, TRUE))
-y0 <- lapply(x, FUN = quantile, probs = 1:3 / 4)
-y1 <- future_lapply(x, FUN = quantile, probs = 1:3 / 4)
-print(y1)
-
+  # To start the next batch, we move the pointers right after the last 
+  # iteration in this batch:
+  init <- slice_n + 1
+}
