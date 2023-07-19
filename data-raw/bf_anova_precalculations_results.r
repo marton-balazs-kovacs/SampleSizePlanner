@@ -102,7 +102,7 @@ for (i in 1:2) {
         effect = x$effect,
         thresh = x$thresh,
         prior_scale = x$prior_scale,
-        iter = 10, # ffixed to 1000
+        iter = 1000, # fixed to 1000
         max_n = 400, # fixed to 500
         mu = c(x$m11, x$m12, x$m21, x$m22),
         sigma = 1,
