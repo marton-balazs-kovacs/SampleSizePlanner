@@ -15,7 +15,7 @@ tpr_optim <- function(fun, range, tpr, ...) {
   Ns = range
   Res = c(fun(Ns[1], ...), 
           fun(Ns[2], ...))
-  
+
   if (tpr < min(Res)) {
     stop(paste0("Your chosen true positive rate (", tpr, ") level is already achieved for n = ", Ns[1], " with ", round(min(Res), 2), " true positive rate!"))
     } else if (tpr > max(Res)) {
