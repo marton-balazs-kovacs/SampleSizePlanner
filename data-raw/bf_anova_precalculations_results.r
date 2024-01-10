@@ -3,7 +3,6 @@
 library(tidyverse)
 library(future.apply)
 library(purrr)
-library(tictoc)
 
 # Functions --------------------------------------------------------------------
 
