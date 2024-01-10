@@ -3,6 +3,7 @@
 library(tidyverse)
 library(future.apply)
 library(purrr)
+source("R/ssp_bayesian_anova.R")
 
 # Functions --------------------------------------------------------------------
 
