@@ -87,7 +87,7 @@ n_saves <- ceiling(length(bayes_anova_options_split) / 75)
 init <- 1
 
 # Run iterations
-for (i in 1:n_saves) {
+for (i in 9:n_saves) {
   # Print the current iteration
   print(paste("Iteration", i, "is running currently."))
 
@@ -97,23 +97,23 @@ for (i in 1:n_saves) {
   bayes_anova_options_sliced <- bayes_anova_options_split[start_index:end_index]
 
   # Calculate Bayesian ANOVA
-  ssp_bayes_anova_res <- future.apply::future_lapply(
-    bayes_anova_options_sliced,
-    function(x) {
-	print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "thresh:", x$thresh, "prior:", x$prior_scale))
-	safe_ssp_anova_bf(
-          tpr = x$tpr,
-          effect = x$effect,
-          thresh = x$thresh,
-          prior_scale = x$prior_scale,
-          iter = 1000, # fixed to 1000
-          max_n = 500, # fixed to 500
-          mu = c(x$m11, x$m12, x$m21, x$m22),
-          sigma = 1
-	)
-     }
-  )
-
+  ssp_bayes_anova_res <- future.apply::future_lapply(bayes_anova_options_sliced,
+                                                     function(x) {
+                                                       # print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "thresh:", x$thresh, "prior:", x$prior_scale))
+                                                       safe_ssp_anova_bf(
+                                                         tpr = x$tpr,
+                                                         effect = x$effect,
+                                                         thresh = x$thresh,
+                                                         prior_scale = x$prior_scale,
+                                                         iter = 1000,
+                                                         # fixed to 1000
+                                                         max_n = 500,
+                                                         # fixed to 500
+                                                         mu = c(x$m11, x$m12, x$m21, x$m22),
+                                                         sigma = 1
+                                                       )
+                                                     })
+  
   # Save the results
   saveRDS(ssp_bayes_anova_res, paste0("../data/bayes-anova-res/set-", i, ".rds"))
 
