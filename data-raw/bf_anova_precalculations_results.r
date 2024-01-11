@@ -3,8 +3,8 @@
 library(tidyverse)
 library(future.apply)
 library(purrr)
-source("R/ssp_bayesian_anova.R")
-
+source("../R/ssp_bayesian_anova.R")
+source("../R/tpr_optim.R")
 # Functions --------------------------------------------------------------------
 
 # Create a function to safely run Bayesian Anova
@@ -39,6 +39,7 @@ safe_ssp_anova_bf <- purrr::safely(ssp_anova_bf)
 
 # Set number of cores that we want to allocate
 n_cores <- future::availableCores() - 1
+print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
 future::plan(multisession, workers = n_cores)
@@ -67,8 +68,8 @@ bayes_anova_options <-
 # Set file directory -----------------------------------------------------------
 
 ifelse(
-  !dir.exists("./data/bayes-anova-res"),
-  dir.create("./data/bayes-anova-res"),
+  !dir.exists("../data/bayes-anova-res"),
+  dir.create("../data/bayes-anova-res"),
   "Directory already exists."
 )
 
@@ -86,39 +87,39 @@ n_saves <- ceiling(length(bayes_anova_options_split) / 75)
 init <- 1
 
 # Run iterations
-for (i in 1:2) {
+for (i in 1:n_saves) {
   # Print the current iteration
-  print(paste("The", i, "iteration is running Currently."))
+  print(paste("Iteration", i, "is running currently."))
 
   # Slice the data
-  slice_n <- i * 75
-  bayes_anova_options_sliced <- bayes_anova_options_split[init:slice_n]
+  start_index <- (i - 1) * 75 + 1
+  end_index <- min(i * 75, length(bayes_anova_options_split))
+  bayes_anova_options_sliced <- bayes_anova_options_split[start_index:end_index]
 
   # Calculate Bayesian ANOVA
   ssp_bayes_anova_res <- future.apply::future_lapply(
     bayes_anova_options_sliced,
-    function(x) safe_ssp_anova_bf(
-        tpr = x$tpr,
-        effect = x$effect,
-        thresh = x$thresh,
-        prior_scale = x$prior_scale,
-        iter = 1000, # fixed to 1000
-        max_n = 400, # fixed to 500
-        mu = c(x$m11, x$m12, x$m21, x$m22),
-        sigma = 1,
-      )
-    )
+    function(x) {
+	print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "thresh:", x$thresh, "prior:", x$prior_scale))
+	safe_ssp_anova_bf(
+          tpr = x$tpr,
+          effect = x$effect,
+          thresh = x$thresh,
+          prior_scale = x$prior_scale,
+          iter = 1000, # fixed to 1000
+          max_n = 500, # fixed to 500
+          mu = c(x$m11, x$m12, x$m21, x$m22),
+          sigma = 1
+	)
+     }
+  )
 
   # Save the results
-  saveRDS(ssp_bayes_anova_res, paste0("./data/bayes-anova-res/set-", i, ".rds"))
+  saveRDS(ssp_bayes_anova_res, paste0("../data/bayes-anova-res/set-", i, ".rds"))
 
   # Remove object
   rm(ssp_bayes_anova_res)
 
   # Empty memory
   gc()
-
-  # To start the next batch, we move the pointers right after the last 
-  # iteration in this batch:
-  init <- slice_n + 1
 }
