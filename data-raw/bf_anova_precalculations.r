@@ -87,7 +87,7 @@ n_saves <- ceiling(length(bayes_anova_options_split) / 75)
 init <- 1
 
 # Run iterations
-for (i in 9:n_saves) {
+for (i in 24:n_saves) {
   # Print the current iteration
   print(paste("Iteration", i, "is running currently."))
 
