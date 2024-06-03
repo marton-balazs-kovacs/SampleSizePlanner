@@ -25,7 +25,7 @@ future::plan(multisession, workers = n_cores)
 
 # Dataframe is created with "./data-raw/options/anova_options_bayesian.R
 bayes_anova_options <- readr::read_csv(here("data/options/ssp_anova_options_bayesian.csv")) |> 
-  mutate(iter = row_number())
+  mutate(row_id = row_number())
 
 # Set file directory -----------------------------------------------------------
 
@@ -43,7 +43,7 @@ n_batches <- 75
 
 # First, we split all the iteration as list
 bayes_anova_options_split <- 
-  split(bayes_anova_options, bayes_anova_options$iter)
+  split(bayes_anova_options, bayes_anova_options$row_id)
 
 # Since each iteration has 75 possible configuration, then we need:
 n_saves <- ceiling(length(bayes_anova_options_split) / n_batches)
