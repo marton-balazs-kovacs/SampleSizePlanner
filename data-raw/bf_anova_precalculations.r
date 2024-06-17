@@ -24,7 +24,7 @@ future::plan(multisession, workers = n_cores)
 # Calculation configurations ---------------------------------------------------
 
 # Dataframe is created with "./data-raw/options/anova_options_bayesian.R
-bayes_anova_options <- readr::read_csv(here("data/options/ssp_anova_options_bayesian.csv")) |> 
+bayes_anova_options <- readr::read_csv(here("data/options/ssp_anova_options_bayesian.csv")) %>% 
   mutate(row_id = row_number())
 
 # Set file directory -----------------------------------------------------------
