@@ -63,12 +63,11 @@ for (i in 1:n_saves) {
   ssp_rope_anova_res <- future.apply::future_lapply(rope_anova_options_sliced,
                                                      function(x) {
                                                        # Print params of current iteration
-                                                       print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "thresh:", x$thresh, "prior:", x$prior_scale, "eq_band:", x$eq_band, "ci:", x$ci))
+                                                       print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "prior:", x$prior_scale, "eq_band:", x$eq_band, "ci:", x$ci))
                                                        # Calculate sample size
                                                        results <- safe_ssp_anova_rope(
                                                          tpr = x$tpr,
                                                          effect = x$effect,
-                                                         thresh = x$thresh,
                                                          prior_scale = x$prior_scale,
                                                          mu = c(x$m11, x$m12, x$m21, x$m22),
                                                          eq_band = x$eq_band,
@@ -84,7 +83,6 @@ for (i in 1:n_saves) {
                                                          parameters = list(
                                                            tpr = x$tpr,
                                                            effect = x$effect,
-                                                           thresh = x$thresh,
                                                            prior_scale = x$prior_scale,
                                                            mu = c(x$m11, x$m12, x$m21, x$m22),
                                                            ci = x$ci,

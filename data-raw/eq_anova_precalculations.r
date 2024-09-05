@@ -4,9 +4,13 @@ library(tidyverse)
 library(future.apply)
 library(purrr)
 library(here)
+library(assertthat)
 
 source(here("R/ssp_eq_anova.R"))
 source(here("R/tpr_optim.R"))
+source(here("R/ssp_tost.R"))
+source(here("R/assertions.R"))
+
 # Functions --------------------------------------------------------------------
 
 # Create a function to safely run Bayesian Anova
@@ -91,7 +95,7 @@ for (i in 1:n_saves) {
                                                            iter = 1000,
                                                            post_iter = 1000,
                                                            max_n = 500,
-                                                           prior_location = 0,
+                                                           prior_location = 0
                                                          ),
                                                          output = results
                                                        )
