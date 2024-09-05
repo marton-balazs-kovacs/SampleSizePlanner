@@ -65,7 +65,7 @@ for (i in 1:n_saves) {
                                                        # Print params of current iteration
                                                        print(paste("Running:", "tpr:", x$tpr, "effect:", x$effect, "thresh:", x$thresh, "prior:", x$prior_scale, "eq_band:", x$eq_band, "ci:", x$ci))
                                                        # Calculate sample size
-                                                       results <- safe_ssp_anova_bf(
+                                                       results <- safe_ssp_anova_rope(
                                                          tpr = x$tpr,
                                                          effect = x$effect,
                                                          thresh = x$thresh,
