@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH --job-name=<%= job.name %>
+#SBATCH --output=<%= log.file %>
+#SBATCH --error=<%= log.file %>
+#SBATCH --cpus-per-task=<%= resources$ncpus %>
+#SBATCH --mem=<%= resources$memory %>
+#SBATCH --partition=hpc2019  # Change to appropriate partition
+
+export OMP_NUM_THREADS=<%= resources$ncpus %>
+
+Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
