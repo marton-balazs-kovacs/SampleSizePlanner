@@ -51,10 +51,9 @@ eq_anova_options_split <-
 
 # Since each iteration has 50 possible configuration, then we need:
 n_saves <- ceiling(length(eq_anova_options_split) / n_batches)
-init <- 1
 
 # Run iterations
-for (i in 1:n_saves) {
+for (i in 50:n_saves) {
   # Print the current iteration
   print(paste("Batch", i, "is running currently."))
 
