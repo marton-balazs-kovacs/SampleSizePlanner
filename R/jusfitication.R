@@ -105,9 +105,69 @@ justification <- function(method, output_parameters) {
   } else if (method == "traditional-twoway-anova") {
     text <- 
       glue::glue(
-        "We used a power analysis to estimate the sample size. We used an alpha of 0.05. We set the aimed power at {tpr}, because \\
-        {tpr_justification}. Based on these parameters, \\
-        a minimal sample size of {n1} was estimated in order to reach {round(tpr_out, 1)} power for our design.",
+        "We used a power analysis to estimate the sample size. We used an alpha of 0.05. We set the aimed power at {tpr}, because {tpr_justification}. \\
+        We set the expected group means to {mu}, which correspond to the subgroups 1|1, 1|2, 2|1, and 2|2 of factors A|B respectively. \\
+        We set the standard deviation of each group to {sigma}.Based on these parameters, a minimal sample size of {n1} was estimated in order \\
+        to reach {round(tpr_out, 2)} power for {effect} in our design."
+        ,
+        n1 = output_parameters$n1,
+        tpr_out = output_parameters$tpr_out,
+        tpr = output_parameters$tpr,
+        tpr_justification = output_parameters$tpr_justification,
+        # delta = output_parameters$delta,
+        # delta_justification = output_parameters$delta_justification
+      )
+    
+  } else if (method == "bayesian-twoway-anova") {
+    text <- 
+      glue::glue(
+        "We used a Bayesian Analysis of Variance (Rouder et al., 2012) to estimate the sample size. We used a Bayes factor threshold \\
+        for evidence of {thresh}. We used a Cauchy prior distribution centered on 0 with a scale parameter of {prior_scale}. We set the \\
+        aimed true positive rate at {tpr}, because {tpr_justification}. We set the expected group means to {mu}, which correspond to the \\
+        subgroups 1|1, 1|2, 2|1, and 2|2 of factors A|B respectively. We set the standard deviation of each group to {sigma}. Based on these \\
+        parameters, a minimal sample size of {n1} was estimated to reach a {round(tpr_out, 2)} true positive rate for {effect} in our design.",
+        thresh = output_parameters$thresh,
+        n1 = output_parameters$n1,
+        tpr_out = output_parameters$tpr_out,
+        tpr = output_parameters$tpr,
+        tpr_justification = output_parameters$tpr_justification,
+        # delta = output_parameters$delta,
+        # delta_justification = output_parameters$delta_justification
+      )
+    
+  } else if (method == "eq-twoway-anova") {
+    text <- 
+      glue::glue(
+        "We used a Interval Equivalent Bayes factor method (Morey & Rouder, 2011; Rouder et al., 2012, van Ravenzwaaij et al., 2019) to \\
+        estimate the sample size. We used a Bayes factor threshold for evidence of {thresh}. We consider all effect sizes below {eq_band} \\
+        equivalent to zero, because {eq_band_justification}. We used a Cauchy prior distribution centered on 0 with a scale parameter \\
+        of {prior_scale}. We set the aimed true positive rate at {tpr}, because {tpr_justification}. We set the expected group means \\
+        to {mu}, which correspond to the subgroups 1|1, 1|2, 2|1, and 2|2 of factors A|B respectively. We set the standard deviation of \\
+        each group to {sigma}. Based on these parameters, a minimal sample size of {n1} was estimated to reach a {round(tpr_out, 2)} true \\
+        positive rate for {effect} in our design."
+        ,
+        thresh = output_parameters$thresh,
+        eq_band = output_parameters$eq_band,
+        n1 = output_parameters$n1,
+        tpr_out = output_parameters$tpr_out,
+        tpr = output_parameters$tpr,
+        tpr_justification = output_parameters$tpr_justification,
+        # delta = output_parameters$delta,
+        # delta_justification = output_parameters$delta_justification
+      )
+    
+  } else if (method == "rope-twoway-anova") {
+    text <- 
+      glue::glue(
+        "We used the Region of Practical Equivalence (Kruschke and Liddell, 2018) method to estimate the sample size. We consider all effect \\
+        sizes below {eq_band} equivalent to zero,because {eq_band_justification}. We used a highest density interval of {ci}. We used a Cauchy prior \\
+        distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed true positive rate at {tpr}, because {tpr_justification}. \\
+        We set the expected group means to {mu}, which correspond to the subgroups 1|1, 1|2, 2|1, and 2|2 of factors A|B respectively. We set the \\
+        standard deviation of each group to {sigma}. Based on these parameters, a minimal sample size of {n1} was estimated to reach \\
+        a {round(tpr_out, 2)} true positive rate for {effect} in our design.",
+        thresh = output_parameters$thresh,
+        eq_band = output_parameters$eq_band,
+        ci = output_parameters$ci,
         n1 = output_parameters$n1,
         tpr_out = output_parameters$tpr_out,
         tpr = output_parameters$tpr,
@@ -187,6 +247,7 @@ justification <- function(method, output_parameters) {
       text <- glue::glue("Error: {error_message}",
                          error_message = output_parameters$error_message)
     }
+    
   }
   text
 }

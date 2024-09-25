@@ -43,7 +43,12 @@ app_ui <- function(request) {
                           mod_ssp_power_traditional_anova_ui("traditional_anova")),
                  "----",
                  "Bayesian",
-                 tabPanel("Bayesian 2x2 ANOVA")
+                 tabPanel("2x2 ANOVA",
+                          mod_ssp_bayesian_anova_ui("bayesian_anova")),
+                 tabPanel("Equivalence Interval 2x2 ANOVA",
+                          mod_ssp_eq_anova_ui("eq_anova")),
+                 tabPanel("ROPE 2x2 ANOVA",
+                          mod_ssp_rope_anova_ui("rope_anova"))
       ),
       tabPanel("About",
                includeMarkdown(app_sys("app/www/about.Rmd")))

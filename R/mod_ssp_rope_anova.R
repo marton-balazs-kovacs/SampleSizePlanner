@@ -1,6 +1,6 @@
 # Module UI
 
-#' @title   mod_ssp_power_traditional_anova_ui and mod_ssp_power_traditional_anova_server
+#' @title   mod_ssp_rope_anova_ui and mod_ssp_rope_anova_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -8,40 +8,49 @@
 #' @param output internal
 #' @param session internal
 #'
-#' @rdname mod_ssp_power_traditional_anova
+#' @rdname mod_ssp_rope_anova
 #'
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
-mod_ssp_power_traditional_anova_ui <- function(id) {
+mod_ssp_rope_anova_ui <- function(id) {
   tagList(
-    
     # Method
-    h1("Classical power analysis - Two-way ANOVA"),
+    h1("Region of Practical Equivalence (ROPE) - Two-way ANOVA"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("This method is used to estimate the minimum sample size that a design needs to reach a certain level of statistical power, given a desired significance level and expected effect size."),
+        p("The ROPE procedure identifies the highest density interval (HDI) and determines whether or not the HDI is fully contained within the equivalence interval."),
         # Calculation settings
         ## TPR input
         sliderInput(
           NS(id, "tpr"),
           name_with_info(
             "True Positive Rate (TPR)",
-            "The desired long-run probability of obtaining a significant result, given Delta."),
-          min = 0,
-          max = 1,
+            "The desired long-run probability of having the HDI fully contained within the ROPE interval, given the input parameters"),
+          min = 0.7,
+          max = 0.9,
           value = 0.8,
-          step = 0.01),
+          step = 0.05),
+        ## eq band input
+        sliderInput(
+          NS(id, "eq_band"),
+          name_with_info(
+            "Equivalence Band (EqBand)",
+            "The band width of the chosen ROPE interval."),
+          min = 0.1,
+          max = 0.3,
+          value = 0.2,
+          step = 0.05),
         ## Input Choice of Effects
         selectizeInput(
           NS(id, "effect"),
           name_with_info(
             "Which effect's power you want to detect?",
-            "Determine which effect of the ANOVA analysis, in which you want to check for power"),
-          c("Main Effect A", "Main Effect B", "Interaction Effect")),
+            "Determine which effect of the ANOVA analysis, in which you want to check for true positive rate"),
+          c("Main Effect A", "Main Effect B")),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
@@ -65,26 +74,28 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           max = 10,
           value = 1.2,
           step = 0.1),
-        ## Input Maximum N
-        numericInput(
-          NS(id, "max_n"),
-          name_with_info(
-            "Maximum N per group",
-            "The maximum number of participants per group (all groups are assumed to have equal sample size)."),
-          min = 10,
-          max = 20000,
-          value = 300,
-          step = 1),
-        ## Input Number of Iteration
-        numericInput(
+        ## Iteration input
+        selectInput(
           NS(id, "iter"),
           name_with_info(
-            "Number of iterations",
-            "Numebr of iterations for calculating the power"),
-          min = 10,
-          max = 5000,
-          value = 500,
-          step = 10),
+            "Iterations",
+            "Number of iterations for calculating the true positive rate."),
+          choices = c(1000),
+          selected = 1000),
+        ## HDI Confidence Level
+        selectInput(
+          NS(id, "ci"),
+          name_with_info(
+            "Highest Density Interval",
+            "Percentage of the highest density within the interval"),
+          choices = c("95%")),
+        ## Input prior scale
+        selectInput(
+          NS(id, "prior_scale"),
+          name_with_info(
+            "Prior Scale",
+            "Scale of the Cauchy prior distribution."),
+          choices = c("1 / sqrt(2)")),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -108,6 +119,15 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
                 choices = c(
                   "it is the common standard in the field",
                   "it is the journal publishing requirement",
+                  "other..."),
+                multiple = FALSE,
+                options = list(create = TRUE)),
+              selectizeInput(
+                NS(id, "eq_band_justification"),
+                label = "Equivalence Band (EqBand)",
+                choices = c(
+                  "previous studies reported a similar region of practical equivalence",
+                  "of the following substantive reasons: ...",
                   "other..."),
                 multiple = FALSE,
                 options = list(create = TRUE)),
@@ -136,57 +156,51 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
     )
   )
 }
+
+
+
 # Module Server
 
-#' @rdname mod_ssp_power_traditional_anova
+#' @rdname mod_ssp_rope_anova
 #' @export
 #' @keywords internal
 
-mod_ssp_power_traditional_anova_server <- function(id) {
+mod_ssp_rope_anova_server <- function(id) {
   
   moduleServer(id, function(input, output, session) {
-    # waitress <- waiter::Waitress$new("#traditional-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
-    traditional_result <- eventReactive(input$calculate, {
-      showModal(modalDialog("Processing... this can take a minute", footer=NULL))
-      # waitress$start()
-      safe_ssp_power_traditional_anova <- purrr::safely(ssp_power_traditional_anova)
-      res <- safe_ssp_power_traditional_anova(
-        effect = input$effect, 
-        iter   = input$iter, 
-        mu     = as.vector(input$muMatrix),
-        sigma  = input$sigma,
-        max_n  = input$max_n, 
-        tpr    = input$tpr, 
+    # Calculate results
+    pre_result <- eventReactive(input$calculate, {
+      extract_rope_anova(
+        pre_data = rope_anova_data,
+        effect_ui = input$effect,
+        eq_band_ui = input$eq_band,
+        mu_ui     = as.vector(input$muMatrix),
+        sigma_ui  = input$sigma,
+        tpr_ui    = input$tpr,
+        prior_scale_ui = input$prior_scale,
+        ci_ui = input$ci
       )
-      removeModal()
-      if (is.null(res$error)) {
-        res$result
-      } else {
-        res$error
-      }
-      })
+    })
     
     # Show calculated results
     output$calculate_output <- renderUI({
-      if ("n1" %in% names(traditional_result())) {
+      res <- pre_result()
+      if ("pre_n1" %in% names(res)) {
         HTML(
           glue::glue(
-            "
-            <b>n per group:</b> {n1}<br/>
-            <b>Resulting TPR:</b> {tpr_out}<br/>
-            <b>TPR for:</b> {effect}
-            ",
-            effect = traditional_result()$effect,
-            n1 = traditional_result()$n1,
-            tpr_out = round(traditional_result()$tpr_out, 2)
+            "<b>n per group:</b> {n1}<br/><b>and mu:</b> {mu}<br/><b>Resulting TPR:</b> {tpr_out}<br/><b>TPR for:</b> {effect}",
+            n1 = res$pre_n1[[1]],
+            mu = paste(res$pre_mu, collapse = ", "),
+            tpr_out = res$pre_tpr_out[[1]],
+            effect = input$effect
           )
         )
       } else {
         HTML(
           glue::glue(
             "<b>{error_message}</b>",
-            error_message = traditional_result()$message
+            error_message = res$message[[1]]
           )
         )
       }
@@ -194,7 +208,7 @@ mod_ssp_power_traditional_anova_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate && "n1" %in% names(traditional_result())) {
+      if (input$calculate && "pre_n1" %in% names(pre_result())) {
         shinyjs::enable("justification")
         shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else {
@@ -202,7 +216,7 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         shinyjs::runjs("$('.justification-btn').attr('title', 'Please run the calculation first');")
       }
     })
-
+    
     # Set output parameters
     output_parameters <- reactive({
       list(
@@ -210,44 +224,44 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         tpr_justification = input$tpr_justification,
         # delta = input$delta,
         # delta_justification = input$delta_justification,
-        n1 = traditional_result()$n1,
-        tpr_out = traditional_result()$tpr_out
+        n1 = pre_result()$pre_n1[[1]],
+        tpr_out = pre_result()$pre_tpr_out[[1]],
+        thresh = input$thresh,
+        eq_band = input$eq_band,
+        ci = input$ci
       )
     })
-
+    
+    
     # Render preview
     mod_preview_server(
       "preview",
       activate = reactive(input$justification),
       deactivate = reactive(input$calculate),
       output_parameters = output_parameters,
-      method = "traditional-twoway-anova"
+      method = "rope-twoway-anova"
     )
-
+    
     # Set code parameters
     code_parameters <- reactive({
       list(
-        effect = input$effect,
-        iter   = input$iter,
-        max_n  = input$max_n,
-        mu     = as.vector(input$muMatrix),
+        mu    = as.vector(input$muMatrix),
+        effect = input$effect, 
+        eq_band = input$eq_band,
+        ci = input$ci,
         sigma  = input$sigma,
-        tpr    = input$tpr
-        # delta = input$delta
-      )
+        iter = input$iter,
+        tpr    = input$tpr, 
+        thresh = input$thresh,
+        prior_scale = input$prior_scale)
     })
-
+    
     # Render code preview
     mod_code_server(
       "code",
       code_parameters = code_parameters,
-      method = "traditional-twoway-anova"
+      method = "rope-twoway-anova"
     )
   })
 }
 
-## To be copied in the UI
-# mod_ssp_power_traditional_ui("traditional")
-
-## To be copied in the server
-# mod_ssp_power_traditional_server("traditional")
