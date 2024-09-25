@@ -49,7 +49,7 @@ n_batches <- 50
 eq_anova_options_split <- 
   split(eq_anova_options, eq_anova_options$row_id)
 
-# Since each iteration has 75 possible configuration, then we need:
+# Since each iteration has 50 possible configuration, then we need:
 n_saves <- ceiling(length(eq_anova_options_split) / n_batches)
 init <- 1
 
