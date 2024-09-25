@@ -1,4 +1,4 @@
-############################Bayesian 2-way ANOVA##########################################
+############################Bayesian Equivalence interval##########################################
 # Create a csv file containing all configurations used for the pre calculations
 # Create a data frame storing all possible configurations for the method
 bayes_anova_options <-
@@ -8,7 +8,8 @@ bayes_anova_options <-
       m12 = base::seq(0, 1.25, by = 0.25),
       m21 = base::seq(0, 1.25, by = 0.25),
       m22 = base::seq(0, 1.25, by = 0.25),
-      effect = c("Main Effect 1", "Main Effect 2", "Interaction Effect"),
+      effect = c("Main Effect 1", "Main Effect 2"),
+      eq_band = base::seq(0.1, 0.3, by = 0.05),
       tpr = seq(0.7, 0.9, by = 0.05),
       thresh = c(10),
       prior_scale = c(1 / sqrt(2))
@@ -33,7 +34,7 @@ for (i in 1:base::nrow(bayes_anova_options)) {
 } 
 
 # remove equivalent rows
-anova_options_bayesian <- unique(bayes_anova_options)
+anova_options_eq <- unique(bayes_anova_options)
 
 # store as RDS package data
-usethis::use_data(anova_options_bayesian, overwrite = TRUE)
+usethis::use_data(anova_options_eq, overwrite = TRUE)
