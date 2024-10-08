@@ -96,7 +96,7 @@ for (i in 1:n_saves) {
                                                          ),
                                                          output = results
                                                        )
-                                                     })
+                                                     }, future.seed = TRUE)
 
   # Save the results
   saveRDS(ssp_rope_anova_res, here(paste0("data/rope-anova-res/set-", i, ".rds")))

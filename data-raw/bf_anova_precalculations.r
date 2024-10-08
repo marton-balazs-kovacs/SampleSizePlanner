@@ -89,7 +89,7 @@ for (i in 1:n_saves) {
                                                          ),
                                                          output = results
                                                        )
-                                                     })
+                                                     }, future.seed = TRUE)
 
   # Save the results
   saveRDS(ssp_bayes_anova_res, here(paste0("data/bayes-anova-res/set-", i, ".rds")))

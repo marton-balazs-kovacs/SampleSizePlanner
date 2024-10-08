@@ -10,7 +10,7 @@
 
 ############################SSP Function for EQ##########################################
 # function to calculate the minimum sample size for a 2-way anova with the EQ method
-ssp_anova_eq <- function(mu, effect, eq_band, tpr, thresh, prior_scale, iter, post_iter = 1000, sigma = 1, prior_location = 0, max_n = 10001) {
+ssp_anova_eq <- function(mu, effect, eq_band, tpr, thresh, prior_scale, iter, post_iter = 1000, sigma = 1, prior_location = 0, max_n = 10001, seed = NULL) {
   delta <- ifelse(effect == "Main Effect 1", 
                   (base::mean(mu[1],mu[2])-base::mean(mu[3], mu[4])),   # Main Effect 1
                   (base::mean(mu[1],mu[3])-base::mean(mu[2], mu[4])))   # Main Effect 2
@@ -27,7 +27,8 @@ ssp_anova_eq <- function(mu, effect, eq_band, tpr, thresh, prior_scale, iter, po
     sigma = sigma,
     iter = iter,
     post_iter = post_iter,
-    prior_location = prior_location
+    prior_location = prior_location,
+    seed = seed
   )
   
   return(result)
@@ -51,6 +52,9 @@ twoway_ANOVA_eq_pwr  <- function(
     prior_scale = prior_scale,
     prior_location = prior_location,
     seed   = NULL) {
+  
+  # Set seeds
+  set.seed(seed)
   
   # Create a data frame to store the bayes factors from each iteration
   bf_data <- data.frame(matrix(NA, nrow = iter, ncol = 2))

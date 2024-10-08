@@ -53,7 +53,7 @@ eq_anova_options_split <-
 n_saves <- ceiling(length(eq_anova_options_split) / n_batches)
 
 # Run iterations
-for (i in 50:n_saves) {
+for (i in 1:n_saves) {
   # Print the current iteration
   print(paste("Batch", i, "is running currently."))
 
@@ -98,7 +98,7 @@ for (i in 50:n_saves) {
                                                          ),
                                                          output = results
                                                        )
-                                                     })
+                                                     }, future.seed = TRUE)
 
   # Save the results
   saveRDS(ssp_eq_anova_res, here(paste0("data/eq-anova-res/set-", i, ".rds")))
