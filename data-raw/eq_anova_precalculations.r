@@ -19,7 +19,7 @@ safe_ssp_anova_eq <- purrr::safely(ssp_anova_eq)
 # Parallel session setup -------------------------------------------------------
 
 # Set number of cores that we want to allocate
-n_cores <- future::availableCores() - 1
+n_cores <- future::availableCores()
 print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
