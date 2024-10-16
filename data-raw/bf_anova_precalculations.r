@@ -7,6 +7,7 @@ library(here)
 
 source(here("R/ssp_bayesian_anova.R"))
 source(here("R/tpr_optim.R"))
+
 # Functions --------------------------------------------------------------------
 
 # Create a function to safely run Bayesian Anova
@@ -15,7 +16,7 @@ safe_ssp_anova_bf <- purrr::safely(ssp_anova_bf)
 # Parallel session setup -------------------------------------------------------
 
 # Set number of cores that we want to allocate
-n_cores <- future::availableCores() - 1
+n_cores <- future::availableCores()
 print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
@@ -24,7 +25,7 @@ future::plan(multisession, workers = n_cores)
 # Calculation configurations ---------------------------------------------------
 
 # Dataframe is created with "./data-raw/options/anova_options_bayesian.R
-bayes_anova_options <- readr::read_csv(here("data/options/ssp_anova_options_bayesian.csv")) %>% 
+bayes_anova_options <- readr::read_csv(here("inst/extdata/ssp_anova_options_bayesian.csv")) %>% 
   mutate(row_id = row_number())
 
 # Set file directory -----------------------------------------------------------
