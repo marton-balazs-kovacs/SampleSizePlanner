@@ -11,13 +11,10 @@
 ############################SSP Function for EQ##########################################
 # function to calculate the minimum sample size for a 2-way anova with the EQ method
 ssp_anova_eq <- function(mu, effect, eq_band, tpr, thresh, prior_scale, iter, post_iter = 1000, sigma = 1, prior_location = 0, max_n = 10001, seed = NULL) {
-  delta <- ifelse(effect == "Main Effect 1", 
-                  (base::mean(mu[1],mu[2])-base::mean(mu[3], mu[4])),   # Main Effect 1
-                  (base::mean(mu[1],mu[3])-base::mean(mu[2], mu[4])))   # Main Effect 2
-  est <- ssp_tost(tpr = tpr, eq_band = eq_band, delta = delta, alpha = 0.05, max_n = 10001)
+  
   result <- tpr_optim(
     fun = twoway_ANOVA_eq_pwr,
-    range = c(10,round(est$n1/2)),
+    range = c(10, max_n),
     mu = mu,
     effect = effect,
     eq_band = eq_band,
