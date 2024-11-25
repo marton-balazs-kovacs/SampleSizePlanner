@@ -20,7 +20,7 @@ n_cores <- future::availableCores()
 print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
-future::plan(list(tweak(batchtools_slurm, template = here::here("data-raw/hpc/slurm.tmpl"), resources = list(ncpus = 16, memory = "64G"))), multicore)
+future::plan(list(tweak(batchtools_slurm, template = here::here("data-raw/hpc/slurm.tmpl"), resources = list(ncpus = 1, memory = "5G"))), multicore)
 
 # Calculation configurations ---------------------------------------------------
 
