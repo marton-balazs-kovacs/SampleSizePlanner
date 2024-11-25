@@ -10,7 +10,7 @@
 
 ############################SSP Function for ROPE##########################################
 # function to calculate the minimum sample size for a 2-way anova with the ROPE method
-ssp_anova_rope <- function(mu, effect, eq_band, tpr, ci, prior_scale, iter, post_iter = 1000, sigma = 1, prior_location = 0, max_n = 10001) {
+ssp_anova_rope <- function(mu, effect, eq_band, tpr, ci, prior_scale, iter, post_iter = 1000, sigma = 1, prior_location = 0, max_n = 10001, seed = NULL) {
   
   result <- tpr_optim(
     fun = twoway_ANOVA_rope_pwr,
@@ -24,7 +24,8 @@ ssp_anova_rope <- function(mu, effect, eq_band, tpr, ci, prior_scale, iter, post
     sigma = sigma,
     iter = iter,
     post_iter = post_iter,
-    prior_location = prior_location
+    prior_location = prior_location,
+    seed = seed
   )
   
   return(result)
@@ -45,6 +46,8 @@ twoway_ANOVA_rope_pwr  <- function(
     prior_location = prior_location,
     seed   = NULL)
 {
+  # Set seeds
+  set.seed(seed)
   
   # Create a data frame to store the bayes factors from each iteration
   rope_data <- data.frame(matrix(NA, nrow = iter, ncol = 2))

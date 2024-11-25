@@ -20,7 +20,7 @@ n_cores <- future::availableCores()
 print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
-future::plan(list(tweak(batchtools_slurm, template = here::here("data-raw/hpc/slurm.tmpl"), resources = list(ncpus = 16, memory = "64G"))), multicore)
+future::plan(list(tweak(batchtools_slurm, template = here::here("data-raw/hpc/slurm.tmpl"), resources = list(ncpus = 1, memory = "5G"))), multicore)
 
 # Calculation configurations ---------------------------------------------------
 
@@ -96,7 +96,7 @@ for (i in 1:n_saves) {
                                                          ),
                                                          output = results
                                                        )
-                                                     })
+                                                     }, future.seed = TRUE)
 
   # Save the results
   saveRDS(ssp_rope_anova_res, here(paste0("data/rope-anova-res/set-", i, ".rds")))
