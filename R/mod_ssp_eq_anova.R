@@ -16,7 +16,7 @@
 mod_ssp_eq_anova_ui <- function(id) {
   tagList(
     # Method
-    h1("Interval equivalence Bayes factor - Two-way ANOVA"),
+    h1("Interval Equivalence Bayes Factor - Two-way ANOVA"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
@@ -223,12 +223,17 @@ mod_ssp_eq_anova_server <- function(id) {
       list(
         tpr = input$tpr,
         tpr_justification = input$tpr_justification,
+        eq_band_justification = input$eq_band_justification,
         # delta = input$delta,
         # delta_justification = input$delta_justification,
         n1 = pre_result()$pre_n1[[1]],
         tpr_out = pre_result()$pre_tpr_out[[1]],
         thresh = input$thresh,
         eq_band = input$eq_band,
+        prior_scale = input$prior_scale,
+        mu = pre_result()$pre_mu,
+        sigma = input$sigma,
+        effect = input$effect
       )
     })
     

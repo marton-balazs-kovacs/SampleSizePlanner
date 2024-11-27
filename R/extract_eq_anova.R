@@ -2,6 +2,8 @@
 # Bayesian equivalence interval (EQ) method.
 # Function to retrieve the minimal sample size given input parameters from the pre-calculations
 # together with the re-scaled and re-ordered mu and tpr.
+# dontRun: 
+# extract_eq_anova(eq_anova_data, mu_ui = c(1,2,2,3), sigma_ui = 2, eq_band_ui = 0.3, tpr_ui = 0.8, thresh_ui = 10, prior_scale_ui = c(1 / sqrt(2)),effect_ui = "Main Effect 1")
 
 extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thresh_ui, prior_scale_ui, effect_ui) {
 
@@ -32,13 +34,18 @@ extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thre
   sorted_mu <- sort_mu(mu_scaled)[[1]]
   effect_swap <- sort_mu(mu_scaled)[[2]]
   
+  # convert effect A to 1 and B to 2
+  if (effect_ui == "Main Effect A") {effect_ui = "Main Effect 1"}
+  if (effect_ui == "Main Effect B") {effect_ui = "Main Effect 2"}
   
   # account for effect swap in sorting
-  if (effect_ui == "Main Effect 1" & effect_swap) {
-    effect_extract <- "Main Effect 2"} else if 
-  (effect_ui == "Main Effect 2" & effect_swap) {
-    effect_extract <- "Main Effect 1"} else {
-      effect_extract <- effect_ui}
+  if (effect_ui == "Main Effect 1" && effect_swap) {
+    effect_extract <- "Main Effect 2"
+  } else if (effect_ui == "Main Effect 2" && effect_swap) {
+    effect_extract <- "Main Effect 1"
+  } else {
+    effect_extract <- effect_ui
+  }
   
   # Filter the results
   result_filter <- eq_anova_data %>%

@@ -5,7 +5,7 @@ output: html_document
 
 ### About the project
 
-The **SampleSizePlanner** shiny application enables researchers to calculate the sample size with 9 different methods in app and provides code to use an additional method from R. The aim of the app is to make the various sample size calculating methods available for a wide range of researchers and propagate the transparent reporting of the chosen method. Therefore, a formatted template text containing the used parameters and the output of the calculations is available for download. This text can be complemented with the reasoning behind each decision.
+The **SampleSizePlanner** shiny application enables researchers to calculate the sample size with 13 different methods in app and provides code to use an additional method from R. The aim of the app is to make the various sample size calculating methods available for a wide range of researchers and propagate the transparent reporting of the chosen method. Therefore, a formatted template text containing the used parameters and the output of the calculations is available for download. This text can be complemented with the reasoning behind each decision.
 
 ### Contributors
 
@@ -13,6 +13,8 @@ The **SampleSizePlanner** shiny application enables researchers to calculate the
 -   Don van Ravenzwaaij
 -   Rink Hoekstra
 -   Balazs Aczel
+-   Andrew Setiono
+-   Sebastian Lortz
 
 The design of the app was done by Zsuzsa Szekely [(@szekely_Zsuzsa)](<https://twitter.com/szekely_zsuzsa>).
 

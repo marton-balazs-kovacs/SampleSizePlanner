@@ -31,13 +31,20 @@ extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui,
   sorted_mu <- sort_mu(mu_scaled)[[1]]
   effect_swap <- sort_mu(mu_scaled)[[2]]
   
+  # convert effect A to 1 and B to 2
+  if (effect_ui == "Main Effect A") {effect_ui = "Main Effect 1"}
+  if (effect_ui == "Main Effect B") {effect_ui = "Main Effect 2"}
+  
   
   # account for effect swap in sorting
-  if (effect_ui == "Main Effect 1" & effect_swap) {
-    effect_extract <- "Main Effect 2"} else if 
-  (effect_ui == "Main Effect 2" & effect_swap) {
-    effect_extract <- "Main Effect 1"} else {
-      effect_extract <- effect_ui}
+  if (effect_ui == "Main Effect 1" && effect_swap) {
+    effect_extract <- "Main Effect 2"
+  } else if (effect_ui == "Main Effect 2" && effect_swap) {
+    effect_extract <- "Main Effect 1"
+  } else {
+    effect_extract <- effect_ui
+  }
+  
 
     # Filter the results
   result_filter <- bayes_anova_data %>%

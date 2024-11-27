@@ -40,7 +40,7 @@ mod_ssp_bayesian_anova_ui <- function(id) {
           name_with_info(
             "Which effect's power you want to detect?",
             "Determine which effect of the ANOVA analysis, in which you want to check for true positive rate"),
-          c("Main Effect 1", "Main Effect 2", "Interaction Effect")),
+          c("Main Effect A", "Main Effect B", "Interaction Effect")),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
@@ -208,7 +208,11 @@ mod_ssp_bayesian_anova_server <- function(id) {
         # delta_justification = input$delta_justification,
         n1 = pre_result()$pre_n1[[1]],
         tpr_out = pre_result()$pre_tpr_out[[1]],
-        thresh = input$thresh
+        thresh = input$thresh,
+        prior_scale = input$prior_scale,
+        mu = pre_result()$pre_mu,
+        sigma = input$sigma,
+        effect = input$effect
       )
     })
     
