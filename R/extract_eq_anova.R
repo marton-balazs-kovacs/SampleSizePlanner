@@ -9,13 +9,6 @@ extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thre
 
   eq_anova_data <- pre_data
   
-  # rescale first mu to zero
-  scale_mu <- mu_ui[1]                   # save mu1 for re-scaling
-  mu_scaled <- mu_ui - mu_ui[1]          # scale the mean of first group to 0
-  
-  # Re-scale the input mu and sigma
-  mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
-  
   # sort the input means and track effect swap
   sort_mu <- function (mu) {
     effect_swap <- FALSE
@@ -31,12 +24,13 @@ extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thre
     
     return(list(mu,effect_swap))
   }
-  sorted_mu <- sort_mu(mu_scaled)[[1]]
-  effect_swap <- sort_mu(mu_scaled)[[2]]
+  sorted_mu <- sort_mu(mu_ui)[[1]]
+  effect_swap <- sort_mu(mu_ui)[[2]]
   
   # convert effect A to 1 and B to 2
   if (effect_ui == "Main Effect A") {effect_ui = "Main Effect 1"}
   if (effect_ui == "Main Effect B") {effect_ui = "Main Effect 2"}
+  
   
   # account for effect swap in sorting
   if (effect_ui == "Main Effect 1" && effect_swap) {
@@ -46,6 +40,15 @@ extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thre
   } else {
     effect_extract <- effect_ui
   }
+  
+  
+  # rescale first mu to zero
+  scale_mu <- sorted_mu[1]                   # save mu1 for re-scaling
+  mu_scaled <- sorted_mu - sorted_mu[1]           # scale the mean of first group to 0
+  
+  # Re-scale the input mu and sigma
+  mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
+  
   
   # Filter the results
   result_filter <- eq_anova_data %>%
@@ -66,7 +69,7 @@ extract_eq_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, thre
   # calculate deviance
   dev = c()
   for (i in 1:nrow(result_filter)) {
-    dev[i] <- sum((sorted_mu - unlist(result_filter[i,"mu"]))^2)
+    dev[i] <- sum((mu_scaled - unlist(result_filter[i,"mu"]))^2)
   }
   
   # select result with minimum deviance

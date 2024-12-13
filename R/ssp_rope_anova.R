@@ -24,7 +24,8 @@ ssp_anova_rope <- function(mu, effect, eq_band, tpr, ci, prior_scale, iter, post
     sigma = sigma,
     iter = iter,
     post_iter = post_iter,
-    prior_location = prior_location
+    prior_location = prior_location,
+    seed = seed
   )
   
   return(result)
@@ -45,6 +46,8 @@ twoway_ANOVA_rope_pwr  <- function(
     prior_location = prior_location,
     seed   = NULL)
 {
+  # Set seeds
+  set.seed(seed)
   
   # Create a data frame to store the bayes factors from each iteration
   rope_data <- data.frame(matrix(NA, nrow = iter, ncol = 2))

@@ -88,7 +88,7 @@ mod_ssp_rope_anova_ui <- function(id) {
           name_with_info(
             "Highest Density Interval",
             "Percentage of the highest density within the interval"),
-          choices = c("95%")),
+          choices = c(0.95)),
         ## Input prior scale
         selectInput(
           NS(id, "prior_scale"),
@@ -227,7 +227,6 @@ mod_ssp_rope_anova_server <- function(id) {
         # delta_justification = input$delta_justification,
         n1 = pre_result()$pre_n1[[1]],
         tpr_out = pre_result()$pre_tpr_out[[1]],
-        thresh = input$thresh,
         eq_band = input$eq_band,
         ci = input$ci,
         prior_scale = input$prior_scale,
@@ -257,7 +256,6 @@ mod_ssp_rope_anova_server <- function(id) {
         sigma  = input$sigma,
         iter = input$iter,
         tpr    = input$tpr, 
-        thresh = input$thresh,
         prior_scale = input$prior_scale)
     })
     

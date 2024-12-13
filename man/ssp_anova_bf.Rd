@@ -2,25 +2,22 @@
 % Please edit documentation in R/ssp_bayesian_anova.R
 \name{ssp_anova_bf}
 \alias{ssp_anova_bf}
-\title{Determine sample size with Bayes Factor Design Analysis (BFDA)}
+\title{Determine sample size with Bayesian Anova}
 \usage{
 ssp_anova_bf(
-  effect = c("Main Effect 1", "Main Effect 2", "Interaction Effect"),
-  iter = 1000,
-  max_n,
+  effect,
   mu,
-  sigma,
-  seed = NULL,
   tpr,
-  thresh = 10,
-  prior_scale = 1/sqrt(2)
+  thresh,
+  prior_scale,
+  iter,
+  max_n = 10001,
+  max_bf = 1e+08,
+  sigma = 1,
+  seed = NULL
 )
 }
 \arguments{
-\item{iter}{Integer. The number of simulations.}
-
-\item{max_n}{Integer. The maximum number of participants per group (all groups are assumed to have equal sample size).}
-
 \item{mu}{Numeric. The expected population mean values.}
 
 \item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
@@ -29,6 +26,10 @@ as high as the critical threshold favoring superiority, given mu.}
 \item{thresh}{Integer. The Bayes factor threshold for inference.}
 
 \item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
+
+\item{iter}{Integer. The number of simulations.}
+
+\item{max_n}{Integer. The maximum number of participants per group (all groups are assumed to have equal sample size).}
 }
 \value{
 The function returns a list of four named numeric vectors.
@@ -45,7 +46,7 @@ allowing for sequential testing.
 \examples{
 \dontrun{
 SampleSizePlanner::ssp_anova_bf(
-  tpr = 0.8, max_n = 400, mu = c(1, 1.2, 1.5, 1.3), sigma = 2,
+  effect = "Interaction Effect", tpr = 0.8, max_n = 10001, mu = c(1.5, 1.5, 0, 1), sigma = 2,
   seed = NULL, thresh = 10, prior_scale = 1 / sqrt(2)
  )
 }

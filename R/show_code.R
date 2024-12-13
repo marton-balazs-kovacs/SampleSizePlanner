@@ -79,7 +79,8 @@ show_code <- function(method, code_parameters) {
           iter   = {iter},
           tpr    = {tpr}, 
           thresh = {thresh},
-          prior_scale = {prior_scale}
+          prior_scale = {prior_scale},
+          max_n = 500
         )
         ",
           effect = code_parameters$effect,
@@ -96,17 +97,19 @@ show_code <- function(method, code_parameters) {
         glue::glue("
         ssp_anova_bf(
           effect = \"{effect}\", 
-          eq_banb = {eq_band},
+          eq_band = {eq_band},
           mu     = c({glue::glue_collapse(mu, sep = ', ')}),
           sigma  = {sigma},
           iter   = {iter},
           tpr    = {tpr}, 
           thresh = {thresh},
-          prior_scale = {prior_scale}
+          prior_scale = {prior_scale},
+          max_n = 500
         )
         ",
                    effect = code_parameters$effect,
                    mu = code_parameters$mu,
+                   eq_band = code_parameters$eq_band,
                    sigma = code_parameters$sigma,
                    iter   = code_parameters$iter,
                    tpr = code_parameters$tpr,
@@ -119,21 +122,23 @@ show_code <- function(method, code_parameters) {
           glue::glue("
         ssp_anova_bf(
           effect = \"{effect}\",
-          eq_banb = {eq_band},
+          eq_band = {eq_band},
           mu     = c({glue::glue_collapse(mu, sep = ', ')}),
           sigma  = {sigma},
           iter   = {iter},
           tpr    = {tpr}, 
           ci = {ci},
-          prior_scale = {prior_scale}
+          prior_scale = {prior_scale},
+          max_n = 500
         )
         ",
                      effect = code_parameters$effect,
                      mu = code_parameters$mu,
+                     eq_band = code_parameters$eq_band,
                      sigma = code_parameters$sigma,
                      iter   = code_parameters$iter,
                      tpr = code_parameters$tpr,
-                     thresh = code_parameters$thresh,
+                     ci = code_parameters$ci,
                      prior_scale = code_parameters$prior_scale,
                      "# Note: The function is highly computationally intensive.")    
     

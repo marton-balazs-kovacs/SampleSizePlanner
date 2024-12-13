@@ -1,5 +1,5 @@
 
-#' Determine sample size with Bayes Factor Design Analysis (BFDA)
+#' Determine sample size with Bayesian Anova
 #'
 #' The present method provides an expected sample size such that
 #' compelling evidence in the form of a Bayes factor can be collected

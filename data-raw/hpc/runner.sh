@@ -2,8 +2,8 @@
 #SBATCH --job-name=rope_anova16
 #SBATCH --output=rope_anova16.out
 #SBATCH --error=rope_anova16.err
-#SBATCH --cpus-per-task=16   # Adjust to the number of CPUs you need
-#SBATCH --mem=64G           # Adjust memory as necessary
+#SBATCH --cpus-per-task=1   # Adjust to the number of CPUs you need
+#SBATCH --mem=5G           # Adjust memory as necessary
 #SBATCH --partition=hpc2019  # Choose the appropriate partition
 
 source /users/usumusu/.bashrc

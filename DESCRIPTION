@@ -9,7 +9,7 @@ Authors@R:
              comment = c(ORCID = '0000-0002-8142-8492')),
       person(given = 'Don',
              family = 'van Ravenzwaaij',
-             role = 'ctb',
+             role = c('ctb', 'aut'),
              comment = c(ORCID = '0000-0002-5030-4091')),
       person(given = 'Rink',
              family = 'Hoekstra',
@@ -18,7 +18,14 @@ Authors@R:
       person(given = 'Balazs', 
              family = 'Aczel',
              role = 'ctb',
-             comment = c(ORCID = '0000-0001-9364-4988')))
+             comment = c(ORCID = '0000-0001-9364-4988')),
+      person(given = 'Sebastian', 
+             family = 'Lortz',
+             role = c('ctb', 'aut'),
+             comment = c(ORCID = '0009-0007-0281-7996'))
+      person(given = 'Andrew', 
+             family = 'Setiono',
+             role = c('ctb', 'aut')))
 Description: The package contains a Shiny application that through several questions step by step helps researchers to find the sample size planning method that best fits their needs. The application also helps to determine the parameters needed to run the given method. Finally, the application helps researchers to report the outcome of their sample size plan.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -37,7 +44,6 @@ Imports:
     tibble (>= 3.1.2),
     plotly (>= 4.9.4.1),
     waiter (>= 0.2.1),
-    assertive (>= 0.3.6),
     assertthat (>= 0.2.1),
     magrittr (>= 2.0.1),
     MBESS (>= 4.8.0),
@@ -50,7 +56,7 @@ Imports:
     rclipboard,
     stats,
     shinyMatrix
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.2)
 Depends: 

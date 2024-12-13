@@ -2,17 +2,12 @@
 # Region of practical equivalence (ROPE) method.
 # Function to retrieve the minimal sample size given input parameters from the pre-calculations
 # together with the re-scaled and re-ordered mu and tpr.
+# dontRun: 
+# extract_rope_anova(eq_anova_data, mu_ui = c(1,1,1,1), sigma_ui = 2, eq_band_ui = 0.3, ci_ui = 0.95, prior_scale_ui = c(1 / sqrt(2)),effect_ui = "Main Effect 1")
 
 extract_rope_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, ci_ui, prior_scale_ui, effect_ui) {
     
     rope_anova_data <- pre_data
-    
-    # rescale first mu to zero
-    scale_mu <- mu_ui[1]                   # save mu1 for re-scaling
-    mu_scaled <- mu_ui - mu_ui[1]          # scale the mean of first group to 0
-    
-    # Re-scale the input mu and sigma
-    mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
     
     # sort the input means and track effect swap
     sort_mu <- function (mu) {
@@ -29,12 +24,13 @@ extract_rope_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, ci
       
       return(list(mu,effect_swap))
     }
-    sorted_mu <- sort_mu(mu_scaled)[[1]]
-    effect_swap <- sort_mu(mu_scaled)[[2]]
+    sorted_mu <- sort_mu(mu_ui)[[1]]
+    effect_swap <- sort_mu(mu_ui)[[2]]
     
     # convert effect A to 1 and B to 2
     if (effect_ui == "Main Effect A") {effect_ui = "Main Effect 1"}
     if (effect_ui == "Main Effect B") {effect_ui = "Main Effect 2"}
+    
     
     # account for effect swap in sorting
     if (effect_ui == "Main Effect 1" && effect_swap) {
@@ -46,12 +42,19 @@ extract_rope_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, ci
     }
     
     
+    # rescale first mu to zero
+    scale_mu <- sorted_mu[1]                   # save mu1 for re-scaling
+    mu_scaled <- sorted_mu - sorted_mu[1]           # scale the mean of first group to 0
+    
+    # Re-scale the input mu and sigma
+    mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
+    
     # Filter the results
     result_filter <- rope_anova_data %>%
       dplyr::filter(
         dplyr::near(eq_band, eq_band_ui),
         dplyr::near(tpr_in, tpr_ui),
-        dplyr::near(ci, as.numeric(thresh_ui)),
+        dplyr::near(as.numeric(ci[[1]]), as.numeric(ci_ui)),  # ci column is not numeric
         dplyr::near(prior_scale, 
                     as.numeric(
                       eval(
@@ -61,11 +64,11 @@ extract_rope_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, ci
                     )
         )) %>%
       dplyr::filter(effect == effect_extract)
-    
-    # calculate deviance
+   
+     # calculate deviance
     dev = c()
     for (i in 1:nrow(result_filter)) {
-      dev[i] <- sum((sorted_mu - unlist(result_filter[i,"mu"]))^2)
+      dev[i] <- sum((mu_scaled - unlist(result_filter[i,"mu"]))^2)
     }
     
     # select result with minimum deviance
@@ -102,5 +105,4 @@ extract_rope_anova <- function(pre_data, mu_ui, sigma_ui, eq_band_ui, tpr_ui, ci
       return(list(pre_mu = ordered_mu, message = result$error_message))}
     else {
       return(list(pre_mu = ordered_mu, pre_tpr_out = result$tpr_out, pre_n1 = result$n1, message = result$error_message))}
-  }
-  
+}

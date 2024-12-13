@@ -5,13 +5,7 @@
 
 extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui, prior_scale_ui, effect_ui) {
   bayes_anova_data <- pre_data
-  
-  # rescale first mu to zero
-  scale_mu <- mu_ui[1]                   # save mu1 for re-scaling
-  mu_scaled <- mu_ui - mu_ui[1]          # scale the mean of first group to 0
-  
-  # Re-scale the input mu and sigma
-  mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
+ 
   
   # sort the input means and track effect swap
   sort_mu <- function (mu) {
@@ -28,8 +22,8 @@ extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui,
     
     return(list(mu,effect_swap))
   }
-  sorted_mu <- sort_mu(mu_scaled)[[1]]
-  effect_swap <- sort_mu(mu_scaled)[[2]]
+  sorted_mu <- sort_mu(mu_ui)[[1]]
+  effect_swap <- sort_mu(mu_ui)[[2]]
   
   # convert effect A to 1 and B to 2
   if (effect_ui == "Main Effect A") {effect_ui = "Main Effect 1"}
@@ -44,6 +38,14 @@ extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui,
   } else {
     effect_extract <- effect_ui
   }
+  
+  
+  # rescale first mu to zero
+  scale_mu <- sorted_mu[1]                   # save mu1 for re-scaling
+  mu_scaled <- sorted_mu - sorted_mu[1]           # scale the mean of first group to 0
+  
+  # Re-scale the input mu and sigma
+  mu_scaled <- mu_scaled / sigma_ui             # scale mu by sigma_ui
   
 
     # Filter the results
@@ -64,7 +66,7 @@ extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui,
   # calculate deviance
   dev = c()
   for (i in 1:nrow(result_filter)) {
-    dev[i] <- sum((sorted_mu - unlist(result_filter[i,"mu"]))^2)
+    dev[i] <- sum((mu_scaled - unlist(result_filter[i,"mu"]))^2)
   }
   
   # select result with minimum deviance
@@ -104,5 +106,5 @@ extract_bayesian_anova <- function(pre_data, mu_ui, sigma_ui, tpr_ui, thresh_ui,
 }
 
 # don't run
-# extract_bayesian_anova(pre_data = bayes_anova_data, mu_ui = c(1,1.2,1.5,1.3), sigma_ui = 1.2, tpr_ui = 0.7, thresh_ui = 10, prior_scale_ui = c("1 / sqrt(2)"), effect_ui = "Main Effect 1")
+# extract_bayesian_anova(pre_data = bayes_anova_data, mu_ui = c(1.6,1,1,1), sigma_ui = 1.2, tpr_ui = 0.7, thresh_ui = 10, prior_scale_ui = c("1 / sqrt(2)"), effect_ui = "Main Effect 1")
 

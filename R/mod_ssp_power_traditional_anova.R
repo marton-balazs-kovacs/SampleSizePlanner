@@ -211,7 +211,10 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         # delta = input$delta,
         # delta_justification = input$delta_justification,
         n1 = traditional_result()$n1,
-        tpr_out = traditional_result()$tpr_out
+        tpr_out = traditional_result()$tpr_out,
+        mu = input$muMatrix,
+        sigma = input$sigma,
+        effect = input$effect
       )
     })
 

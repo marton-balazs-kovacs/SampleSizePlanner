@@ -166,7 +166,7 @@ justification <- function(method, output_parameters) {
     text <- 
       glue::glue(
         "We used the Region of Practical Equivalence (Kruschke and Liddell, 2018) method to estimate the sample size. We consider all effect \\
-        sizes within {paste(-eq_band,",", eq_band)} equivalent to zero,because {eq_band_justification}. We used a highest density interval of {ci}. We used a Cauchy prior \\
+        sizes within {eq_band} equivalent to zero,because {eq_band_justification}. We used a highest density interval of {ci}. We used a Cauchy prior \\
         distribution centered on 0 with a scale parameter of {prior_scale}. We set the aimed true positive rate at {tpr}, because {tpr_justification}. \\
         We set the expected group means to {mu}, which correspond to the subgroups 1|1, 1|2, 2|1, and 2|2 of factors A|B respectively. We set the \\
         standard deviation of each group to {sigma}. Based on these parameters, a minimal sample size of {n1} was estimated to reach \\
