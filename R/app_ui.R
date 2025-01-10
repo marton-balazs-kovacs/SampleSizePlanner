@@ -51,7 +51,7 @@ app_ui <- function(request) {
                           mod_ssp_rope_anova_ui("rope_anova"))
       ),
       tabPanel("About",
-               includeMarkdown(app_sys("app/www/about.Rmd")))
+               shiny::includeMarkdown(app_sys("app/www/about.Rmd")))
       ),
 
     # Enabling waiter JS functions

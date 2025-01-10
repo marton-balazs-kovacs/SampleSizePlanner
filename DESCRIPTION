@@ -22,7 +22,7 @@ Authors@R:
       person(given = 'Sebastian', 
              family = 'Lortz',
              role = c('ctb', 'aut'),
-             comment = c(ORCID = '0009-0007-0281-7996'))
+             comment = c(ORCID = '0009-0007-0281-7996')),
       person(given = 'Andrew', 
              family = 'Setiono',
              role = c('ctb', 'aut')))
@@ -55,7 +55,8 @@ Imports:
     purrr,
     rclipboard,
     stats,
-    shinyMatrix
+    shinyMatrix,
+    markdown
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.2)
