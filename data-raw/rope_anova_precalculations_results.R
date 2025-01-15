@@ -22,6 +22,7 @@ rope_anova_data <-
     prior_scale = map_dbl(parameters, "prior_scale"),
     eq_band = map_dbl(parameters, "eq_band"),
     mu = map(parameters, "mu"),
+    # TODO: fix map calls
     ci = map(parameters, "ci"),
     sigma = map_dbl(parameters, "sigma"),
     iter = map(parameters, "iter"),
