@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Read the outputs of all iterations
-bayes_anova_data <-
+bayes_anova_data_original <-
   tibble(filename = list.files(
     path = "./data/bayes-anova-res/",
     pattern = "\\.rds$",
@@ -38,6 +38,58 @@ bayes_anova_data <-
   ) |>
   select(-data, -parameters, -output, -result, -error) |> 
   arrange(batch_id, calculation_id)
+
+# Load recalc data
+bayes_anova_recalc_data <-
+  tibble(filename_recalc = list.files(
+    path = "./data/bayes-anova-res-recalc/",
+    pattern = "\\.rds$",
+    full.names = TRUE
+  )) %>%
+  mutate(data = map(filename_recalc, readRDS)) %>%
+  unnest(data) %>%
+  mutate(parameters = map(data, "parameters"),
+         output = map(data, "output")) |>
+  mutate(
+    filename = map_chr(parameters, "filename"),
+    batch_id = map_chr(parameters, "batch_id"),
+    calculation_id = map_chr(parameters, "calculation_id"),
+    tpr_in = map_dbl(parameters, "tpr"),
+    effect = map_chr(parameters, "effect"),
+    thresh = map_int(parameters, "thresh"),
+    prior_scale = map_dbl(parameters, "prior_scale"),
+    mu = map(parameters, "mu"),
+    sigma = map_dbl(parameters, "sigma"),
+    result = map(output, "result"),
+    error = map(output, "error"),
+    error_message = map_chr(error, ~ pluck(.x, "message", .default = NA_character_)),
+    result_not_null = if_else(map_lgl(result, ~ !is.null(.x)),
+                              1L,
+                              0L),
+    n1 = map_dbl(result, ~ pluck(.x, "n1", .default = NA_real_)),
+    tpr_out = map_dbl(result, ~ pluck(.x, "tpr_out", .default = NA_real_)),
+    effect_out = map_chr(result, ~ pluck(.x, "effect", .default = NA_character_))
+  ) |>
+  select(-data, -parameters, -output, -result, -error) |> 
+  arrange(batch_id, calculation_id)
+
+# Merging original calculation results with the recalculation results
+bayes_anova_data <- bayes_anova_data_original %>%
+  left_join(bayes_anova_recalc_data %>%
+              select(batch_id, calculation_id, tpr_in, effect, thresh, 
+                     prior_scale, mu, sigma,
+                     error_message, result_not_null, n1, tpr_out),
+            by = c("batch_id", "calculation_id", "tpr_in", "effect", "thresh", 
+                   "prior_scale", "mu", "sigma")) %>%
+  # Replace the values in eq_anova_data with those from eq_anova_recalc_data
+  mutate(
+    error_message = coalesce(error_message.y, error_message.x),
+    result_not_null = coalesce(result_not_null.y, result_not_null.x),
+    n1 = coalesce(n1.y, n1.x),
+    tpr_out = coalesce(tpr_out.y, tpr_out.x)
+  ) %>%
+  # Remove redundant columns
+  select(-matches("\\.x$|\\.y$"))
 
 # Calculating the number of calculated values
 bayes_anova_data |> 

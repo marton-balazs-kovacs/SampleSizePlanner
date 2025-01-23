@@ -87,6 +87,7 @@ for (i in 14:n_saves) {
                                                            prior_scale = x$prior_scale,
                                                            mu = c(x$m11, x$m12, x$m21, x$m22),
                                                            sigma = 1
+                                                           # Forgot to add max_n and iter to the returned output
                                                          ),
                                                          output = results
                                                        )
