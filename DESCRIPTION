@@ -34,8 +34,6 @@ Imports:
     shiny (>= 1.6.0),
     golem (>= 0.3.1),
     processx (>= 3.5.2),
-    attempt (>= 0.3.1),
-    DT (>= 0.18),
     glue (>= 1.4.2),
     htmltools (>= 0.5.1.1),
     ggplot2 (>= 3.3.4),
@@ -57,8 +55,9 @@ Imports:
     stats,
     shinyMatrix,
     markdown,
-    htmlwidgets,
-    base64enc
+    base64enc,
+    magick,
+    bayestestR
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.2)

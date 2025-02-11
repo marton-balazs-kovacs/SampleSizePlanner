@@ -3,11 +3,6 @@
 #' @title   mod_ssp_power_traditional_ui and mod_ssp_power_traditional_server
 #' @description  A shiny Module.
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#'
 #' @rdname mod_ssp_power_traditional
 #'
 #' @keywords internal

@@ -6,15 +6,6 @@
 \usage{
 mod_ssp_eq_anova_ui(id)
 }
-\arguments{
-\item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
-}
 \description{
 A shiny Module.
 }

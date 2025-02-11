@@ -50,6 +50,7 @@ usethis::use_package("shinyMatrix")
 usethis::use_package("htmlwidgets")
 usethis::use_package("magick")
 usethis::use_package("base64enc")
+usethis::use_package("bayestestR")
 
 ## 2.3 Add tests
 

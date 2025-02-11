@@ -3,11 +3,6 @@
 #' @title   mod_ssp_rope_anova_ui and mod_ssp_rope_anova_server
 #' @description  A shiny Module.
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#'
 #' @rdname mod_ssp_rope_anova
 #'
 #' @keywords internal
@@ -199,7 +194,8 @@ mod_ssp_rope_anova_server <- function(id) {
       } else {
         HTML(
           glue::glue(
-            "<b>{error_message}</b>",
+            "<b>{error_message}</b>\\
+            <i>Consider running the sample size calculation locally in R for more control over the parameters and detailed diagnostics.</i>",
             error_message = res$message[[1]]
           )
         )

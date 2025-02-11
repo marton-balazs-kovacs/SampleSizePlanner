@@ -4,7 +4,7 @@ library(tidyverse)
 # Read the outputs of all iterations
 eq_anova_data_original <-
   tibble(filename = list.files(
-    path = "./data/eq-anova-res/",
+    path = "./inst/extdata/eq-anova-res/",
     pattern = "\\.rds$",
     full.names = TRUE
   )) %>%
@@ -47,7 +47,7 @@ eq_anova_data_original <-
 # Read the results of the recalculations
 eq_anova_recalc_data <-
   tibble(recalc_filename = list.files(
-    path = "./data/eq-anova-res-recalc/",
+    path = "./inst/extdata/eq-anova-res-recalc/",
     pattern = "\\.rds$",
     full.names = TRUE
   )) %>%
@@ -86,27 +86,25 @@ eq_anova_recalc_data <-
   select(-data, -parameters, -output, -result, -error) |> 
   arrange(batch_id, calculation_id)
 
+eq_anova_recalc_data |> 
+  count(error_message)
+
 # Merging original calculation results with the recalculation results
 eq_anova_data <- eq_anova_data_original %>%
-  left_join(eq_anova_recalc_data %>%
+  rows_update(eq_anova_recalc_data %>%
               select(batch_id, calculation_id, tpr_in, effect, thresh, 
                      prior_scale, eq_band, mu, sigma, iter, post_iter, max_n, prior_location, 
                      error_message, result_not_null, n1, tpr_out),
             by = c("batch_id", "calculation_id", "tpr_in", "effect", "thresh", 
                    "prior_scale", "eq_band", "mu", "sigma", "iter", "post_iter", 
-                   "max_n", "prior_location")) %>%
-  # Replace the values in eq_anova_data with those from eq_anova_recalc_data
-  mutate(
-    error_message = coalesce(error_message.y, error_message.x),
-    result_not_null = coalesce(result_not_null.y, result_not_null.x),
-    n1 = coalesce(n1.y, n1.x),
-    tpr_out = coalesce(tpr_out.y, tpr_out.x)
-  ) %>%
-  # Remove redundant columns
-  select(-matches("\\.x$|\\.y$"))
+                   "max_n", "prior_location"),
+            unmatched = "error")
   
 # Calculating the number of calculated values
 eq_anova_data |> 
   count(result_not_null)
+
+eq_anova_data |> 
+  count(error_message)
 
 usethis::use_data(eq_anova_data, overwrite = TRUE)

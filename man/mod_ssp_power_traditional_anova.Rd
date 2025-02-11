@@ -13,15 +13,6 @@ mod_ssp_power_traditional_anova_ui(id)
 
 mod_ssp_power_traditional_anova_server(id)
 }
-\arguments{
-\item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
-}
 \description{
 A shiny Module.
 }

@@ -4,7 +4,7 @@ library(tidyverse)
 # Read the outputs of all iterations
 bayes_anova_data_original <-
   tibble(filename = list.files(
-    path = "./data/bayes-anova-res/",
+    path = "./inst/extdata/bayes-anova-res/",
     pattern = "\\.rds$",
     full.names = TRUE
   )) %>%
@@ -39,10 +39,16 @@ bayes_anova_data_original <-
   select(-data, -parameters, -output, -result, -error) |> 
   arrange(batch_id, calculation_id)
 
+bayes_anova_data_original |> 
+  count(error_message)
+
+bayes_anova_data_original |> 
+  count(result_not_null)
+
 # Load recalc data
 bayes_anova_recalc_data <-
   tibble(filename_recalc = list.files(
-    path = "./data/bayes-anova-res-recalc/",
+    path = "./inst/extdata/bayes-anova-res-recalc/",
     pattern = "\\.rds$",
     full.names = TRUE
   )) %>%
@@ -73,26 +79,27 @@ bayes_anova_recalc_data <-
   select(-data, -parameters, -output, -result, -error) |> 
   arrange(batch_id, calculation_id)
 
+bayes_anova_recalc_data |> 
+  count(error_message)
+
+bayes_anova_recalc_data |> 
+  count(result_not_null)
+
 # Merging original calculation results with the recalculation results
 bayes_anova_data <- bayes_anova_data_original %>%
-  left_join(bayes_anova_recalc_data %>%
+  rows_update(bayes_anova_recalc_data %>%
               select(batch_id, calculation_id, tpr_in, effect, thresh, 
                      prior_scale, mu, sigma,
                      error_message, result_not_null, n1, tpr_out),
             by = c("batch_id", "calculation_id", "tpr_in", "effect", "thresh", 
-                   "prior_scale", "mu", "sigma")) %>%
-  # Replace the values in eq_anova_data with those from eq_anova_recalc_data
-  mutate(
-    error_message = coalesce(error_message.y, error_message.x),
-    result_not_null = coalesce(result_not_null.y, result_not_null.x),
-    n1 = coalesce(n1.y, n1.x),
-    tpr_out = coalesce(tpr_out.y, tpr_out.x)
-  ) %>%
-  # Remove redundant columns
-  select(-matches("\\.x$|\\.y$"))
+                   "prior_scale", "mu", "sigma"),
+            unmatched = "error")
 
 # Calculating the number of calculated values
 bayes_anova_data |> 
   count(result_not_null)
+
+bayes_anova_data |> 
+  count(error_message)
 
 usethis::use_data(bayes_anova_data, overwrite = TRUE)
