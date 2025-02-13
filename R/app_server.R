@@ -5,7 +5,7 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  
+
   # Methods modules
   mod_ssp_tost_server("tost")
   mod_ssp_power_traditional_server("traditional")

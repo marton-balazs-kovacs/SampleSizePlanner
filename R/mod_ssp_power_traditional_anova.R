@@ -13,11 +13,12 @@
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
+#' 
 mod_ssp_power_traditional_anova_ui <- function(id) {
   tagList(
     
     # Method
-    h1("Classical power analysis - Two-way ANOVA"),
+    h1("Classical Power Analysis - Two-way ANOVA"),
     sidebarLayout(
       sidebarPanel(
         # Panel title
@@ -30,7 +31,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           NS(id, "tpr"),
           name_with_info(
             "True Positive Rate (TPR)",
-            "The desired long-run probability of obtaining a significant result, given Delta."),
+            "The desired long-run probability of obtaining a significant result, given the means."),
           min = 0,
           max = 1,
           value = 0.8,
@@ -39,15 +40,15 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
         selectizeInput(
           NS(id, "effect"),
           name_with_info(
-            "Which effect's power you want to detect?",
-            "Determine which effect of the ANOVA analysis, in which you want to check for power"),
+            "Target Effect",
+            "The effect of interest for the minimum sample size estimation"),
           c("Main Effect A", "Main Effect B", "Interaction Effect")),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
           label = name_with_info(
             "Mean of Each Group",
-            "Specify the mean for each group."),
+            "Specify the unstandardized mean of the dependent variable for each group."),
           value = matrix(c(1, 1.2, 1.5, 1.3), nrow = 1, ncol = 4,
                          dimnames = list(c("mu"),
                                          c("a1_b1", "a1_b2", 
@@ -56,21 +57,20 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           cols = list(names = TRUE),
           class = "numeric"),
         ## Input Standard Deviation for All Group
-        numericInput(
+        shinyWidgets::formatNumericInput(
           NS(id, "sigma"),
           name_with_info(
             "Standard Deviation",
-            "The standard deviation per group (all groups are assumed to have the same standard deviation)."),
-          min = 1e-3,
-          max = 10,
-          value = 1.2,
-          step = 0.1),
+            "The standard deviation of the dependent variable for the groups (all groups are assumed to have the same standard deviation)."),
+          value = as.numeric(1.2),
+          format = "dotDecimalCharCommaSeparator",
+          align = "left"),
         ## Input Maximum N
         numericInput(
           NS(id, "max_n"),
           name_with_info(
             "Maximum N per group",
-            "The maximum number of participants per group (all groups are assumed to have equal sample size)."),
+            "The maximum group size (all groups are assumed to have equal sample size)."),
           min = 10,
           max = 20000,
           value = 300,
@@ -80,7 +80,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           NS(id, "iter"),
           name_with_info(
             "Number of iterations",
-            "Numebr of iterations for calculating the power"),
+            "The number of iterations to calculate the power"),
           min = 10,
           max = 5000,
           value = 500,
@@ -143,7 +143,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
 #' @keywords internal
 
 mod_ssp_power_traditional_anova_server <- function(id) {
-  
+
   moduleServer(id, function(input, output, session) {
     # waitress <- waiter::Waitress$new("#traditional-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
     
