@@ -1,0 +1,13 @@
+name: SampleSizePlannerDemo
+title: SampleSizePlannerDemo
+username:
+account: martonbalazskovacs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13618857
+bundleId: 9541948
+url: https://martonbalazskovacs.shinyapps.io/SampleSizePlannerDemo/
+when: 1734561463.83888
+lastSyncTime: 1734561463.83891
+asMultiple: FALSE
+asStatic: FALSE

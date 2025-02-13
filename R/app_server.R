@@ -5,7 +5,13 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
+<<<<<<< HEAD
 
+=======
+  
+  mod_home_server("home")
+  
+>>>>>>> f16535c0c5249aeecdc58c8046b45851b44cd1cf
   # Methods modules
   mod_ssp_tost_server("tost")
   mod_ssp_power_traditional_server("traditional")

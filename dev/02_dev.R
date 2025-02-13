@@ -47,6 +47,10 @@ usethis::use_package("purrr")
 usethis::use_package("rclipboard")
 usethis::use_package("stats")
 usethis::use_package("shinyMatrix")
+usethis::use_package("htmlwidgets")
+usethis::use_package("magick")
+usethis::use_package("base64enc")
+usethis::use_package("bayestestR")
 
 ## 2.3 Add tests
 
