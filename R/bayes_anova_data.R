@@ -8,7 +8,7 @@
 #' @section Remark:
 #'   If none of the pre calculated values suit your sample size
 #'   determination plan, than feel free the calculations with the R package
-#'   by using the \code{\link{ssp_bayesian_anova}} function.
+#'   by using the \code{\link{ssp_anova_bf}} function.
 #' 
 #' @format A dataframe with 5550 rows and 17 variables:
 #' \describe{
@@ -26,6 +26,5 @@
 #'   \item{thresh}{numeric, The threshold of the Bayes Factor which is fixed to 10 in the ShinyApp.}
 #'   \item{prior_location}{numeric, The location of the Cauchy prior which is fixed to 0.}
 #'   \item{sigma}{numeric, The standard deviation of the DV for the groups.}
-
 #'}
 "bayes_anova_data"

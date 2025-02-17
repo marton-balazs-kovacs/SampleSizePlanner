@@ -7,7 +7,7 @@
 #' @section Remark:
 #'   If none of the pre calculated values suit your sample size
 #'   determination plan, than feel free the calculations with the R package
-#'   by using the \code{\link{ssp_eq_anova}} function.
+#'   by using the \code{\link{ssp_anova_eq}} function.
 #' 
 #' @format A dataframe with 5550 rows and 17 variables:
 #' \describe{
@@ -29,6 +29,5 @@
 #'   \item{max_n}{numeric, The maximum group size which is fixed to 500 in the ShinyApp.}
 #'   \item{prior_location}{numeric, The location of the Cauchy prior which is fixed to 0.}
 #'   \item{sigma}{numeric, The standard deviation of the DV for the groups.}
-
 #'}
 "eq_anova_data"

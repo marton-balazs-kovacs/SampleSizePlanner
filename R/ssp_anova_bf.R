@@ -1,23 +1,23 @@
 
-#' Determine sample size with Bayesian Anova
+#' Determine sample size with Bayesian Anova method
 #'
 #' The present method provides an expected sample size such that
 #' compelling evidence in the form of a Bayes factor can be collected
-#' for a given effect size with a certain long-run probability when
-#' allowing for sequential testing.
+#' given the group means.
 #'
+#' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
 #' @param mu Numeric. The expected population mean values.
 #' @param thresh Integer. The Bayes factor threshold for inference.
 #' @param tpr Numeric. The long-run probability of obtaining a Bayes factor at least
 #'   as high as the critical threshold favoring superiority, given mu.
-#' @param iter Integer. The number of simulations.
+#' @param iter Integer. The number of iterations.
 #' @param prior_scale Numeric. Scale of the Cauchy prior distribution.
 #' @param max_n Integer. The maximum number of participants per group (all groups are assumed to have equal sample size).
-#'
+#' @param max_bf Numeric. The maximum Bayes Factor value to reduce computation time. If all Bayes Factors in the first 10 iterations exceeded the max_bf,
+#'  we set the TPR equal to 1 and proceeded with the next sample size.
 #' @return The function returns a list of four named numeric vectors.
 #' The first `n1` is the range of determined sample sizes for the given design.
 #' The second `tpr_out` is the range of TPRs that were provided as a parameter.
-#' The third `effect` is the type of effect to evaluate, such as "Main Effect 1," "Main Effect 2," or "Interaction Effect."
 #' @export
 #' @examples
 #' \dontrun{
