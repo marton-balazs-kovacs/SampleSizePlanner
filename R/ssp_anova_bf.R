@@ -6,7 +6,7 @@
 #' given the group means.
 #'
 #' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
-#' @param mu Numeric. The expected population mean values.
+#' @param mu Numeric.  The mean of the DV for each group.
 #' @param sigma Numeric. The standard deviation of the DV for the groups.
 #' @param thresh Integer. The Bayes factor threshold for inference.
 #' @param tpr Numeric. The long-run probability of obtaining a Bayes factor at least

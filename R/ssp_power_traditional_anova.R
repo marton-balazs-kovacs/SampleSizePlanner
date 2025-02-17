@@ -4,10 +4,15 @@
 #' a design needs to reach a statistical power, given a  desired
 #' significance level and expected effect size.
 #' 
-#' @param tpr Numeric. The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.
+#' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
+#' @param mu Numeric. The mean of the DV for each group.
+#' @param sigma Numeric. The standard deviation of the DV for the groups.
+#' @param tpr Numeric. The desired long-run probability of obtaining a significant result, given the means.
 #' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' @param alpha Numeric. The level of significance.
-#'
+#' @param iter Integer. The number of iterations.
+#' @param seed Numeric. The seed for reproducibility.
+#' 
 #' @return The function returns a list of one named numeric vector.
 #' The vector called `n1` contains the determined sample size per group
 #' for the given design.
@@ -45,6 +50,8 @@ ssp_power_traditional_anova <- function(
 }
 
 # A function for two-way between-subject ANOVA
+#' @rdname ssp_anova_bf
+#' @param n1 Numeric. The sample size per group during the tpr optimization process.
 twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   
   # Evaluate if effects are specified
