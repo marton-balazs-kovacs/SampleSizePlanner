@@ -1,78 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//index.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/bfda_precalculation_results.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_aipe.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_app.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_bf_thresh.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_bfda.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_eq_bf.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_power_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_power_traditional.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_rope.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/mod_ssp_tost.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/plot_power_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/rope_precalculation_results.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/run_app.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_aipe.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_app.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_bf_predetermined.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_bfda.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_eq_bf.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_power_curve.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_power_traditional.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_rope.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//reference/ssp_tost.html</loc>
-  </url>
-  <url>
-    <loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner//articles/manuscript.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/404.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/LATEST_VERSION.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/LICENSE-text.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/LICENSE.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/authors.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/index.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/bayes_anova_data.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/bfda_precalculation_results.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/eq_anova_data.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/eq_bf_precalculation_results.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/index.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/infer_bf_precalculation_results.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/informed_t_test_functions.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_aipe.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_app.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_bayesian_anova.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_bf_thresh.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_bfda.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_eq_anova.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_eq_bf.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_infer_bf.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_power_curve.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_power_traditional.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_power_traditional_anova.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_rope.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_rope_anova.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/mod_ssp_tost.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/pipe.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/plot_power_curve.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/rope_anova_data.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/rope_precalculation_results.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/run_app.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_aipe.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_anova_bf.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_anova_eq.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_anova_rope.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_app.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_bf_predetermined.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_bfda.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_eq_bf.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_infer_bf.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_power_curve.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_power_traditional.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_power_traditional_anova.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_rope.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/ssp_tost.html</loc></url>
+<url><loc>https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference/tpr_optim.html</loc></url>
 </urlset>
+
