@@ -1,12 +1,12 @@
 #' Region of Practical Equivalence method ANOVA Precalculation Results
 #' 
 #' Dataset that contains precalculated sample sizes with the
-#' ROPE method for 2*2 designes. The dataset contains the input and output values of these calculations.
+#' ROPE method for 2*2 designs. The dataset contains the input and output values of these calculations.
 #' 
 #' @section Remark:
 #'   If none of the precalculated values suit your sample size
 #'   determination plan, than feel free the calculations with the R package
-#'   by using the \code{\link{ssp_rope_anova}} function.
+#'   by using the \code{\link{ssp_anova_rope}} function.
 #' 
 #' @format A dataframe with 5550 rows and 17 variables:
 #' \describe{

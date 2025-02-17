@@ -30,7 +30,7 @@ ROPE method for 2*2 designes. The dataset contains the input and output values o
 
   If none of the precalculated values suit your sample size
   determination plan, than feel free the calculations with the R package
-  by using the \code{\link{ssp_rope_anova}} function.
+  by using the \link[SampleSizePlanner]{ssp_rope_anova} function.
 }
 
 \keyword{datasets}

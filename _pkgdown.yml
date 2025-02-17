@@ -1,10 +1,34 @@
+# _pkgdown.yml
+
+# Website URL
+url: https://marton-balazs-kovacs.github.io/SampleSizePlanner/
+
+# Update to Bootstrap 5 for improved styling and features
+template:
+  bootstrap: 5
+  
+# Authors information
+authors:
+  Marton Kovacs:
+    href: https://github.com/marton-balazs-kovacs
+    
+  Andrew Santino:
+    href: https://github.com/andrewse98
+    
+  Sebastian A. J. Lortz:
+    href: https://github.com/sajLortz
+    
+  Maximilian Linde:
+    href: https://github.com/maxlinde
+
 reference:
 - title: Shiny App
   desc: Functions to use the shiny app
   contents: 
   - run_app
-- title: Sample size planning functions
-  desc: Functions to determine the sample size with different methods
+
+- title: Sample size planning functions for t-tests
+  desc: Functions to determine the sample size for two-group designs
   contents:
   - ssp_aipe
   - ssp_app
@@ -15,10 +39,20 @@ reference:
   - ssp_power_traditional
   - ssp_rope
   - ssp_tost
+
+- title: Sample size planning functions for ANOVA
+  desc: Functions to determine the sample size for 2*2 designs
+  contents:
+  - ssp_power_traditional_anova
+  - ssp_anova_eq
+  - ssp_anova_bf
+  - ssp_anova_rope
+
 - title: Plotting
   desc: Functions to plot the results of sample determination
   contents:
   - plot_power_curve
+
 - title: Datafiles
   desc: Description of pacakge datafiles
   contents:
@@ -26,8 +60,26 @@ reference:
   - bfda_precalculation_results
   - eq_bf_precalculation_results
 
+# Home page settings
 home:
   strip_header: false
-  links:
-  - text: Find the Shiny app
-    href: https://marton-balazs-kovacs.github.io/SampleSizePlanner/
+links:
+  - text: "Find the Shiny app"
+href: "https://marton-balazs-kovacs.github.io/SampleSizePlanner/"
+- text: "GitHub repository"
+href: "https://github.com/marton-balazs-kovacs/SampleSizePlanner"
+icon: fa-github
+aria-label: "GitHub repository for SampleSizePlanner"
+
+# Navbar configuration
+navbar:
+  structure:
+  left: [reference, articles]
+right: [github]
+components:
+  github:
+  icon: fa-github
+href: https://github.com/marton-balazs-kovacs/SampleSizePlanner
+
+# Favicon for the website (ensure favicon files are available in inst/logo/)
+favicon: inst/app/www/ssp_logo.png
