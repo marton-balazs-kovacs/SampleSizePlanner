@@ -4,10 +4,15 @@
 #' a design needs to reach a statistical power, given a  desired
 #' significance level and expected effect size.
 #' 
-#' @param tpr Numeric. The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.
+#' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
+#' @param mu Numeric. The mean of the DV for each group.
+#' @param sigma Numeric. The standard deviation of the DV for the groups.
+#' @param tpr Numeric. The desired long-run probability of obtaining a significant result, given the means.
 #' @param max_n Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).
 #' @param alpha Numeric. The level of significance.
-#'
+#' @param iter Integer. The number of iterations.
+#' @param seed Numeric. The seed for reproducibility.
+#' 
 #' @return The function returns a list of one named numeric vector.
 #' The vector called `n1` contains the determined sample size per group
 #' for the given design.
@@ -22,7 +27,7 @@
 ssp_power_traditional_anova <- function(
     effect = c("Main Effect A", "Main Effect B", "Interaction Effect"),
     iter = 1000, max_n, mu, sigma, seed = NULL, tpr, alpha = 0.05) {
-
+  
   tpr_optim_res <- tpr_optim(
     fun    = twowayANOVApwr,
     effect = effect,
@@ -45,56 +50,51 @@ ssp_power_traditional_anova <- function(
 }
 
 # A function for two-way between-subject ANOVA
+#' @rdname ssp_anova_bf
+#' @param n1 Numeric. The sample size per group during the tpr optimization process.
 twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
-
+  
   # Evaluate if effects are specified
   effects <- c("Main Effect A", "Main Effect B", "Interaction Effect")
   if (is.na(effect)||!effect %in% effects) {
     message("Specify which effect: Main or interaction")
     stop(call. = FALSE)
   }
-
+  
   # Evaluate if parameters input are correct
   if (!is.vector(mu)||length(mu) != 4) {
     message("Mean group must be a vector of four!")
     stop(call. = FALSE)
   }
-
-  # Arrange order so that m1_1 < m1_2 & m2_1 < m2_2
-  sorted_mu <- c(sort(mu[1:2]), sort(mu[3:4]))
-  # sort that m1_1 < m2_1
-  if (sorted_mu[3] < sorted_mu[1]) {
-    sorted_mu <- c(sorted_mu[c(3:4, 1:2)])
-  }
-
+  
   # Re-scale the mu and sigma before calculating the power
-  while (sorted_mu[1] != 0 || sigma != 1) {
-    sorted_mu <- sorted_mu / sigma        # scale mu by sigma
+  while (mu[1] != 0 || sigma != 1) {
+    mu <- mu / sigma        # scale mu by sigma
     sigma     <- sigma / sigma            # scale sigma to 1
-    sorted_mu <- sorted_mu - sorted_mu[1] # scale the mean of first group to 0
+    mu <- mu - mu[1] # scale the mean of first group to 0
   }
-
+  
   # Create a data frame to store the p-values from each iteration
   pval_data <- data.frame(matrix(NA, nrow = iter, ncol = 3))
   colnames(pval_data) <- c("pval_grp1", "pval_grp2", "pval_int")
-
+  
   # Set seeds
   set.seed(seed)
-
+  
   # For each iteration, generate data, do ANOVA, and record p-values
   for (i in 1:iter) {
     # Generate data
     grp1  <- c(rep(0, n1*2), rep(1, n1*2))
     grp2  <- c(rep(0, n1), rep(1, n1), rep(0, n1), rep(1, n1))
-    value <- c(rnorm(n = n1, mean = sorted_mu[1], sd = sigma),
-               rnorm(n = n1, mean = sorted_mu[2], sd = sigma),
-               rnorm(n = n1, mean = sorted_mu[3], sd = sigma),
-               rnorm(n = n1, mean = sorted_mu[4], sd = sigma))
+    value <- c(rnorm(n = n1, mean = mu[1], sd = sigma),
+               rnorm(n = n1, mean = mu[2], sd = sigma),
+               rnorm(n = n1, mean = mu[3], sd = sigma),
+               rnorm(n = n1, mean = mu[4], sd = sigma))
     data <- data.frame(grp1, grp2, value)
-
+    
     # Anova analysis
     results <- summary.aov(lm(value ~ grp1 + grp2 + grp1:grp2, data))[[1]]
-
+    
     # Store p-values of each iteration into the data frame
     pval_data[i, ] <- c(
       results[1, 5],  # p-value for main effect (group 1)
@@ -102,7 +102,7 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
       results[3, 5]   # p-value for interaction effect
     )
   }
-
+  
   # Determine which effect that gets evaluated or shown
   if (effect == "Main Effect A") {
     return(pwr_grp1 = sum(pval_data$pval_grp1 < alpha) / iter)
@@ -111,5 +111,4 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   } else if (effect == "Interaction Effect") {
     return(pwr_int  = sum(pval_data$pval_int  < alpha) / iter)
   }
-
 }

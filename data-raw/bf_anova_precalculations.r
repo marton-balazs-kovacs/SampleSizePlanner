@@ -7,6 +7,7 @@ library(here)
 
 source(here("R/ssp_bayesian_anova.R"))
 source(here("R/tpr_optim.R"))
+
 # Functions --------------------------------------------------------------------
 
 # Create a function to safely run Bayesian Anova
@@ -15,7 +16,7 @@ safe_ssp_anova_bf <- purrr::safely(ssp_anova_bf)
 # Parallel session setup -------------------------------------------------------
 
 # Set number of cores that we want to allocate
-n_cores <- future::availableCores() - 1
+n_cores <- future::availableCores()
 print(paste("Available cores:", n_cores))
 
 # Make `future` plan for multisession
@@ -24,7 +25,7 @@ future::plan(multisession, workers = n_cores)
 # Calculation configurations ---------------------------------------------------
 
 # Dataframe is created with "./data-raw/options/anova_options_bayesian.R
-bayes_anova_options <- readr::read_csv(here("data/options/ssp_anova_options_bayesian.csv")) %>% 
+bayes_anova_options <- readr::read_csv(here("inst/extdata/ssp_anova_options_bayesian.csv")) %>% 
   mutate(row_id = row_number())
 
 # Set file directory -----------------------------------------------------------
@@ -50,7 +51,7 @@ n_saves <- ceiling(length(bayes_anova_options_split) / n_batches)
 init <- 1
 
 # Run iterations
-for (i in 1:n_saves) {
+for (i in 14:n_saves) {
   # Print the current iteration
   print(paste("Batch", i, "is running currently."))
 
@@ -86,10 +87,11 @@ for (i in 1:n_saves) {
                                                            prior_scale = x$prior_scale,
                                                            mu = c(x$m11, x$m12, x$m21, x$m22),
                                                            sigma = 1
+                                                           # Forgot to add max_n and iter to the returned output
                                                          ),
                                                          output = results
                                                        )
-                                                     })
+                                                     }, future.seed = TRUE)
 
   # Save the results
   saveRDS(ssp_bayes_anova_res, here(paste0("data/bayes-anova-res/set-", i, ".rds")))

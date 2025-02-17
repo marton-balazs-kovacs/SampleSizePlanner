@@ -33,7 +33,7 @@ for (i in 1:base::nrow(bayes_anova_options)) {
 } 
 
 # remove equivalent rows
-bayes_anova_options <- unique(bayes_anova_options)
+anova_options_bayesian <- unique(bayes_anova_options)
 
-# store in .csv file
-write.csv(bayes_anova_options, "X:\\My Documents\\R\\data\\SSP\\ssp_anova_options_bayesian_anova.csv", row.names=FALSE)
+# store as RDS package data
+usethis::use_data(anova_options_bayesian, overwrite = TRUE)

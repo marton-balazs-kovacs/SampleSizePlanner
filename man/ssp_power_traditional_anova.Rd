@@ -16,9 +16,19 @@ ssp_power_traditional_anova(
 )
 }
 \arguments{
+\item{effect}{Character. The effect of interest (main effect A, main effect B, interaction effect).}
+
+\item{iter}{Integer. The number of iterations.}
+
 \item{max_n}{Integer. The maximum number of participants per group (both groups are assumed to have equal sample size).}
 
-\item{tpr}{Numeric. The desired long-run probability of obtaining a significant result with a one-sided t-test, given Delta.}
+\item{mu}{Numeric. The mean of the DV for each group.}
+
+\item{sigma}{Numeric. The standard deviation of the DV for the groups.}
+
+\item{seed}{Numeric. The seed for reproducibility.}
+
+\item{tpr}{Numeric. The desired long-run probability of obtaining a significant result, given the means.}
 
 \item{alpha}{Numeric. The level of significance.}
 }

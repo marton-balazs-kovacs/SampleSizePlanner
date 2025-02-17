@@ -69,7 +69,80 @@ show_code <- function(method, code_parameters) {
         tpr = code_parameters$tpr,
         max_n = code_parameters$max_n)
   
-  } else if (method == "bf_predetermined") {
+  } else if (method == "bayesian-twoway-anova") {
+    function_call <-
+      glue::glue("
+        ssp_anova_bf(
+          effect = \"{effect}\", 
+          mu     = c({glue::glue_collapse(mu, sep = ', ')}),
+          sigma  = {sigma},
+          iter   = {iter},
+          tpr    = {tpr}, 
+          thresh = {thresh},
+          prior_scale = {prior_scale},
+          max_n = 500
+        )
+        ",
+          effect = code_parameters$effect,
+          mu = code_parameters$mu,
+          sigma = code_parameters$sigma,
+          iter   = code_parameters$iter,
+          tpr = code_parameters$tpr,
+          thresh = code_parameters$thresh,
+          prior_scale = code_parameters$prior_scale,
+          "# Note: The function is highly computationally intensive.")
+    
+   } else if (method == "eq-twoway-anova") {
+      function_call <-
+        glue::glue("
+        ssp_anova_bf(
+          effect = \"{effect}\", 
+          eq_band = {eq_band},
+          mu     = c({glue::glue_collapse(mu, sep = ', ')}),
+          sigma  = {sigma},
+          iter   = {iter},
+          tpr    = {tpr}, 
+          thresh = {thresh},
+          prior_scale = {prior_scale},
+          max_n = 500
+        )
+        ",
+                   effect = code_parameters$effect,
+                   mu = code_parameters$mu,
+                   eq_band = code_parameters$eq_band,
+                   sigma = code_parameters$sigma,
+                   iter   = code_parameters$iter,
+                   tpr = code_parameters$tpr,
+                   thresh = code_parameters$thresh,
+                   prior_scale = code_parameters$prior_scale,
+                   "# Note: The function is highly computationally intensive.")
+      
+     } else if (method == "rope-twoway-anova") {
+        function_call <-
+          glue::glue("
+        ssp_anova_bf(
+          effect = \"{effect}\",
+          eq_band = {eq_band},
+          mu     = c({glue::glue_collapse(mu, sep = ', ')}),
+          sigma  = {sigma},
+          iter   = {iter},
+          tpr    = {tpr}, 
+          ci = {ci},
+          prior_scale = {prior_scale},
+          max_n = 500
+        )
+        ",
+                     effect = code_parameters$effect,
+                     mu = code_parameters$mu,
+                     eq_band = code_parameters$eq_band,
+                     sigma = code_parameters$sigma,
+                     iter   = code_parameters$iter,
+                     tpr = code_parameters$tpr,
+                     ci = code_parameters$ci,
+                     prior_scale = code_parameters$prior_scale,
+                     "# Note: The function is highly computationally intensive.")    
+    
+    } else if (method == "bf_predetermined") {
     function_call <-
       glue::glue(
         "ssp_bf_predetermined(trp = {tpr}, delta = {delta}, thresh = {thresh}, max_n = {max_n}, prior_scale = {prior_scale})",

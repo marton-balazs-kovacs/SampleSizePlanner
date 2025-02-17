@@ -3,11 +3,6 @@
 #' @title   mod_ssp_bf_thresh_ui and mod_ssp_bf_thresh_server
 #' @description  A shiny Module.
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#'
 #' @rdname mod_ssp_bf_thresh
 #'
 #' @keywords internal

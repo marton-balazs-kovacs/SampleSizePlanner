@@ -1,11 +1,6 @@
 #' @title   mod_ssp_infer_bf_ui and mod_ssp_infer_bf_server
 #' @description  A shiny Module.
 #'
-#' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#'
 #' @rdname mod_ssp_infer_bf
 #'
 #' @keywords internal

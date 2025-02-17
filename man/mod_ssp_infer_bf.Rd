@@ -9,15 +9,6 @@ mod_ssp_infer_bf_ui(id)
 
 mod_ssp_infer_bf_server(id)
 }
-\arguments{
-\item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
-}
 \description{
 A shiny Module.
 }

@@ -5,7 +5,11 @@ output: html_document
 
 ### About the project
 
-The **SampleSizePlanner** shiny application enables researchers to calculate the sample size with 9 different methods in app and provides code to use an additional method from R. The aim of the app is to make the various sample size calculating methods available for a wide range of researchers and propagate the transparent reporting of the chosen method. Therefore, a formatted template text containing the used parameters and the output of the calculations is available for download. This text can be complemented with the reasoning behind each decision.
+The **SampleSizePlanner** shiny application enables researchers to calculate the sample size with 13 different methods in app and provides code to use an additional method from R. The aim of the app is to make the various sample size calculating methods available for a wide range of researchers and propagate the transparent reporting of the chosen method. Therefore, a formatted template text containing the used parameters and the output of the calculations is available for download. This text can be complemented with the reasoning behind each decision.
+
+### Publications
+
+The sample size calculations for the t-tests are presented in a tutorial paper: [Kovacs, van Ravenzwaaij, Hoekstra & Aczel (2022)](https://doi.org/10.1177/25152459211054059)
 
 ### Contributors
 
@@ -13,11 +17,13 @@ The **SampleSizePlanner** shiny application enables researchers to calculate the
 -   Don van Ravenzwaaij
 -   Rink Hoekstra
 -   Balazs Aczel
+-   Andrew Setiono
+-   Sebastian Lortz
 
-The design of the app was done by Zsuzsa Szekely [(@szekely_Zsuzsa)](<https://twitter.com/szekely_zsuzsa>).
+The design of the app was done by Zsuzsa Szekely [(\@szekely_Zsuzsa)](https://twitter.com/szekely_zsuzsa).
 
 ### Questions and comments
 
-If you have any questions or comments please write to Marton Kovacs to the following email address: [marton.balazs.kovacs@gmail.com](mailto:marton.balazs.kovacs@gmail.com)
+If you have any questions or comments please write to Marton Kovacs to the following email address: [marton.balazs.kovacs\@gmail.com](mailto:marton.balazs.kovacs@gmail.com)
 
 Or submit an issue on the apps Github page: <https://github.com/marton-balazs-kovacs/SampleSizePlanner>
