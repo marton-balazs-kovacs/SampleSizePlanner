@@ -1,5 +1,5 @@
 #########################################################################################
-#' Determine sample size with the Bayesian Equivalence Interval Method 
+#' Determine sample size with the Bayesian Interval Equivalence Method 
 #' 
 #' Script for pre-calculation.
 #' The present method provides an expected sample size such that
@@ -8,6 +8,7 @@
 #' 
 #' @param effect Character. The effect of interest (main effect A, main effect B).
 #' @param mu Numeric. The unstandardized mean of the DV for each group.
+#' @param sigma Numeric. The standard deviation of the DV for the groups.
 #' @param eq_band Numeric. The margin of the standardized ROPE interval.
 #' @param tpr Numeric. The desired long-run probability of the HDI fully falling inside the ROPE, given the means.
 #' @param ci Numeric. The percentage of the HDI which is fixed to 0.95 in the ShinyApp.
@@ -18,7 +19,7 @@
 #' @param prior_location Numeric. The scale of the Cauchy prior which is fixed to 1 / sqrt(2) in the ShinyApp.
 #' @param max_n Numeric. The maximum group size which is fixed to 500 in the ShinyApp.
 #' @param seed Numeric. Seed for the random calculations.
-#' 
+#'
 #' @return The function returns a list of two named numeric vectors.
 #'   The second `n1` the determined sample size per group.
 #'   The third `tpr_out` is the TPR corresponding to the determined sample sizes.
@@ -53,6 +54,7 @@ ssp_anova_eq <- function(mu, effect, eq_band, tpr, thresh, prior_scale, iter, po
 # function for pre-calculations to calculate the tpr for a 2-way anova with the
 # Bayesian Equivalence Interval Method
 #' @rdname ssp_anova_eq
+#' @param n Numeric. The sample size per group during the tpr optimization process.
 twoway_ANOVA_eq_pwr  <- function(
     n      = n1,
     effect = effect,

@@ -48,6 +48,7 @@ ssp_anova_rope <- function(mu, effect, eq_band, tpr, ci, prior_scale, iter, post
 ############################ROPE Function##################################################
 # function to calculate the tpr for a 2-way anova with the ROPE method
 #' @rdname ssp_anova_rope
+#' @param n Numeric. The sample size per group during the tpr optimization process.
 twoway_ANOVA_rope_pwr  <- function(
     n      = n1,
     effect = effect,

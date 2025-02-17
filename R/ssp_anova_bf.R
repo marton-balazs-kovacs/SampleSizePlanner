@@ -7,6 +7,7 @@
 #'
 #' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
 #' @param mu Numeric. The expected population mean values.
+#' @param sigma Numeric. The standard deviation of the DV for the groups.
 #' @param thresh Integer. The Bayes factor threshold for inference.
 #' @param tpr Numeric. The long-run probability of obtaining a Bayes factor at least
 #'   as high as the critical threshold favoring superiority, given mu.
@@ -15,6 +16,9 @@
 #' @param max_n Integer. The maximum number of participants per group (all groups are assumed to have equal sample size).
 #' @param max_bf Numeric. The maximum Bayes Factor value to reduce computation time. If all Bayes Factors in the first 10 iterations exceeded the max_bf,
 #'  we set the TPR equal to 1 and proceeded with the next sample size.
+#' @param seed Numeric. The seed for reproducibility.
+#' @param n Numeric. The sample size per group during the tpr optimization process.
+#' 
 #' @return The function returns a list of four named numeric vectors.
 #' The first `n1` is the range of determined sample sizes for the given design.
 #' The second `tpr_out` is the range of TPRs that were provided as a parameter.
@@ -49,6 +53,8 @@ ssp_anova_bf <- function(effect,  mu, tpr, thresh , prior_scale, iter, max_n = 1
 }
 
 # A function for two-way between-subject ANOVA
+#' @rdname ssp_anova_bf
+#' @param n Numeric. The sample size per group during the tpr optimization process.
 twoway_ANOVA_bf_pwr  <- function(
     effect = effect,
     iter   = iter,
