@@ -29,6 +29,5 @@
 #'   \item{max_n}{numeric, The maximum group size which is fixed to 500 in the ShinyApp.}
 #'   \item{prior_location}{numeric, The location of the Cauchy prior which is fixed to 0.}
 #'   \item{sigma}{numeric, The standard deviation of the DV for the groups.}
-
 #'}
 "eq_anova_data"

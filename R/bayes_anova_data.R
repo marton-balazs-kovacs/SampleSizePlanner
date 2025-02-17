@@ -26,6 +26,5 @@
 #'   \item{thresh}{numeric, The threshold of the Bayes Factor which is fixed to 10 in the ShinyApp.}
 #'   \item{prior_location}{numeric, The location of the Cauchy prior which is fixed to 0.}
 #'   \item{sigma}{numeric, The standard deviation of the DV for the groups.}
-
 #'}
 "bayes_anova_data"
