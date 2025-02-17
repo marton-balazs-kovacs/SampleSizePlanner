@@ -2,7 +2,8 @@
 % Please edit documentation in R/ssp_anova_bf.R
 \name{ssp_anova_bf}
 \alias{ssp_anova_bf}
-\title{Determine sample size with Bayesian Anova}
+\alias{twoway_ANOVA_bf_pwr}
+\title{Determine sample size with Bayesian Anova method}
 \usage{
 ssp_anova_bf(
   effect,
@@ -16,8 +17,22 @@ ssp_anova_bf(
   sigma = 1,
   seed = NULL
 )
+
+twoway_ANOVA_bf_pwr(
+  effect = effect,
+  iter = iter,
+  n = n1,
+  mu = mu,
+  sigma = sigma,
+  thresh = thresh,
+  max_bf = max_bf,
+  prior_scale = prior_scale,
+  seed = NULL
+)
 }
 \arguments{
+\item{effect}{Character. The effect of interest (main effect A, main effect B, interaction effect).}
+
 \item{mu}{Numeric. The expected population mean values.}
 
 \item{tpr}{Numeric. The long-run probability of obtaining a Bayes factor at least
@@ -27,21 +42,28 @@ as high as the critical threshold favoring superiority, given mu.}
 
 \item{prior_scale}{Numeric. Scale of the Cauchy prior distribution.}
 
-\item{iter}{Integer. The number of simulations.}
+\item{iter}{Integer. The number of iterations.}
 
 \item{max_n}{Integer. The maximum number of participants per group (all groups are assumed to have equal sample size).}
+
+\item{max_bf}{Numeric. The maximum Bayes Factor value to reduce computation time. If all Bayes Factors in the first 10 iterations exceeded the max_bf,
+we set the TPR equal to 1 and proceeded with the next sample size.}
+
+\item{sigma}{Numeric. The standard deviation of the DV for the groups.}
+
+\item{seed}{Numeric. The seed for reproducibility.}
+
+\item{n}{Numeric. The sample size per group during the tpr optimization process.}
 }
 \value{
 The function returns a list of four named numeric vectors.
 The first `n1` is the range of determined sample sizes for the given design.
 The second `tpr_out` is the range of TPRs that were provided as a parameter.
-The third `effect` is the type of effect to evaluate, such as "Main Effect 1," "Main Effect 2," or "Interaction Effect."
 }
 \description{
 The present method provides an expected sample size such that
 compelling evidence in the form of a Bayes factor can be collected
-for a given effect size with a certain long-run probability when
-allowing for sequential testing.
+given the group means.
 }
 \examples{
 \dontrun{

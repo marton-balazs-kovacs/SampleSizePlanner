@@ -58,6 +58,8 @@ twoway_ANOVA_rope_pwr(
 \item{max_n}{Numeric. The maximum group size which is fixed to 500 in the ShinyApp.}
 
 \item{seed}{Numeric. Seed for the random calculations.}
+
+\item{n}{Numeric. The sample size per group during the tpr optimization process.}
 }
 \value{
 The function returns a list of two named numeric vectors.

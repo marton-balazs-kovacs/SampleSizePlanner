@@ -39,7 +39,7 @@ The data set contains the input and output values of these calculations.
 
   If none of the pre calculated values suit your sample size
   determination plan, than feel free the calculations with the R package
-  by using the \code{\link{ssp_eq_anova}} function.
+  by using the \code{\link{ssp_anova_eq}} function.
 }
 
 \keyword{datasets}

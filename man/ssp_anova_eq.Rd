@@ -3,7 +3,7 @@
 \name{ssp_anova_eq}
 \alias{ssp_anova_eq}
 \alias{twoway_ANOVA_eq_pwr}
-\title{Determine sample size with the Bayesian Equivalence Interval Method}
+\title{Determine sample size with the Bayesian Interval Equivalence Method}
 \usage{
 ssp_anova_eq(
   mu,
@@ -51,11 +51,15 @@ twoway_ANOVA_eq_pwr(
 
 \item{post_iter}{Numeric.  The number of iterations to estimate the posterior distribution which is fixed to 1000 in the ShinyApp.}
 
+\item{sigma}{Numeric. The standard deviation of the DV for the groups.}
+
 \item{prior_location}{Numeric. The scale of the Cauchy prior which is fixed to 1 / sqrt(2) in the ShinyApp.}
 
 \item{max_n}{Numeric. The maximum group size which is fixed to 500 in the ShinyApp.}
 
 \item{seed}{Numeric. Seed for the random calculations.}
+
+\item{n}{Numeric. The sample size per group during the tpr optimization process.}
 }
 \value{
 The function returns a list of two named numeric vectors.
