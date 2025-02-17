@@ -65,21 +65,22 @@ home:
   strip_header: false
 links:
   - text: "Find the Shiny app"
-href: "https://marton-balazs-kovacs.github.io/SampleSizePlanner/"
-- text: "GitHub repository"
-href: "https://github.com/marton-balazs-kovacs/SampleSizePlanner"
-icon: fa-github
-aria-label: "GitHub repository for SampleSizePlanner"
+    href: "https://marton-balazs-kovacs.github.io/SampleSizePlanner/"
+  
+  - text: "GitHub repository"
+    href: "https://github.com/marton-balazs-kovacs/SampleSizePlanner"
+    icon: fa-github
+    aria-label: "GitHub repository for SampleSizePlanner"
 
 # Navbar configuration
 navbar:
   structure:
-  left: [reference, articles]
-right: [github]
-components:
-  github:
-  icon: fa-github
-href: https://github.com/marton-balazs-kovacs/SampleSizePlanner
+    left: [reference, articles]
+    right: [github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/marton-balazs-kovacs/SampleSizePlanner
 
 # Favicon for the website (ensure favicon files are available in inst/logo/)
 favicon: inst/app/www/ssp_logo.png
