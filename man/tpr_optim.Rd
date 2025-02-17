@@ -25,3 +25,4 @@ the associated true positive rate with that sample size.
 The function optimizes the true positive rate for a range of sample sizes
 for several methods in the package.
 }
+\keyword{internal}

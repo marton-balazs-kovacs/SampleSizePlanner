@@ -11,6 +11,8 @@
 #' 
 #' @return The function returns a list of two. `n1` the resulting sample size and `tpr_out`
 #' the associated true positive rate with that sample size.
+#' 
+#' @keywords internal
 tpr_optim <- function(fun, range, tpr, ...) {
   Ns = range
   Res = c(fun(Ns[1], ...), 

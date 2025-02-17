@@ -1,0 +1,8 @@
+pandoc: 2.19.2
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles: {}
+last_built: 2025-02-17T11:37Z
+urls:
+  reference: https://marton-balazs-kovacs.github.io/SampleSizePlanner/reference
+  article: https://marton-balazs-kovacs.github.io/SampleSizePlanner/articles

@@ -146,3 +146,4 @@ Gronau, Q. F., Ly, A., & Wagenmakers, E. J. (2019).
 Informed Bayesian t-tests. \emph{The American Statistician.} paper.
 The functions are retrieved from \href{https://osf.io/bsp6z/}{OSF}.
 }
+\keyword{internal}

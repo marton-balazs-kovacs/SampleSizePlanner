@@ -39,6 +39,7 @@ reference:
   - ssp_power_traditional
   - ssp_rope
   - ssp_tost
+  - ssp_infer_bf
 
 - title: Sample size planning functions for ANOVA
   desc: Functions to determine the sample size for 2*2 designs
@@ -59,6 +60,10 @@ reference:
   - rope_precalculation_results
   - bfda_precalculation_results
   - eq_bf_precalculation_results
+  - infer_bf_precalculation_results
+  - bayes_anova_data
+  - eq_anova_data
+  - rope_anova_data
 
 # Home page settings
 home:
@@ -81,6 +86,7 @@ navbar:
     github:
       icon: fa-github
       href: https://github.com/marton-balazs-kovacs/SampleSizePlanner
+      aria-label: "GitHub repository for SampleSizePlanner"
 
 # Favicon for the website (ensure favicon files are available in inst/logo/)
-favicon: inst/app/www/ssp_logo.png
+favicon: inst/app/www/ssp_logo_128.png

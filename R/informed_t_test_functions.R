@@ -7,6 +7,8 @@
 #' The functions are retrieved from \href{https://osf.io/bsp6z/}{OSF}.
 #' @importFrom stats integrate dt
 #' @name informed_t_test_functions
+#' 
+#' @keywords internal
 NULL
 
 
