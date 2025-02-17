@@ -8,7 +8,7 @@
 #' @section Remark:
 #'   If none of the pre calculated values suit your sample size
 #'   determination plan, than feel free the calculations with the R package
-#'   by using the \code{\link{ssp_bayesian_anova}} function.
+#'   by using the \code{\link{ssp_anova_bf}} function.
 #' 
 #' @format A dataframe with 5550 rows and 17 variables:
 #' \describe{
