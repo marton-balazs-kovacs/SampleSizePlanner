@@ -65,6 +65,11 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           value = as.numeric(1.2),
           format = "dotDecimalCharCommaSeparator",
           align = "left"),
+        ## f2 effect size
+        tags$div(
+          style = "margin-top:1px; margin-bottom: 10px;",
+          textOutput(NS(id, "f2"))
+        ),
         ## Input Maximum N
         numericInput(
           NS(id, "max_n"),
@@ -94,7 +99,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           min = 0,
           max = 1,
           value = 0.05,
-          step = 0.01),
+          step = 0.001),
         # Seed
         numericInput(
           NS(id, "seed"),
@@ -166,8 +171,26 @@ mod_ssp_power_traditional_anova_server <- function(id) {
 
   moduleServer(id, function(input, output, session) {
     # waitress <- waiter::Waitress$new("#traditional-preview-show_preview", theme = "overlay", infinite = TRUE, hide_on_render = TRUE)
+    ran_calculation <- reactiveVal(FALSE)
+    
+    # dynamic effect size
+    output$f2 <- renderText({
+      req(all(is.numeric(as.vector(input$muMatrix))) && input$sigma > 0)
+      f2 <- get_f2(mu = as.vector(input$muMatrix),
+                   sigma = input$sigma)
+      eff <- input$effect
+      if (eff == "Main Effect 1") {
+        f2_out <- f2[1] 
+      } else if (eff == "Main Effect 2") {
+        f2_out <- f2[2]
+      } else {
+        f2_out <- f2[3]
+      }
+      paste("Respective effect size is f2 =", round(f2_out, 2))
+    })
     
     traditional_result <- eventReactive(input$calculate, {
+      ran_calculation(TRUE)
       showModal(modalDialog("Processing... this can take a minute", footer=NULL))
       # waitress$start()
       safe_ssp_power_traditional_anova <- purrr::safely(ssp_power_traditional_anova)
@@ -189,8 +212,19 @@ mod_ssp_power_traditional_anova_server <- function(id) {
       }
       })
     
+    # erase if input changes
+    observeEvent(
+      list(
+        input$tpr, input$effect, input$muMatrix, input$sigma,
+        input$max_n, input$iter, input$alpha, input$seed
+      ), {
+        ran_calculation(FALSE)
+      }
+    )
+    
     # Show calculated results
     output$calculate_output <- renderUI({
+      req(ran_calculation()) 
       if ("n1" %in% names(traditional_result())) {
         HTML(
           glue::glue(
@@ -227,6 +261,7 @@ mod_ssp_power_traditional_anova_server <- function(id) {
 
     # Set output parameters
     output_parameters <- reactive({
+      req(ran_calculation())
       list(
         tpr = input$tpr,
         tpr_justification = input$tpr_justification,
@@ -237,15 +272,16 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         mu = input$muMatrix,
         sigma = input$sigma,
         effect = input$effect,
-        alpha = input$alpha
+        alpha = input$alpha,
+        seed = input$seed
       )
     })
 
     # Render preview
     mod_preview_server(
       "preview",
-      activate = reactive(input$justification),
-      deactivate = reactive(input$calculate),
+      activate = reactive(input$justification && ran_calculation()),
+      deactivate = reactive(!ran_calculation()),
       output_parameters = output_parameters,
       method = "traditional-twoway-anova"
     )
@@ -259,8 +295,8 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         mu     = as.vector(input$muMatrix),
         sigma  = input$sigma,
         tpr    = input$tpr,
-        alpha  = input$alpha
-        # delta = input$delta
+        alpha  = input$alpha,
+        seed = input$seed
       )
     })
 
