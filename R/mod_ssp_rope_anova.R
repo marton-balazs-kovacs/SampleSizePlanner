@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_rope_anova
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_rope_anova_ui <- function(id) {
   tagList(
@@ -157,7 +157,7 @@ mod_ssp_rope_anova_ui <- function(id) {
 # Module Server
 
 #' @rdname mod_ssp_rope_anova
-#' @export
+#' @noRd
 #' @keywords internal
 
 mod_ssp_rope_anova_server <- function(id) {

@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_aipe
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_aipe_ui <- function(id) {
   tagList(
@@ -117,7 +117,7 @@ mod_ssp_aipe_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_aipe
-#' @export
+#' @noRd
 #' @keywords internal
     
 mod_ssp_aipe_server <- function(id) {

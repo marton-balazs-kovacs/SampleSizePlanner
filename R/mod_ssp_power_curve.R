@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_power_curve
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_power_curve_ui <- function(id) {
   tagList(
@@ -108,7 +108,7 @@ mod_ssp_power_curve_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_power_curve
-#' @export
+#' @noRd
 #' @keywords internal
 mod_ssp_power_curve_server <- function(id) {
     moduleServer(id, function(input, output, session) {

@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_tost
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_tost_ui <- function(id) {
   tagList(
@@ -113,7 +113,7 @@ mod_ssp_tost_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_tost
-#' @export
+#' @noRd
 #' @keywords internal
 mod_ssp_tost_server <- function(id) {
   moduleServer(id, function(input, output, session) {

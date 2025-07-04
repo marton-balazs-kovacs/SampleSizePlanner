@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_power_traditional
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_power_traditional_ui <- function(id) {
   tagList(
@@ -103,7 +103,7 @@ mod_ssp_power_traditional_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_power_traditional
-#' @export
+#' @noRd
 #' @keywords internal
     
 mod_ssp_power_traditional_server <- function(id) {

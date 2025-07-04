@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_eq_anova
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_eq_anova_ui <- function(id) {
   tagList(
@@ -158,7 +158,7 @@ mod_ssp_eq_anova_ui <- function(id) {
 # Module Server
 
 #' @rdname mod_ssp_power_traditional_anova
-#' @export
+#' @noRd
 #' @keywords internal
 
 mod_ssp_eq_anova_server <- function(id) {

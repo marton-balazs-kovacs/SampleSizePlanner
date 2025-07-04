@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_power_traditional_anova
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 #' 
 mod_ssp_power_traditional_anova_ui <- function(id) {
@@ -37,7 +37,12 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           name_with_info(
             "Target Effect",
             "The effect of interest for the minimum sample size estimation"),
-          c("Main Effect A", "Main Effect B", "Interaction Effect")),
+          choices = c(
+            "Main Effect A" = "Main Effect 1",
+            "Main Effect B" = "Main Effect 2",
+            "Interaction Effect" = "Interaction Effect"
+            )
+          ),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
@@ -75,11 +80,31 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           NS(id, "iter"),
           name_with_info(
             "Number of iterations",
-            "The number of iterations to calculate the power"),
+            "The number of iterations to calculate the true positive rate (power)"),
           min = 10,
-          max = 5000,
-          value = 500,
+          # max = 5000,
+          value = 5000,
           step = 10),
+        # Alpha
+        numericInput(
+          NS(id, "alpha"),
+          name_with_info(
+            "Alpha",
+            "The significance level (Type error rate) to calculate the true positive rate (power)"),
+          min = 0,
+          max = 1,
+          value = 0.05,
+          step = 0.01),
+        # Seed
+        numericInput(
+          NS(id, "seed"),
+          name_with_info(
+            "Seed",
+            "Setting a seed for the reproducibility of the calculated samplesize."),
+          value = 42,      
+          min = 1,         
+          step = 1      
+        ),
         # Run calculation
         actionButton(NS(id, "calculate"), "Calculate sample size", class = "calculate-btn"),
         # Show the results of the calculation
@@ -134,7 +159,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
 # Module Server
 
 #' @rdname mod_ssp_power_traditional_anova
-#' @export
+#' @noRd
 #' @keywords internal
 
 mod_ssp_power_traditional_anova_server <- function(id) {
@@ -152,7 +177,9 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         mu     = as.vector(input$muMatrix),
         sigma  = input$sigma,
         max_n  = input$max_n, 
-        tpr    = input$tpr, 
+        tpr    = input$tpr,
+        alpha  = input$alpha,
+        seed   = input$seed
       )
       removeModal()
       if (is.null(res$error)) {
@@ -209,7 +236,8 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         tpr_out = traditional_result()$tpr_out,
         mu = input$muMatrix,
         sigma = input$sigma,
-        effect = input$effect
+        effect = input$effect,
+        alpha = input$alpha
       )
     })
 
@@ -230,7 +258,8 @@ mod_ssp_power_traditional_anova_server <- function(id) {
         max_n  = input$max_n,
         mu     = as.vector(input$muMatrix),
         sigma  = input$sigma,
-        tpr    = input$tpr
+        tpr    = input$tpr,
+        alpha  = input$alpha
         # delta = input$delta
       )
     })

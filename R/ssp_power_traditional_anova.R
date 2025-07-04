@@ -4,7 +4,7 @@
 #' a design needs to reach a statistical power, given a  desired
 #' significance level and expected effect size.
 #' 
-#' @param effect Character. The effect of interest (main effect A, main effect B, interaction effect).
+#' @param effect Character. The effect of interest (main effect 1, main effect 2, interaction effect).
 #' @param mu Numeric. The mean of the DV for each group.
 #' @param sigma Numeric. The standard deviation of the DV for the groups.
 #' @param tpr Numeric. The desired long-run probability of obtaining a significant result, given the means.
@@ -25,7 +25,7 @@
 #'  )
 #' }
 ssp_power_traditional_anova <- function(
-    effect = c("Main Effect A", "Main Effect B", "Interaction Effect"),
+    effect = c("Main Effect 1", "Main Effect 2", "Interaction Effect"),
     iter = 1000, max_n, mu, sigma, seed = NULL, tpr, alpha = 0.05) {
   
   tpr_optim_res <- tpr_optim(
@@ -55,7 +55,7 @@ ssp_power_traditional_anova <- function(
 twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   
   # Evaluate if effects are specified
-  effects <- c("Main Effect A", "Main Effect B", "Interaction Effect")
+  effects <- c("Main Effect 1", "Main Effect 2", "Interaction Effect")
   if (is.na(effect)||!effect %in% effects) {
     message("Specify which effect: Main or interaction")
     stop(call. = FALSE)
@@ -104,9 +104,9 @@ twowayANOVApwr <- function(effect, iter, n1, mu, sigma, alpha, seed) {
   }
   
   # Determine which effect that gets evaluated or shown
-  if (effect == "Main Effect A") {
+  if (effect == "Main Effect 1") {
     return(pwr_grp1 = sum(pval_data$pval_grp1 < alpha) / iter)
-  } else if (effect == "Main Effect B") {
+  } else if (effect == "Main Effect 2") {
     return(pwr_grp2 = sum(pval_data$pval_grp2 < alpha) / iter)
   } else if (effect == "Interaction Effect") {
     return(pwr_int  = sum(pval_data$pval_int  < alpha) / iter)

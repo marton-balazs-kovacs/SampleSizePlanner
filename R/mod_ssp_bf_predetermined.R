@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_bf_thresh
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_bf_predetermined_ui <- function(id) {
   tagList(
@@ -117,7 +117,7 @@ mod_ssp_bf_predetermined_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_bf_thresh
-#' @export
+#' @noRd
 #' @keywords internal
 mod_ssp_bf_predetermined_server <- function(id) {
   moduleServer(id, function(input, output, session) {

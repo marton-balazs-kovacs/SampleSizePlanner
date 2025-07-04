@@ -59,7 +59,7 @@ show_code <- function(method, code_parameters) {
           mu     = c({glue::glue_collapse(mu, sep = ', ')}),
           sigma  = {sigma}, 
           tpr    = {tpr}, 
-          alpha  = 0.05
+          alpha  = {alpha}
         )
         ",
         effect = code_parameters$effect,
@@ -67,7 +67,9 @@ show_code <- function(method, code_parameters) {
         mu = code_parameters$mu,
         sigma = code_parameters$sigma,
         tpr = code_parameters$tpr,
-        max_n = code_parameters$max_n)
+        max_n = code_parameters$max_n,
+        alpha = code_parameters$alpha
+        )
   
   } else if (method == "bayesian-twoway-anova") {
     function_call <-

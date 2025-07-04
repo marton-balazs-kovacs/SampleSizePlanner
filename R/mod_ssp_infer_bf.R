@@ -4,7 +4,7 @@
 #' @rdname mod_ssp_infer_bf
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_infer_bf_ui <- function(id){
   tagList(
@@ -122,7 +122,7 @@ mod_ssp_infer_bf_ui <- function(id){
 }
     
 #' @rdname mod_ssp_infer_bf
-#' @export
+#' @noRd
 #' @keywords internal
 
 mod_ssp_infer_bf_server <- function(id) {

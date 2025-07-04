@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_app
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_app_ui <- function(id) {
   tagList(
@@ -74,7 +74,7 @@ mod_ssp_app_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_app
-#' @export
+#' @noRd
 #' @keywords internal
 mod_ssp_app_server <- function(id) {
   moduleServer(id, function(input, output, session) {

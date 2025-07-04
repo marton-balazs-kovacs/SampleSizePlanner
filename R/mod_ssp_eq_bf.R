@@ -6,7 +6,7 @@
 #' @rdname mod_ssp_eq_bf
 #'
 #' @keywords internal
-#' @export 
+#' @noRd 
 #' @importFrom shiny NS tagList 
 mod_ssp_eq_bf_ui <- function(id) {
   tagList(
@@ -125,7 +125,7 @@ mod_ssp_eq_bf_ui <- function(id) {
 # Module Server
     
 #' @rdname mod_ssp_eq_bf
-#' @export
+#' @noRd
 #' @keywords internal
   
 mod_ssp_eq_bf_server <- function(id) {
