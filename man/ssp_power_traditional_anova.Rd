@@ -5,7 +5,7 @@
 \title{Determine sample size with the Classical power analysis method}
 \usage{
 ssp_power_traditional_anova(
-  effect = c("Main Effect A", "Main Effect B", "Interaction Effect"),
+  effect = c("Main Effect 1", "Main Effect 2", "Interaction Effect"),
   iter = 1000,
   max_n,
   mu,
@@ -16,7 +16,7 @@ ssp_power_traditional_anova(
 )
 }
 \arguments{
-\item{effect}{Character. The effect of interest (main effect A, main effect B, interaction effect).}
+\item{effect}{Character. The effect of interest (main effect 1, main effect 2, interaction effect).}
 
 \item{iter}{Integer. The number of iterations.}
 

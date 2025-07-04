@@ -41,3 +41,32 @@ name_with_info <- function(name, description) {
     '<i class="fas fa-info"></i>',
     '</div>')
 }
+
+# f2 function
+get_f2 <- function(mu, sigma) {
+  
+  # arrange into 2by2
+  mu_mat <- matrix(mu, nrow = 2, byrow = TRUE,
+                   dimnames = list(A = c("A1","A2"),
+                                   B = c("B1","B2")))
+  
+  # margins & grand mean
+  mu_i_dot <- rowMeans(mu_mat)
+  mu_dot_j <- colMeans(mu_mat)
+  mu_dot   <- mean(mu_mat)        
+  
+  # main‐effect f
+  fA  <- sqrt(sum((mu_i_dot-mu_dot)^2) / 2) / sigma
+  fB  <- sqrt(sum((mu_dot_j-mu_dot)^2) / 2) / sigma
+  
+  # interaction deviations d_ij
+  d_mat <- mu_mat -
+    outer(mu_i_dot, rep(1,2)) -  # subtract A 
+    outer(rep(1,2), mu_dot_j) +  # subtract B 
+    mu_dot                      # add back grand mu
+  
+  # interaction f
+  fAB <- sqrt(mean(d_mat^2)) / (2 * sigma)
+  
+  c(fA = fA, fB = fB, fAB = fAB)
+}

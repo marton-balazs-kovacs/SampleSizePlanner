@@ -17,7 +17,7 @@ mod_ssp_rope_anova_ui <- function(id) {
         # Panel title
         h3("Determine your sample size", class = "subtitle"),
         # Method description
-        p("The ROPE procedure identifies the highest density interval (HDI) and determines whether or not the HDI is fully contained within the equivalence interval."),
+        p("The ROPE procedure identifies the highest density interval (HDI) and determines whether or not the HDI is fully contained within the equivalence interval. The output shows results from pre-calculations."),
         # Calculation settings
         ## TPR input
         sliderInput(
@@ -68,6 +68,11 @@ mod_ssp_rope_anova_ui <- function(id) {
           value = as.numeric(1.2),
           format = "dotDecimalCharCommaSeparator",
           align = "left"),
+        ## f2 effect size
+        tags$div(
+          style = "margin-top:1px; margin-bottom: 10px;",
+          textOutput(NS(id, "f2"))
+        ),
         ## Iteration input
         selectInput(
           NS(id, "iter"),
@@ -163,9 +168,27 @@ mod_ssp_rope_anova_ui <- function(id) {
 mod_ssp_rope_anova_server <- function(id) {
   
   moduleServer(id, function(input, output, session) {
+    ran_calculation <- reactiveVal(FALSE)
+    
+    # dynamic effect size
+    output$f2 <- renderText({
+      req(all(is.numeric(as.vector(input$muMatrix))) && input$sigma > 0)
+      f2 <- get_f2(mu = as.vector(input$muMatrix),
+                   sigma = input$sigma)
+      eff <- input$effect
+      if (eff == "Main Effect 1") {
+        f2_out <- f2[1] 
+      } else if (eff == "Main Effect 2") {
+        f2_out <- f2[2]
+      } else {
+        f2_out <- f2[3]
+      }
+      paste("Respective effect size is f2 =", round(f2_out, 2))
+    })
     
     # Calculate results
     pre_result <- eventReactive(input$calculate, {
+      ran_calculation(TRUE)
       extract_rope_anova(
         pre_data = rope_anova_data,
         effect_ui = input$effect,
@@ -178,8 +201,19 @@ mod_ssp_rope_anova_server <- function(id) {
       )
     })
     
+    # erase if input changes
+    observeEvent(
+      list(
+        input$tpr, input$effect, input$muMatrix, input$sigma, input$eq_band,
+        input$max_n, input$iter, input$thresh, input$prior_scale, input$ci
+      ), {
+        ran_calculation(FALSE)
+      }
+    )
+    
     # Show calculated results
     output$calculate_output <- renderUI({
+      req(ran_calculation())
       res <- pre_result()
       if ("pre_n1" %in% names(res)) {
         HTML(
@@ -215,6 +249,7 @@ mod_ssp_rope_anova_server <- function(id) {
     
     # Set output parameters
     output_parameters <- reactive({
+      req(ran_calculation())
       list(
         tpr = input$tpr,
         tpr_justification = input$tpr_justification,
@@ -236,8 +271,8 @@ mod_ssp_rope_anova_server <- function(id) {
     # Render preview
     mod_preview_server(
       "preview",
-      activate = reactive(input$justification),
-      deactivate = reactive(input$calculate),
+      activate = reactive(input$justification && ran_calculation()),
+      deactivate = reactive(!ran_calculation()),
       output_parameters = output_parameters,
       method = "rope-twoway-anova"
     )
