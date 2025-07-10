@@ -85,7 +85,7 @@ mod_ssp_power_traditional_anova_ui <- function(id) {
           NS(id, "iter"),
           name_with_info(
             "Number of iterations",
-            "The number of iterations to calculate the true positive rate (power)"),
+            "The number of iterations to calculate the true positive rate (power). If specified higher (e.g. iter = 5000), the fluctuations become very small."),
           min = 10,
           # max = 5000,
           value = 5000,

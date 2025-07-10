@@ -69,7 +69,7 @@ mod_ssp_bayesian_anova_ui <- function(id) {
           NS(id, "iter"),
           name_with_info(
             "Iterations",
-            "Number of iterations for calculating the true positive rate."),
+            "Number of iterations for calculating the true positive rate. If specified higher (e.g. iter = 5000), the fluctuations become very small."),
           choices = c(1000),
           selected = 1000),
         ## Threshold input
@@ -157,6 +157,7 @@ mod_ssp_bayesian_anova_server <- function(id) {
       req(all(is.numeric(as.vector(input$muMatrix))) && input$sigma > 0)
       f2 <- get_f2(mu = as.vector(input$muMatrix),
                    sigma = input$sigma)
+
       eff <- input$effect
       if (eff == "Main Effect 1") {
         f2_out <- f2[1] 
