@@ -45,7 +45,12 @@ mod_ssp_eq_anova_ui <- function(id) {
           name_with_info(
             "Target Effect",
             "The effect of interest for the minimum sample size estimation"),
-          c("Main Effect A", "Main Effect B")),
+          choices = c(
+            "Main Effect A" = "Main Effect 1",
+            "Main Effect B" = "Main Effect 2",
+            "Interaction Effect" = "Interaction Effect"
+            )
+          ),
         ## Input Mean for Each Group
         shinyMatrix::matrixInput(
           NS(id, "muMatrix"),
@@ -69,10 +74,7 @@ mod_ssp_eq_anova_ui <- function(id) {
           format = "dotDecimalCharCommaSeparator",
           align = "left"),
         ## f2 effect size
-        tags$div(
-          style = "margin-top:1px; margin-bottom: 10px;",
-          textOutput(NS(id, "f2"))
-        ),
+        mod_effectsize_f2_ui(NS(id, "f2")),
         ## Iteration input
         selectInput(
           NS(id, "iter"),
@@ -172,20 +174,7 @@ mod_ssp_eq_anova_server <- function(id) {
     ran_calculation <- reactiveVal(FALSE)
     
     # dynamic effect size
-    output$f2 <- renderText({
-      req(all(is.numeric(as.vector(input$muMatrix))) && input$sigma > 0)
-      f2 <- get_f2(mu = as.vector(input$muMatrix),
-                   sigma = input$sigma)
-      eff <- input$effect
-      if (eff == "Main Effect 1") {
-        f2_out <- f2[1] 
-      } else if (eff == "Main Effect 2") {
-        f2_out <- f2[2]
-      } else {
-        f2_out <- f2[3]
-      }
-      paste("Respective effect size is f2 =", round(f2_out, 2))
-    })
+    mod_effectsize_f2_server("f2", mu = reactive(input$muMatrix), sigma = reactive(input$sigma), effect = reactive(input$effect))
     
     # Calculate results
     pre_result <- eventReactive(input$calculate, {
