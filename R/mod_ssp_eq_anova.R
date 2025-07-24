@@ -81,8 +81,8 @@ mod_ssp_eq_anova_ui <- function(id) {
           name_with_info(
             "Iterations",
             "Number of iterations for calculating the true positive rate. If specified higher (e.g. iter = 5000), the fluctuations become very small."),
-          choices = c(1000),
-          selected = 1000),
+          choices = c(5000),
+          selected = 5000),
         ## Threshold input
         selectInput(
           NS(id, "thresh"),
