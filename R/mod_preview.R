@@ -33,7 +33,7 @@ mod_preview_server <- function(id, activate, deactivate, output_parameters, meth
     shinyjs::disable("clip")
     shinyjs::disable("report")
     shinyjs::runjs("$('.download-justification-btn').attr('title', 'Please run the calculation first');")
-    
+
     # Run if "justification" button is clicked
     observeEvent(activate(), {
       # Create justification text

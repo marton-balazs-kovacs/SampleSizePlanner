@@ -234,7 +234,9 @@ mod_ssp_power_traditional_anova_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate && "n1" %in% names(traditional_result())) {
+      calculated <-ran_calculation()
+      res <- traditional_result()
+      if (calculated && "n1" %in% names(res)) {
         shinyjs::enable("justification")
         shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else {
@@ -246,6 +248,7 @@ mod_ssp_power_traditional_anova_server <- function(id) {
     # Set output parameters
     output_parameters <- reactive({
       req(ran_calculation())
+      req("n1" %in% names(traditional_result()))
       list(
         tpr = input$tpr,
         tpr_justification = input$tpr_justification,
@@ -264,8 +267,8 @@ mod_ssp_power_traditional_anova_server <- function(id) {
     # Render preview
     mod_preview_server(
       "preview",
-      activate = reactive(input$justification && ran_calculation()),
-      deactivate = reactive(!ran_calculation()),
+      activate = reactive(input$justification && ran_calculation() && "n1" %in% names(traditional_result())),
+      deactivate = reactive(!ran_calculation() || !("n1" %in% names(traditional_result()))),
       output_parameters = output_parameters,
       method = "traditional-twoway-anova"
     )
