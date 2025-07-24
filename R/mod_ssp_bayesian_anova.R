@@ -208,7 +208,9 @@ mod_ssp_bayesian_anova_server <- function(id) {
     
     # Add justification enable logic
     observe({
-      if (input$calculate && "pre_n1" %in% names(pre_result())) {
+      calculated <-ran_calculation()
+      res <- pre_result()
+      if (calculated && "pre_n1" %in% names(res)) {
         shinyjs::enable("justification")
         shinyjs::runjs("$('.justification-btn').removeAttr('title');")
       } else {
@@ -220,6 +222,7 @@ mod_ssp_bayesian_anova_server <- function(id) {
     # Set output parameters
     output_parameters <- reactive({
       req(ran_calculation())
+      req("pre_n1" %in% names(pre_result()))
       list(
         tpr = input$tpr,
         tpr_justification = input$tpr_justification,
@@ -238,8 +241,8 @@ mod_ssp_bayesian_anova_server <- function(id) {
     # Render preview
     mod_preview_server(
       "preview",
-      activate = reactive(input$justification && ran_calculation()),
-      deactivate = reactive(!ran_calculation()),
+      activate = reactive(input$justification && ran_calculation() && "pre_n1" %in% names(pre_result())),
+      deactivate = reactive(!ran_calculation() || !("pre_n1" %in% names(pre_result()))),
       output_parameters = output_parameters,
       method = "bayesian-twoway-anova"
     )

@@ -5,9 +5,9 @@ account: martonbalazskovacs
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3850122
-bundleId: 9811743
+bundleId: 10667166
 url: https://martonbalazskovacs.shinyapps.io/SampleSizePlanner/
-when: 1739788613.43415
-lastSyncTime: 1739788613.43416
+when: 1753348710.83509
+lastSyncTime: 1753348710.83512
 asMultiple: FALSE
 asStatic: FALSE
