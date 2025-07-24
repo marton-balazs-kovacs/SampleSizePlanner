@@ -33,7 +33,7 @@ rope_anova_data <-
                               1L,
                               0L),
     n1 = map_dbl(result, ~ pluck(.x, "n1", .default = NA_real_)),
-    tpr_out = map_dbl(result, ~ pluck(.x, "tpr_out", .default = NA_real_)),
+    tpr_out = map_dbl(result, ~ pluck(.x, "tpr_out", .default = NA_real_))
     # effect_out = map_chr(result, ~ pluck(.x, "effect", .default = NA_character_)),
   ) |>
   select(-parameters, -output, -result, -error) |> 
